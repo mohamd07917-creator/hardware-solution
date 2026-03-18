@@ -14,7 +14,6 @@
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html,body{height:100%;background:var(--dark);font-family:'Cairo',sans-serif;color:var(--text);overflow-x:hidden;}
-
   #stars-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;
     background:radial-gradient(ellipse at 20% 30%,rgba(0,80,180,0.13) 0%,transparent 60%),
     radial-gradient(ellipse at 80% 70%,rgba(0,180,120,0.08) 0%,transparent 60%),var(--dark);}
@@ -22,9 +21,7 @@
   @keyframes twinkle{0%,100%{opacity:0.1;}50%{opacity:0.9;}}
   .particle{position:fixed;border-radius:50%;pointer-events:none;animation:float linear infinite;z-index:1;}
   @keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0;}10%{opacity:1;}90%{opacity:0.5;}100%{transform:translateY(-10vh) scale(1);opacity:0;}}
-
   #app{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
-
   header{width:100%;text-align:center;padding:2.5rem 1rem 1.5rem;
     background:linear-gradient(180deg,rgba(0,212,255,0.07) 0%,transparent 100%);
     border-bottom:1px solid rgba(0,212,255,0.1);position:relative;}
@@ -32,28 +29,28 @@
   @keyframes pulse-icon{0%,100%{filter:drop-shadow(0 0 10px var(--accent));}50%{filter:drop-shadow(0 0 28px var(--accent));}}
   header h1{font-size:1.8rem;font-weight:900;background:linear-gradient(90deg,var(--accent),var(--gold),var(--accent));background-clip:text;-webkit-background-clip:text;color:transparent;}
   header p{color:var(--text2);font-size:0.9rem;margin-top:0.3rem;}
-
   #admin-btn{position:absolute;top:1rem;left:1rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);
     border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;font-family:'Cairo',sans-serif;font-size:0.78rem;color:var(--text2);transition:all 0.2s;}
   #admin-btn:hover{border-color:var(--gold);color:var(--gold);}
   #admin-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(240,192,64,0.1);}
 
   /* LOADING SCREEN */
-  #loading-screen{position:fixed;inset:0;z-index:500;background:var(--dark);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity 0.5s;}
+  #loading-screen{position:fixed;inset:0;z-index:500;background:var(--dark);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity 0.5s;}
   #loading-screen.fade{opacity:0;pointer-events:none;}
   #loading-screen.hidden{display:none;}
   .spinner-lg{width:56px;height:56px;border:3px solid rgba(0,212,255,0.2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;}
-  #loading-screen p{color:var(--text2);font-size:0.9rem;}
+  #loading-msg{color:var(--text2);font-size:0.9rem;text-align:center;max-width:280px;line-height:1.6;}
+  #loading-progress{width:200px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin-top:4px;}
+  #loading-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:2px;width:0%;transition:width 0.4s;}
 
   #breadcrumb{display:flex;align-items:center;gap:8px;padding:0.8rem 1.5rem;width:100%;max-width:700px;font-size:0.82rem;flex-wrap:wrap;}
   .bc-item{color:var(--accent);cursor:pointer;transition:color 0.2s;}
   .bc-item:hover{color:var(--gold);}
   .bc-sep{color:rgba(255,255,255,0.2);}
   .bc-current{color:var(--text);}
-
   .section-title{font-size:1rem;color:var(--text2);margin:0.5rem 0 1.2rem;text-align:center;letter-spacing:2px;}
   .section-title span{color:var(--gold);}
-
   .screen{width:100%;max-width:700px;padding:0.5rem 1rem 2rem;animation:fadeUp 0.45s cubic-bezier(.22,1,.36,1);}
   @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
   .screen.hidden{display:none;}
@@ -69,23 +66,24 @@
   .brand-logo-placeholder{width:54px;height:54px;margin:0 auto 0.6rem;display:flex;align-items:center;justify-content:center;font-size:1.8rem;border-radius:12px;background:rgba(0,212,255,0.07);}
   .brand-name{font-size:0.88rem;font-weight:700;}
   .brand-num{position:absolute;top:7px;right:10px;font-size:0.68rem;color:var(--accent);font-weight:600;opacity:0.7;}
-  .brand-del{position:absolute;top:6px;left:6px;width:20px;height:20px;border-radius:50%;background:rgba(255,68,68,0.15);
-    border:1px solid rgba(255,68,68,0.4);color:var(--red);font-size:0.7rem;cursor:pointer;display:none;
-    align-items:center;justify-content:center;transition:all 0.2s;z-index:5;}
+  .brand-del{position:absolute;top:6px;left:6px;width:20px;height:20px;border-radius:50%;
+    background:rgba(255,68,68,0.15);border:1px solid rgba(255,68,68,0.4);color:var(--red);
+    font-size:0.7rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:all 0.2s;z-index:5;}
   .brand-del:hover{background:rgba(255,68,68,0.4);}
   .admin-mode .brand-del{display:flex;}
 
   #models-list{display:flex;flex-direction:column;gap:10px;}
   .model-item{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid rgba(255,255,255,0.07);
     border-radius:14px;padding:1rem 1.2rem;cursor:pointer;display:flex;align-items:center;gap:12px;
-    transition:all 0.3s cubic-bezier(.22,1,.36,1);position:relative;}
+    transition:all 0.3s cubic-bezier(.22,1,.36,1);}
   .model-item:hover{border-color:var(--gold);transform:translateX(-4px);box-shadow:0 4px 20px var(--glow-gold);}
   .model-item:active{transform:scale(0.98);}
   .model-icon{font-size:1.5rem;}
   .model-name{font-size:0.95rem;font-weight:600;flex:1;}
   .model-arrow{color:var(--text2);}
-  .model-del{width:28px;height:28px;border-radius:50%;background:rgba(255,68,68,0.1);border:1px solid rgba(255,68,68,0.3);
-    color:var(--red);font-size:0.8rem;cursor:pointer;display:none;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+  .model-del{width:28px;height:28px;border-radius:50%;background:rgba(255,68,68,0.1);
+    border:1px solid rgba(255,68,68,0.3);color:var(--red);font-size:0.8rem;cursor:pointer;
+    display:none;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
   .model-del:hover{background:rgba(255,68,68,0.3);}
   .admin-mode .model-del{display:flex;}
 
@@ -93,7 +91,8 @@
   .sol-card{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid rgba(255,255,255,0.07);
     border-radius:16px;padding:1.3rem 0.8rem;text-align:center;cursor:pointer;
     transition:all 0.3s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;}
-  .sol-card::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:40%;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity 0.3s;}
+  .sol-card::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:40%;height:2px;
+    background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity 0.3s;}
   .sol-card:hover::after{opacity:1;}
   .sol-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 8px 24px var(--glow);}
   .sol-card:active{transform:scale(0.96);}
@@ -106,7 +105,6 @@
   .add-btn:hover{background:rgba(0,204,102,0.15);border-color:var(--green);}
   .admin-mode .add-btn{display:block;}
 
-  /* IMAGE VIEWER */
   #image-viewer{position:fixed;inset:0;z-index:100;background:rgba(5,5,15,0.98);display:flex;flex-direction:column;align-items:center;justify-content:center;}
   #image-viewer.hidden{display:none;}
   #viewer-header{position:absolute;top:0;left:0;right:0;padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(0,0,0,0.85) 0%,transparent 100%);z-index:2;}
@@ -140,7 +138,6 @@
   .search-input::placeholder{color:var(--text2);}
   .search-icon{position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);color:var(--text2);}
 
-  /* MODALS */
   .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;}
   .modal-overlay.hidden{display:none;}
   .modal{background:var(--card2);border:1px solid rgba(0,212,255,0.2);border-radius:20px;padding:2rem;width:90%;max-width:380px;animation:scaleIn 0.3s cubic-bezier(.22,1,.36,1);}
@@ -167,10 +164,10 @@
 </head>
 <body>
 
-<!-- شاشة التحميل -->
 <div id="loading-screen">
   <div class="spinner-lg"></div>
-  <p>جاري تحميل البيانات...</p>
+  <p id="loading-msg">جاري تحميل البيانات...</p>
+  <div id="loading-progress"><div id="loading-bar"></div></div>
 </div>
 
 <div id="stars-bg"></div>
@@ -188,7 +185,6 @@
     <div id="brands-grid"></div>
     <button class="add-btn" onclick="openAddBrand()">&#43; إضافة براند جديد</button>
   </div>
-
   <div id="screen-models" class="screen hidden">
     <button class="back-btn" onclick="goBack('brands')">&#8594; رجوع</button>
     <p class="section-title">موديلات <span id="brand-title-display"></span></p>
@@ -199,7 +195,6 @@
     <div id="models-list"></div>
     <button class="add-btn" onclick="openAddModel()">&#43; إضافة موديل جديد</button>
   </div>
-
   <div id="screen-solutions" class="screen hidden">
     <button class="back-btn" onclick="goBack('models')">&#8594; رجوع</button>
     <p class="section-title">حلول <span id="model-title-display"></span></p>
@@ -207,7 +202,6 @@
   </div>
 </div>
 
-<!-- عارض الصور -->
 <div id="image-viewer" class="hidden">
   <div id="viewer-header">
     <button id="close-viewer" onclick="closeViewer()">&#10005;</button>
@@ -292,11 +286,7 @@
 <!-- Firebase -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getStorage, ref as sRef, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
-import {
-  getFirestore, collection, doc,
-  getDocs, addDoc, deleteDoc, query, orderBy, setDoc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDocs, addDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDKntmfI8dloN1Xx-TJw9m8S1OXbem6hNs",
@@ -309,21 +299,17 @@ const firebaseConfig = {
 
 const fbApp = initializeApp(firebaseConfig);
 const db = getFirestore(fbApp);
-
-// expose to global
 window._db = db;
 window._col = collection;
 window._doc = doc;
 window._getDocs = getDocs;
 window._addDoc = addDoc;
 window._deleteDoc = deleteDoc;
-window._setDoc = setDoc;
 window._query = query;
 window._orderBy = orderBy;
-window._fbReady = true;
 
-// بيانات افتراضية ترُفع Firestore عند أول تشغيل
-window._defaultBrands = [
+// ========== البيانات الافتراضية ==========
+const defaultBrands = [
   {name:'Samsung', folder:'Samsung', icon:'&#128308;', order:1},
   {name:'Infinix', folder:'Infinix', icon:'&#128994;', order:2},
   {name:'Tecno',   folder:'Tecno',   icon:'&#128993;', order:3},
@@ -338,10 +324,10 @@ window._defaultBrands = [
   {name:'ZTE',     folder:'ZTE',     icon:'&#9632;',   order:12},
   {name:'Itel',    folder:'Itel',    icon:'&#128307;', order:13},
   {name:'OnePlus', folder:'OnePlus', icon:'&#128308;', order:14},
-  {name:'Motorola',folder:'Motorola',icon:'&#127952;', order:15},
+  {name:'Motorola',folder:'Motorola',icon:'&#127952;', order:15}
 ];
 
-window._defaultModels = {
+const defaultModels = {
   Samsung:[
     {name:'Galaxy A14',folder:'A145F_A14',order:1},{name:'Galaxy A05',folder:'A055F_A05',order:2},
     {name:'Galaxy A15',folder:'A155F_A15',order:3},{name:'Galaxy A25',folder:'A255F_A25',order:4},
@@ -445,75 +431,85 @@ window._defaultModels = {
   ]
 };
 
-// ============ تحميل البيانات من Firestore ============
+// تأخير بين العمليات لتجنب حد Firebase
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+function setLoadingMsg(msg){ document.getElementById('loading-msg').textContent = msg; }
+function setProgress(pct){ document.getElementById('loading-bar').style.width = pct + '%'; }
+
+async function seedData() {
+  setLoadingMsg('أول تشغيل - جاري حفظ البيانات في Firebase...');
+  const total = defaultBrands.length;
+
+  for (let i = 0; i < defaultBrands.length; i++) {
+    const b = defaultBrands[i];
+    setLoadingMsg('جاري رفع البراند ' + (i+1) + ' من ' + total + ': ' + b.name);
+    setProgress(Math.round(((i+1)/total)*80));
+
+    try {
+      const brandRef = await addDoc(collection(db, 'brands'), b);
+      const models = defaultModels[b.name] || [];
+
+      for (let j = 0; j < models.length; j++) {
+        await addDoc(collection(db, 'brands', brandRef.id, 'models'), models[j]);
+        await sleep(120); // تأخير بين كل موديل
+      }
+      await sleep(300); // تأخير بين كل براند
+    } catch(e) {
+      console.error('Error seeding ' + b.name, e);
+    }
+  }
+  setProgress(90);
+}
+
 async function loadData() {
   try {
-    const db = window._db;
-
-    // تحقق هل يوجد بيانات في Firestore
-    const brandsSnap = await getDocs(collection(db, 'brands'));
+    setProgress(10);
+    const brandsSnap = await getDocs(query(collection(db, 'brands'), orderBy('order')));
+    setProgress(30);
 
     if (brandsSnap.empty) {
-      // أول تشغيل - ارفع البيانات الافتراضية
-      showToastGlobal('أول تشغيل - جاري رفع البيانات...', 'info');
-      await seedData(db);
+      await seedData();
+      // أعد القراءة بعد الرفع
+      const freshSnap = await getDocs(query(collection(db, 'brands'), orderBy('order')));
+      window._BRANDS = [];
+      freshSnap.forEach(d => window._BRANDS.push({id:d.id, ...d.data()}));
+    } else {
+      window._BRANDS = [];
+      brandsSnap.forEach(d => window._BRANDS.push({id:d.id, ...d.data()}));
     }
 
-    // اقرأ البراندات
-    const bSnap = await getDocs(query(collection(db, 'brands'), orderBy('order')));
-    window._BRANDS = [];
-    bSnap.forEach(d => {
-      window._BRANDS.push({ id: d.id, ...d.data() });
-    });
+    setLoadingMsg('جاري تحميل الموديلات...');
+    setProgress(60);
 
-    // اقرأ الموديلات لكل براند
     window._MODELS = {};
     for (const brand of window._BRANDS) {
       const mSnap = await getDocs(query(collection(db, 'brands', brand.id, 'models'), orderBy('order')));
       window._MODELS[brand.id] = [];
-      mSnap.forEach(d => {
-        window._MODELS[brand.id].push({ docId: d.id, ...d.data() });
-      });
+      mSnap.forEach(d => window._MODELS[brand.id].push({docId:d.id, ...d.data()}));
     }
 
-    window._dataLoaded = true;
-    hideLoading();
+    setProgress(100);
+    await sleep(400);
+
+    const ls = document.getElementById('loading-screen');
+    ls.classList.add('fade');
+    setTimeout(() => ls.classList.add('hidden'), 500);
+
     window._initApp();
 
-  } catch (err) {
-    console.error('Firestore error:', err);
-    hideLoading();
-    showToastGlobal('خطأ في تحميل البيانات: ' + err.message, 'error');
+  } catch(err) {
+    console.error('Firebase error:', err);
+    document.getElementById('loading-screen').classList.add('hidden');
+    document.getElementById('toast').textContent = 'خطأ في الاتصال بـ Firebase';
+    document.getElementById('toast').className = 'show error';
   }
-}
-
-async function seedData(db) {
-  for (const b of window._defaultBrands) {
-    const brandRef = await addDoc(collection(db, 'brands'), b);
-    const models = window._defaultModels[b.name] || [];
-    for (const m of models) {
-      await addDoc(collection(db, 'brands', brandRef.id, 'models'), m);
-    }
-  }
-}
-
-function hideLoading() {
-  const ls = document.getElementById('loading-screen');
-  ls.classList.add('fade');
-  setTimeout(() => ls.classList.add('hidden'), 500);
-}
-
-function showToastGlobal(msg, type) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'show ' + (type || 'info');
-  setTimeout(() => t.className = '', 4000);
 }
 
 loadData();
 </script>
 
 <script>
-// ============================================================
 var GH_USER='mohamd07917-creator', GH_REPO='hardware-solution', GH_BRANCH='main', GH_IMAGES='images';
 var ADMIN_PASS='17230';
 
@@ -534,16 +530,14 @@ var SOLUTIONS=[
 
 var selectedBrand=null, selectedModel=null, allModels=[];
 var isAdmin=false;
-var pendingDelType=null, pendingDelDocId=null, pendingDelBrandId=null;
+var pendingDelType=null, pendingDelDocId=null;
 
-// ============ INIT (called after Firebase loads) ============
 window._initApp = function(){
   renderBrands();
   updateBreadcrumb();
   initStars();
 };
 
-// ============ STARS ============
 function initStars(){
   var bg=document.getElementById('stars-bg');
   for(var i=0;i<80;i++){
@@ -560,19 +554,17 @@ function initStars(){
   }
 }
 
-// ============ ADMIN ============
 window.openAdminModal=function(){
-  if(isAdmin){ exitAdmin(); return; }
+  if(isAdmin){exitAdmin();return;}
   document.getElementById('pwd-input').value='';
   document.getElementById('pwd-err').textContent='';
   document.getElementById('modal-password').classList.remove('hidden');
-  setTimeout(function(){ document.getElementById('pwd-input').focus(); },100);
+  setTimeout(function(){document.getElementById('pwd-input').focus();},100);
 };
 window.checkPassword=function(){
   var v=document.getElementById('pwd-input').value.trim();
   if(v===ADMIN_PASS){
-    isAdmin=true;
-    closeModal('modal-password');
+    isAdmin=true;closeModal('modal-password');
     document.getElementById('admin-btn').textContent='&#128274; خروج من المدير';
     document.getElementById('admin-btn').classList.add('active');
     document.getElementById('app').classList.add('admin-mode');
@@ -580,7 +572,7 @@ window.checkPassword=function(){
   } else {
     document.getElementById('pwd-err').textContent='كلمة المرور غير صحيحة';
     document.getElementById('pwd-input').style.borderColor='var(--red)';
-    setTimeout(function(){ document.getElementById('pwd-input').style.borderColor=''; },1000);
+    setTimeout(function(){document.getElementById('pwd-input').style.borderColor='';},1000);
   }
 };
 function exitAdmin(){
@@ -591,94 +583,83 @@ function exitAdmin(){
   showToast('تم الخروج من وضع المدير','info');
 }
 
-// ============ ADD BRAND ============
 window.openAddBrand=function(){
-  if(!isAdmin) return;
+  if(!isAdmin)return;
   document.getElementById('new-brand-name').value='';
   document.getElementById('new-brand-folder').value='';
   document.getElementById('brand-err').textContent='';
   document.getElementById('btn-add-brand').disabled=false;
+  document.getElementById('btn-add-brand').textContent='إضافة';
   document.getElementById('modal-add-brand').classList.remove('hidden');
-  setTimeout(function(){ document.getElementById('new-brand-name').focus(); },100);
+  setTimeout(function(){document.getElementById('new-brand-name').focus();},100);
 };
 window.addBrand=async function(){
-  if(!isAdmin) return;
+  if(!isAdmin)return;
   var name=document.getElementById('new-brand-name').value.trim();
   var folder=document.getElementById('new-brand-folder').value.trim();
-  if(!name||!folder){ document.getElementById('brand-err').textContent='يرجى ملء جميع الحقول'; return; }
-
+  if(!name||!folder){document.getElementById('brand-err').textContent='يرجى ملء جميع الحقول';return;}
   document.getElementById('btn-add-brand').disabled=true;
   document.getElementById('btn-add-brand').textContent='جاري الحفظ...';
-
   try {
-    var maxOrder = window._BRANDS.length ? Math.max.apply(null, window._BRANDS.map(function(b){ return b.order||0; })) : 0;
-    var newBrand = {name:name, folder:folder, icon:'&#128241;', order: maxOrder+1};
-    var docRef = await window._addDoc(window._col(window._db,'brands'), newBrand);
-    window._BRANDS.push({id: docRef.id, ...newBrand});
-    window._MODELS[docRef.id] = [];
-    closeModal('modal-add-brand');
-    renderBrands();
-    showToast('تم إضافة براند '+name+' وحُفظ في Firebase ✓','success');
-  } catch(err) {
-    document.getElementById('brand-err').textContent='خطأ: '+err.message;
+    var maxOrder=window._BRANDS.length?Math.max.apply(null,window._BRANDS.map(function(b){return b.order||0;})):0;
+    var nb={name:name,folder:folder,icon:'&#128241;',order:maxOrder+1};
+    var ref=await window._addDoc(window._col(window._db,'brands'),nb);
+    window._BRANDS.push({id:ref.id,...nb});
+    window._MODELS[ref.id]=[];
+    closeModal('modal-add-brand');renderBrands();
+    showToast('تم إضافة '+name+' وحُفظ في Firebase ✓','success');
+  } catch(e){
+    document.getElementById('brand-err').textContent='خطأ: '+e.message;
     document.getElementById('btn-add-brand').disabled=false;
     document.getElementById('btn-add-brand').textContent='إضافة';
   }
 };
 
-// ============ ADD MODEL ============
 window.openAddModel=function(){
-  if(!isAdmin) return;
+  if(!isAdmin)return;
   document.getElementById('new-model-name').value='';
   document.getElementById('new-model-folder').value='';
   document.getElementById('model-err').textContent='';
   document.getElementById('btn-add-model').disabled=false;
   document.getElementById('btn-add-model').textContent='إضافة';
   document.getElementById('modal-add-model').classList.remove('hidden');
-  setTimeout(function(){ document.getElementById('new-model-name').focus(); },100);
+  setTimeout(function(){document.getElementById('new-model-name').focus();},100);
 };
 window.addModel=async function(){
-  if(!isAdmin||!selectedBrand) return;
+  if(!isAdmin||!selectedBrand)return;
   var name=document.getElementById('new-model-name').value.trim();
   var folder=document.getElementById('new-model-folder').value.trim();
-  if(!name||!folder){ document.getElementById('model-err').textContent='يرجى ملء جميع الحقول'; return; }
-
+  if(!name||!folder){document.getElementById('model-err').textContent='يرجى ملء جميع الحقول';return;}
   document.getElementById('btn-add-model').disabled=true;
   document.getElementById('btn-add-model').textContent='جاري الحفظ...';
-
   try {
     var arr=window._MODELS[selectedBrand.id]||[];
-    var maxOrder = arr.length ? Math.max.apply(null, arr.map(function(m){ return m.order||0; })) : 0;
-    var newModel = {name:name, folder:folder, order: maxOrder+1};
-    var docRef = await window._addDoc(window._col(window._db,'brands',selectedBrand.id,'models'), newModel);
-    arr.push({docId: docRef.id, ...newModel});
-    window._MODELS[selectedBrand.id] = arr;
-    allModels = arr;
-    closeModal('modal-add-model');
-    renderModels(allModels);
-    showToast('تم إضافة موديل '+name+' وحُفظ في Firebase ✓','success');
-  } catch(err) {
-    document.getElementById('model-err').textContent='خطأ: '+err.message;
+    var maxOrder=arr.length?Math.max.apply(null,arr.map(function(m){return m.order||0;})):0;
+    var nm={name:name,folder:folder,order:maxOrder+1};
+    var ref=await window._addDoc(window._col(window._db,'brands',selectedBrand.id,'models'),nm);
+    arr.push({docId:ref.id,...nm});
+    window._MODELS[selectedBrand.id]=arr;allModels=arr;
+    closeModal('modal-add-model');renderModels(allModels);
+    showToast('تم إضافة '+name+' وحُفظ في Firebase ✓','success');
+  } catch(e){
+    document.getElementById('model-err').textContent='خطأ: '+e.message;
     document.getElementById('btn-add-model').disabled=false;
     document.getElementById('btn-add-model').textContent='إضافة';
   }
 };
 
-// ============ DELETE ============
 window.askDeleteBrand=function(e,brandId){
-  e.stopPropagation();
-  if(!isAdmin) return;
-  pendingDelType='brand'; pendingDelDocId=brandId;
-  var b=window._BRANDS.find(function(x){ return x.id===brandId; });
+  e.stopPropagation();if(!isAdmin)return;
+  pendingDelType='brand';pendingDelDocId=brandId;
+  var b=window._BRANDS.find(function(x){return x.id===brandId;});
   document.getElementById('del-msg').textContent='هل تريد حذف براند "'+b.name+'" من Firebase نهائياً؟';
   document.getElementById('btn-del-confirm').disabled=false;
   document.getElementById('btn-del-confirm').textContent='حذف';
   document.getElementById('modal-confirm-del').classList.remove('hidden');
 };
 window.askDeleteModel=function(e,docId){
-  e.stopPropagation();
-  if(!isAdmin) return;
-  pendingDelType='model'; pendingDelDocId=docId;
+  e.stopPropagation();if(!isAdmin)return;
+  pendingDelType='model';pendingDelDocId=docId;
   document.getElementById('del-msg').textContent='هل تريد حذف هذا الموديل من Firebase نهائياً؟';
   document.getElementById('btn-del-confirm').disabled=false;
   document.getElementById('btn-del-confirm').textContent='حذف';
@@ -690,37 +671,34 @@ window.confirmDelete=async function(){
   try {
     if(pendingDelType==='brand'){
       await window._deleteDoc(window._doc(window._db,'brands',pendingDelDocId));
-      window._BRANDS=window._BRANDS.filter(function(b){ return b.id!==pendingDelDocId; });
+      window._BRANDS=window._BRANDS.filter(function(b){return b.id!==pendingDelDocId;});
       delete window._MODELS[pendingDelDocId];
-      closeModal('modal-confirm-del');
-      renderBrands();
+      closeModal('modal-confirm-del');renderBrands();
       showToast('تم الحذف من Firebase ✓','success');
     } else {
       await window._deleteDoc(window._doc(window._db,'brands',selectedBrand.id,'models',pendingDelDocId));
-      window._MODELS[selectedBrand.id]=window._MODELS[selectedBrand.id].filter(function(m){ return m.docId!==pendingDelDocId; });
+      window._MODELS[selectedBrand.id]=window._MODELS[selectedBrand.id].filter(function(m){return m.docId!==pendingDelDocId;});
       allModels=window._MODELS[selectedBrand.id];
-      closeModal('modal-confirm-del');
-      renderModels(allModels);
+      closeModal('modal-confirm-del');renderModels(allModels);
       showToast('تم الحذف من Firebase ✓','success');
     }
-  } catch(err) {
+  } catch(e){
     document.getElementById('btn-del-confirm').disabled=false;
     document.getElementById('btn-del-confirm').textContent='حذف';
-    showToast('خطأ في الحذف: '+err.message,'error');
+    showToast('خطأ في الحذف: '+e.message,'error');
   }
 };
 
-// ============ BRANDS ============
 function renderBrands(){
-  var g=document.getElementById('brands-grid'); g.innerHTML='';
+  var g=document.getElementById('brands-grid');g.innerHTML='';
   var brands=window._BRANDS||[];
   brands.forEach(function(b,i){
-    var c=document.createElement('div'); c.className='brand-card';
+    var c=document.createElement('div');c.className='brand-card';
     c.innerHTML='<span class="brand-num">'+(i+1)+'</span>'
       +'<button class="brand-del" onclick="askDeleteBrand(event,\''+b.id+'\')">&#10005;</button>'
       +'<div class="brand-logo-placeholder">'+b.icon+'</div>'
       +'<div class="brand-name">'+b.name+'</div>';
-    c.onclick=function(){ selectBrand(b); };
+    c.onclick=function(){selectBrand(b);};
     g.appendChild(c);
   });
 }
@@ -729,159 +707,128 @@ function selectBrand(b){
   document.getElementById('brand-title-display').textContent=b.name;
   allModels=window._MODELS[b.id]||[];
   document.getElementById('model-search').value='';
-  renderModels(allModels);
-  showScreen('models');
-  updateBreadcrumb();
+  renderModels(allModels);showScreen('models');updateBreadcrumb();
 }
 
-// ============ MODELS ============
 function renderModels(list){
-  var el=document.getElementById('models-list'); el.innerHTML='';
-  if(!list.length){ el.innerHTML='<p style="text-align:center;color:var(--text2);padding:2rem;">لا توجد موديلات</p>'; return; }
+  var el=document.getElementById('models-list');el.innerHTML='';
+  if(!list.length){el.innerHTML='<p style="text-align:center;color:var(--text2);padding:2rem;">لا توجد موديلات</p>';return;}
   list.forEach(function(m){
-    var item=document.createElement('div'); item.className='model-item';
+    var item=document.createElement('div');item.className='model-item';
     item.innerHTML='<span class="model-icon">&#128241;</span><span class="model-name">'+m.name+'</span>'
       +'<button class="model-del" onclick="askDeleteModel(event,\''+m.docId+'\')">&#10005;</button>'
       +'<span class="model-arrow">&#8592;</span>';
-    item.onclick=function(){ selectModel(m); };
+    item.onclick=function(){selectModel(m);};
     el.appendChild(item);
   });
 }
 window.filterModels=function(){
   var q=document.getElementById('model-search').value.toLowerCase().trim();
-  renderModels(q?allModels.filter(function(m){ return m.name.toLowerCase().includes(q); }):allModels);
+  renderModels(q?allModels.filter(function(m){return m.name.toLowerCase().includes(q);}):allModels);
 };
 function selectModel(m){
   selectedModel=m;
   document.getElementById('model-title-display').textContent=m.name;
-  renderSolutions();
-  showScreen('solutions');
-  updateBreadcrumb();
+  renderSolutions();showScreen('solutions');updateBreadcrumb();
 }
 
-// ============ SOLUTIONS ============
 function renderSolutions(){
-  var g=document.getElementById('solutions-grid'); g.innerHTML='';
+  var g=document.getElementById('solutions-grid');g.innerHTML='';
   SOLUTIONS.forEach(function(sol){
-    var c=document.createElement('div'); c.className='sol-card';
+    var c=document.createElement('div');c.className='sol-card';
     c.innerHTML='<span class="sol-icon">'+sol.icon+'</span><span class="sol-name">'+sol.name+'</span>';
-    c.onclick=function(){ openSolution(sol); };
+    c.onclick=function(){openSolution(sol);};
     g.appendChild(c);
   });
 }
 
-// ============ IMAGE VIEWER ============
 function openSolution(sol){
   document.getElementById('image-viewer').classList.remove('hidden');
   document.getElementById('viewer-title').textContent=sol.name+' \u2014 '+selectedModel.name;
   document.getElementById('viewer-loading').classList.remove('hidden');
   document.getElementById('viewer-error').classList.remove('show');
   var img=document.getElementById('viewer-img');
-  img.style.display='none'; img.src='';
-  resetZoom();
+  img.style.display='none';img.src='';resetZoom();
   var url=buildURL(selectedBrand.folder,selectedModel.folder,sol.file);
   document.getElementById('err-path-text').textContent=url;
-  img.onload=function(){ document.getElementById('viewer-loading').classList.add('hidden'); img.style.display='block'; };
-  img.onerror=function(){ document.getElementById('viewer-loading').classList.add('hidden'); document.getElementById('viewer-error').classList.add('show'); };
+  img.onload=function(){document.getElementById('viewer-loading').classList.add('hidden');img.style.display='block';};
+  img.onerror=function(){document.getElementById('viewer-loading').classList.add('hidden');document.getElementById('viewer-error').classList.add('show');};
   img.src=url;
 }
 window.closeViewer=function(){
   document.getElementById('image-viewer').classList.add('hidden');
   var img=document.getElementById('viewer-img');
-  img.src=''; img.style.display='none';
+  img.src='';img.style.display='none';
   document.getElementById('viewer-error').classList.remove('show');
   document.getElementById('viewer-loading').classList.remove('hidden');
   resetZoom();
 };
 
-// ============ ZOOM ============
+// ZOOM
 var sc=1,tx=0,ty=0;
 var imgEl=document.getElementById('viewer-img');
 var vcont=document.getElementById('viewer-img-container');
-
-function applyZoom(){ imgEl.style.transform='translate('+tx+'px,'+ty+'px) scale('+sc+')'; document.getElementById('zoom-level').textContent=Math.round(sc*100)+'%'; }
-window.resetZoom=function(){ sc=1;tx=0;ty=0;applyZoom(); };
-window.zoomIn=function(){ sc=Math.min(sc+0.25,5);applyZoom(); };
-window.zoomOut=function(){ sc=Math.max(sc-0.25,1);if(sc<=1){sc=1;tx=0;ty=0;}applyZoom(); };
-
-// Mouse wheel
+function applyZoom(){imgEl.style.transform='translate('+tx+'px,'+ty+'px) scale('+sc+')';document.getElementById('zoom-level').textContent=Math.round(sc*100)+'%';}
+window.resetZoom=function(){sc=1;tx=0;ty=0;applyZoom();};
+window.zoomIn=function(){sc=Math.min(sc+0.25,5);applyZoom();};
+window.zoomOut=function(){sc=Math.max(sc-0.25,1);if(sc<=1){sc=1;tx=0;ty=0;}applyZoom();};
 vcont.addEventListener('wheel',function(e){
   e.preventDefault();
   var delta=e.deltaY>0?-0.15:0.15;
   var newSc=Math.min(5,Math.max(1,sc+delta));
   var rect=vcont.getBoundingClientRect();
-  var mx=e.clientX-rect.left-rect.width/2;
-  var my=e.clientY-rect.top-rect.height/2;
-  var ratio=newSc/sc;
-  tx=(tx-mx)*ratio+mx; ty=(ty-my)*ratio+my;
-  sc=newSc; if(sc<=1){sc=1;tx=0;ty=0;}
-  applyZoom();
+  var mx=e.clientX-rect.left-rect.width/2;var my=e.clientY-rect.top-rect.height/2;
+  var ratio=newSc/sc;tx=(tx-mx)*ratio+mx;ty=(ty-my)*ratio+my;
+  sc=newSc;if(sc<=1){sc=1;tx=0;ty=0;}applyZoom();
 },{passive:false});
-
-// Mouse drag
 var mdown=false,mlx=0,mly=0;
-vcont.addEventListener('mousedown',function(e){ if(sc<=1)return; mdown=true;mlx=e.clientX;mly=e.clientY;e.preventDefault(); });
-document.addEventListener('mousemove',function(e){ if(!mdown)return; tx+=e.clientX-mlx;ty+=e.clientY-mly;mlx=e.clientX;mly=e.clientY;applyZoom(); });
-document.addEventListener('mouseup',function(){ mdown=false; });
-vcont.addEventListener('dblclick',function(){ resetZoom(); });
-
-// Pinch touch - FIXED
-var touches={},pinching=false,psd=0,pss=1,pstx=0,psty=0,pmx=0,pmy=0;
-var sdrag=false,dlx=0,dly=0;
-
+vcont.addEventListener('mousedown',function(e){if(sc<=1)return;mdown=true;mlx=e.clientX;mly=e.clientY;e.preventDefault();});
+document.addEventListener('mousemove',function(e){if(!mdown)return;tx+=e.clientX-mlx;ty+=e.clientY-mly;mlx=e.clientX;mly=e.clientY;applyZoom();});
+document.addEventListener('mouseup',function(){mdown=false;});
+vcont.addEventListener('dblclick',function(){resetZoom();});
+var touches={},pinching=false,psd=0,pss=1,pstx=0,psty=0,pmx=0,pmy=0,sdrag=false,dlx=0,dly=0;
 vcont.addEventListener('touchstart',function(e){
   e.preventDefault();
-  Array.from(e.changedTouches).forEach(function(t){ touches[t.identifier]=t; });
+  Array.from(e.changedTouches).forEach(function(t){touches[t.identifier]=t;});
   var ids=Object.keys(touches);
   if(ids.length===2){
     pinching=true;sdrag=false;
     var t1=touches[ids[0]],t2=touches[ids[1]];
     psd=Math.hypot(t1.clientX-t2.clientX,t1.clientY-t2.clientY);
-    pss=sc; pstx=tx; psty=ty;
+    pss=sc;pstx=tx;psty=ty;
     var rect=vcont.getBoundingClientRect();
     pmx=(t1.clientX+t2.clientX)/2-rect.left-rect.width/2;
     pmy=(t1.clientY+t2.clientY)/2-rect.top-rect.height/2;
-  } else if(ids.length===1&&sc>1){
-    sdrag=true;pinching=false;
-    var t=touches[ids[0]];dlx=t.clientX;dly=t.clientY;
-  }
+  } else if(ids.length===1&&sc>1){sdrag=true;pinching=false;var t=touches[ids[0]];dlx=t.clientX;dly=t.clientY;}
 },{passive:false});
-
 vcont.addEventListener('touchmove',function(e){
   e.preventDefault();
-  Array.from(e.changedTouches).forEach(function(t){ touches[t.identifier]=t; });
+  Array.from(e.changedTouches).forEach(function(t){touches[t.identifier]=t;});
   var ids=Object.keys(touches);
   if(pinching&&ids.length>=2){
     var t1=touches[ids[0]],t2=touches[ids[1]];
     var d=Math.hypot(t1.clientX-t2.clientX,t1.clientY-t2.clientY);
     var newSc=Math.min(5,Math.max(1,pss*(d/psd)));
-    var ratio=newSc/pss;
-    sc=newSc; tx=pstx+(ratio-1)*(-pmx); ty=psty+(ratio-1)*(-pmy);
-    applyZoom();
+    sc=newSc;tx=pstx+(newSc/pss-1)*(-pmx);ty=psty+(newSc/pss-1)*(-pmy);applyZoom();
   } else if(sdrag&&ids.length===1){
-    var t=touches[ids[0]];
-    tx+=t.clientX-dlx;ty+=t.clientY-dly;
-    dlx=t.clientX;dly=t.clientY;applyZoom();
+    var t=touches[ids[0]];tx+=t.clientX-dlx;ty+=t.clientY-dly;dlx=t.clientX;dly=t.clientY;applyZoom();
   }
 },{passive:false});
-
 vcont.addEventListener('touchend',function(e){
-  Array.from(e.changedTouches).forEach(function(t){ delete touches[t.identifier]; });
-  if(Object.keys(touches).length<2) pinching=false;
-  if(Object.keys(touches).length===0) sdrag=false;
+  Array.from(e.changedTouches).forEach(function(t){delete touches[t.identifier];});
+  if(Object.keys(touches).length<2)pinching=false;
+  if(Object.keys(touches).length===0)sdrag=false;
   if(sc<=1){sc=1;tx=0;ty=0;applyZoom();}
 },{passive:false});
-
 var ltap=0;
 vcont.addEventListener('touchend',function(){
   if(Object.keys(touches).length>0)return;
   var n=Date.now();if(n-ltap<300)resetZoom();ltap=n;
 },{passive:true});
 
-// ============ MODAL / NAV / TOAST ============
-window.closeModal=function(id){ document.getElementById(id).classList.add('hidden'); };
+window.closeModal=function(id){document.getElementById(id).classList.add('hidden');};
 document.querySelectorAll('.modal-overlay').forEach(function(o){
-  o.addEventListener('click',function(e){ if(e.target===o)o.classList.add('hidden'); });
+  o.addEventListener('click',function(e){if(e.target===o)o.classList.add('hidden');});
 });
 
 var toastTimer;
@@ -889,7 +836,7 @@ function showToast(msg,type){
   clearTimeout(toastTimer);
   var t=document.getElementById('toast');
   t.textContent=msg;t.className='show '+(type||'success');
-  toastTimer=setTimeout(function(){ t.className=''; },3500);
+  toastTimer=setTimeout(function(){t.className='';},3500);
 }
 
 function showScreen(name){
@@ -906,8 +853,8 @@ window.goBack=function(to){
 function updateBreadcrumb(){
   var bc=document.getElementById('breadcrumb');
   var h='<span class="bc-item" onclick="goBack(\'brands\')">&#127968; الرئيسية</span>';
-  if(selectedBrand) h+='<span class="bc-sep">&#8250;</span><span class="bc-item" onclick="goBack(\'models\')">'+selectedBrand.name+'</span>';
-  if(selectedModel) h+='<span class="bc-sep">&#8250;</span><span class="bc-current">'+selectedModel.name+'</span>';
+  if(selectedBrand)h+='<span class="bc-sep">&#8250;</span><span class="bc-item" onclick="goBack(\'models\')">'+selectedBrand.name+'</span>';
+  if(selectedModel)h+='<span class="bc-sep">&#8250;</span><span class="bc-current">'+selectedModel.name+'</span>';
   bc.innerHTML=h;
 }
 </script>
