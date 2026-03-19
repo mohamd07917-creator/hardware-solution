@@ -32,6 +32,24 @@
   .spinner-lg{width:52px;height:52px;border:3px solid rgba(0,212,255,0.2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;}
   #loading-msg{color:var(--text2);font-size:0.88rem;text-align:center;}
 
+  /* ANNOUNCEMENT BANNER */
+  #announcement{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:400;
+    width:90%;max-width:480px;background:linear-gradient(135deg,var(--card2),#0d1b3e);
+    border:1px solid rgba(0,212,255,0.3);border-radius:16px;padding:1.2rem 1.4rem;
+    box-shadow:0 8px 32px rgba(0,0,0,0.5),0 0 20px rgba(0,212,255,0.1);
+    animation:slideUp 0.4s cubic-bezier(.22,1,.36,1);}
+  @keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(30px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+  #announcement.hidden{display:none;}
+  .ann-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.7rem;}
+  .ann-title{font-size:0.85rem;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:6px;}
+  .ann-close{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.08);border:none;color:var(--text2);cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+  .ann-close:hover{background:rgba(255,80,80,0.3);color:#fff;}
+  .ann-text{font-size:0.9rem;color:var(--text);line-height:1.6;white-space:pre-wrap;}
+  .ann-footer{display:flex;align-items:center;justify-content:space-between;margin-top:0.8rem;}
+  .ann-timer{font-size:0.75rem;color:var(--text2);}
+  .ann-bar{height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin-top:0.6rem;overflow:hidden;}
+  .ann-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:2px;width:100%;transition:width linear;}
+
   #breadcrumb{display:flex;align-items:center;gap:8px;padding:0.8rem 1.5rem;width:100%;max-width:700px;font-size:0.82rem;flex-wrap:wrap;}
   .bc-item{color:var(--accent);cursor:pointer;transition:color 0.2s;}
   .bc-item:hover{color:var(--gold);}
@@ -80,6 +98,12 @@
   .add-btn:hover{background:rgba(0,204,102,0.15);border-color:var(--green);}
   .admin-mode .add-btn{display:block;}
 
+  /* إعلان وضع المدير */
+  .admin-ann-btn{display:none;width:100%;background:rgba(240,192,64,0.08);border:1px dashed rgba(240,192,64,0.4);border-radius:14px;padding:0.9rem;text-align:center;cursor:pointer;font-family:'Cairo',sans-serif;color:var(--gold);font-size:0.9rem;font-weight:600;transition:all 0.2s;margin-top:4px;}
+  .admin-ann-btn:hover{background:rgba(240,192,64,0.15);}
+  .admin-mode .admin-ann-btn{display:block;}
+
+  /* IMAGE VIEWER */
   #image-viewer{position:fixed;inset:0;z-index:100;background:rgba(5,5,15,0.98);display:flex;flex-direction:column;align-items:center;justify-content:center;}
   #image-viewer.hidden{display:none;}
   #viewer-header{position:absolute;top:0;left:0;right:0;padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(0,0,0,0.85) 0%,transparent 100%);z-index:2;}
@@ -88,7 +112,16 @@
   #close-viewer:hover{background:rgba(255,80,80,0.5);}
   #viewer-img-container{width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;padding:70px 8px;position:relative;cursor:grab;}
   #viewer-img-container:active{cursor:grabbing;}
-  #viewer-img{max-width:90%;max-height:85vh;object-fit:contain;border-radius:8px;box-shadow:0 0 60px rgba(0,212,255,0.15);transform-origin:center center;user-select:none;-webkit-user-select:none;display:none;}
+  /* تحسين جودة الصورة عند التكبير */
+  #viewer-img{
+    max-width:90%;max-height:85vh;object-fit:contain;border-radius:8px;
+    box-shadow:0 0 60px rgba(0,212,255,0.15);
+    transform-origin:center center;
+    user-select:none;-webkit-user-select:none;display:none;
+    image-rendering:-webkit-optimize-contrast;
+    image-rendering:crisp-edges;
+    -ms-interpolation-mode:nearest-neighbor;
+  }
   #viewer-loading{display:flex;flex-direction:column;align-items:center;gap:14px;}
   #viewer-loading.hidden{display:none;}
   .spinner{width:48px;height:48px;border:3px solid rgba(0,212,255,0.2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;}
@@ -98,7 +131,7 @@
   #viewer-error .err-icon{font-size:3rem;}
   #viewer-error .err-title{font-size:1rem;color:var(--text2);}
   #viewer-error .err-path{font-size:0.7rem;color:rgba(255,255,255,0.25);direction:ltr;word-break:break-all;max-width:320px;}
-  #viewer-error .err-hint{font-size:0.78rem;color:rgba(0,212,255,0.6);}
+
   #zoom-controls{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;z-index:3;}
   .zoom-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;user-select:none;}
   .zoom-btn:hover{background:rgba(0,212,255,0.25);}
@@ -113,14 +146,16 @@
   .search-input::placeholder{color:var(--text2);}
   .search-icon{position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);color:var(--text2);}
 
+  /* MODALS */
   .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;}
   .modal-overlay.hidden{display:none;}
-  .modal{background:var(--card2);border:1px solid rgba(0,212,255,0.2);border-radius:20px;padding:2rem;width:90%;max-width:380px;animation:scaleIn 0.3s cubic-bezier(.22,1,.36,1);}
+  .modal{background:var(--card2);border:1px solid rgba(0,212,255,0.2);border-radius:20px;padding:2rem;width:90%;max-width:400px;animation:scaleIn 0.3s cubic-bezier(.22,1,.36,1);}
   @keyframes scaleIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}
   .modal h2{font-size:1.1rem;font-weight:700;margin-bottom:1.2rem;color:var(--gold);text-align:center;}
-  .modal input{width:100%;background:var(--card);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:0.75rem 1rem;color:var(--text);font-family:'Cairo',sans-serif;font-size:1rem;outline:none;margin-bottom:0.8rem;transition:border-color 0.2s;text-align:right;}
+  .modal input,.modal textarea{width:100%;background:var(--card);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:0.75rem 1rem;color:var(--text);font-family:'Cairo',sans-serif;font-size:1rem;outline:none;margin-bottom:0.8rem;transition:border-color 0.2s;text-align:right;}
   .modal input[type=password]{text-align:center;letter-spacing:4px;}
-  .modal input:focus{border-color:var(--accent);}
+  .modal textarea{min-height:120px;resize:vertical;line-height:1.6;}
+  .modal input:focus,.modal textarea:focus{border-color:var(--accent);}
   .modal-btns{display:flex;gap:10px;margin-top:0.5rem;}
   .btn-confirm{flex:1;background:linear-gradient(135deg,var(--accent),#0099cc);border:none;border-radius:10px;padding:0.75rem;color:#fff;font-family:'Cairo',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;transition:opacity 0.2s;}
   .btn-confirm:hover{opacity:0.85;}
@@ -144,6 +179,19 @@
   <p id="loading-msg">جاري تحميل البيانات...</p>
 </div>
 
+<!-- إشعار الزوار -->
+<div id="announcement" class="hidden">
+  <div class="ann-header">
+    <span class="ann-title">&#128276; إشعار جديد</span>
+    <button class="ann-close" onclick="closeAnnouncement()">&#10005;</button>
+  </div>
+  <div class="ann-text" id="ann-text"></div>
+  <div class="ann-footer">
+    <span class="ann-timer" id="ann-timer">يُغلق بعد 10 ثوانٍ</span>
+  </div>
+  <div class="ann-bar"><div class="ann-bar-fill" id="ann-bar-fill"></div></div>
+</div>
+
 <div id="stars-bg"></div>
 <div id="app">
   <header>
@@ -157,6 +205,7 @@
     <p class="section-title">اختر <span>البراند</span></p>
     <div id="brands-grid"></div>
     <button class="add-btn" onclick="openAddBrand()">&#43; إضافة براند جديد</button>
+    <button class="admin-ann-btn" onclick="openAnnModal()">&#128276; إرسال إشعار للزوار</button>
   </div>
   <div id="screen-models" class="screen hidden">
     <button class="back-btn" onclick="goBack('brands')">&#8594; رجوع</button>
@@ -175,6 +224,7 @@
   </div>
 </div>
 
+<!-- عارض الصور -->
 <div id="image-viewer" class="hidden">
   <div id="viewer-header">
     <button id="close-viewer" onclick="closeViewer()">&#10005;</button>
@@ -186,7 +236,6 @@
       <span class="err-icon">&#128269;</span>
       <p class="err-title">الصورة غير متوفرة بعد</p>
       <p class="err-path" id="err-path-text"></p>
-      <p class="err-hint">تأكد من رفع الصورة على GitHub بنفس المسار</p>
     </div>
     <img id="viewer-img" alt="مخطط الدائرة">
   </div>
@@ -199,6 +248,7 @@
   </div>
 </div>
 
+<!-- مودال كلمة المرور -->
 <div id="modal-password" class="modal-overlay hidden">
   <div class="modal">
     <h2>&#128274; وضع المدير</h2>
@@ -211,10 +261,10 @@
   </div>
 </div>
 
+<!-- مودال إضافة براند -->
 <div id="modal-add-brand" class="modal-overlay hidden">
   <div class="modal">
     <h2>&#43; إضافة براند جديد</h2>
-    <p class="modal-note">سيُحفظ في Firebase ويظهر لجميع الزوار &#128293;</p>
     <input type="text" id="new-brand-name" placeholder="اسم البراند - مثال: Samsung">
     <input type="text" id="new-brand-folder" placeholder="اسم المجلد على GitHub - مثال: Samsung">
     <p class="modal-err" id="brand-err"></p>
@@ -225,10 +275,10 @@
   </div>
 </div>
 
+<!-- مودال إضافة موديل -->
 <div id="modal-add-model" class="modal-overlay hidden">
   <div class="modal">
     <h2>&#43; إضافة موديل جديد</h2>
-    <p class="modal-note">سيُحفظ في Firebase ويظهر لجميع الزوار &#128293;</p>
     <input type="text" id="new-model-name" placeholder="اسم الموديل - مثال: Galaxy A15">
     <input type="text" id="new-model-folder" placeholder="اسم مجلد GitHub - مثال: A155F_A15">
     <p class="modal-err" id="model-err"></p>
@@ -239,6 +289,24 @@
   </div>
 </div>
 
+<!-- مودال الإشعار -->
+<div id="modal-ann" class="modal-overlay hidden">
+  <div class="modal">
+    <h2>&#128276; إرسال إشعار للزوار</h2>
+    <p class="modal-note">سيظهر هذا الإشعار لجميع الزوار عند دخولهم الموقع ويُغلق تلقائياً بعد 10 ثوانٍ</p>
+    <textarea id="ann-input" placeholder="اكتب الإشعار هنا...&#10;مثال: تم إضافة موديل Galaxy A06 و iPhone 15 Plus ✅"></textarea>
+    <p class="modal-err" id="ann-err"></p>
+    <div class="modal-btns">
+      <button class="btn-confirm" id="btn-send-ann" onclick="sendAnnouncement()">&#128276; إرسال</button>
+      <button class="btn-cancel" onclick="closeModal('modal-ann')">إلغاء</button>
+    </div>
+    <div style="margin-top:0.8rem;text-align:center;">
+      <button onclick="clearAnnouncement()" style="background:none;border:none;color:var(--red);font-family:'Cairo',sans-serif;font-size:0.8rem;cursor:pointer;text-decoration:underline;">حذف الإشعار الحالي</button>
+    </div>
+  </div>
+</div>
+
+<!-- مودال تأكيد الحذف -->
 <div id="modal-confirm-del" class="modal-overlay hidden">
   <div class="modal">
     <h2>&#128465; تأكيد الحذف</h2>
@@ -254,7 +322,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc, query, orderBy, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDKntmfI8dloN1Xx-TJw9m8S1OXbem6hNs",
@@ -268,10 +336,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ======= البيانات الافتراضية =======
-// الموديلات محفوظة كـ array داخل وثيقة البراند = طلب واحد فقط لكل شيء
 const DEFAULT_BRANDS = [
-  {name:'Samsung', folder:'Samsung', icon:'&#128308;', order:1, models:[
+  {name:'Samsung',folder:'Samsung',icon:'&#128308;',order:1,models:[
     {name:'Galaxy A14',folder:'A145F_A14'},{name:'Galaxy A05',folder:'A055F_A05'},
     {name:'Galaxy A15',folder:'A155F_A15'},{name:'Galaxy A25',folder:'A255F_A25'},
     {name:'Galaxy A35',folder:'A355F_A35'},{name:'Galaxy A55',folder:'A556B_A55'},
@@ -281,44 +347,41 @@ const DEFAULT_BRANDS = [
     {name:'Galaxy M34',folder:'M346B_M34'},{name:'Galaxy M54',folder:'M546B_M54'},
     {name:'Galaxy Note 20',folder:'N980F_Note20'},{name:'Galaxy Note 10',folder:'N970F_Note10'}
   ]},
-  {name:'Infinix', folder:'Infinix', icon:'&#128994;', order:2, models:[
-    {name:'Hot 40',folder:'Hot_40'},{name:'Hot 40i',folder:'Hot_40i'},
-    {name:'Hot 30',folder:'Hot_30'},{name:'Hot 20',folder:'Hot_20'},
-    {name:'Note 40',folder:'Note_40'},{name:'Note 30',folder:'Note_30'},
-    {name:'Note 12',folder:'Note_12'},{name:'Smart 8',folder:'Smart_8'},
-    {name:'Smart 7',folder:'Smart_7'},{name:'Zero 30',folder:'Zero_30'},
-    {name:'Zero 20',folder:'Zero_20'},{name:'GT 20 Pro',folder:'GT_20_Pro'}
+  {name:'Infinix',folder:'Infinix',icon:'&#128994;',order:2,models:[
+    {name:'Hot 40',folder:'Hot_40'},{name:'Hot 40i',folder:'Hot_40i'},{name:'Hot 30',folder:'Hot_30'},
+    {name:'Hot 20',folder:'Hot_20'},{name:'Note 40',folder:'Note_40'},{name:'Note 30',folder:'Note_30'},
+    {name:'Note 12',folder:'Note_12'},{name:'Smart 8',folder:'Smart_8'},{name:'Smart 7',folder:'Smart_7'},
+    {name:'Zero 30',folder:'Zero_30'},{name:'Zero 20',folder:'Zero_20'},{name:'GT 20 Pro',folder:'GT_20_Pro'}
   ]},
-  {name:'Tecno', folder:'Tecno', icon:'&#128993;', order:3, models:[
+  {name:'Tecno',folder:'Tecno',icon:'&#128993;',order:3,models:[
     {name:'Spark 20',folder:'Spark_20'},{name:'Spark 20 Pro',folder:'Spark_20_Pro'},
     {name:'Spark 10',folder:'Spark_10'},{name:'Camon 20',folder:'Camon_20'},
-    {name:'Camon 30',folder:'Camon_30'},{name:'Pop 8',folder:'Pop_8'},
-    {name:'Pop 7',folder:'Pop_7'},{name:'Pova 6',folder:'Pova_6'},
-    {name:'Pova 5',folder:'Pova_5'},{name:'Phantom X2',folder:'Phantom_X2'}
+    {name:'Camon 30',folder:'Camon_30'},{name:'Pop 8',folder:'Pop_8'},{name:'Pop 7',folder:'Pop_7'},
+    {name:'Pova 6',folder:'Pova_6'},{name:'Pova 5',folder:'Pova_5'},{name:'Phantom X2',folder:'Phantom_X2'}
   ]},
-  {name:'Xiaomi', folder:'Xiaomi', icon:'&#128992;', order:4, models:[
+  {name:'Xiaomi',folder:'Xiaomi',icon:'&#128992;',order:4,models:[
     {name:'Redmi 13',folder:'Redmi_13'},{name:'Redmi 12',folder:'Redmi_12'},
     {name:'Redmi Note 13',folder:'Redmi_Note_13'},{name:'Redmi Note 12',folder:'Redmi_Note_12'},
     {name:'POCO X6',folder:'POCO_X6'},{name:'POCO M6',folder:'POCO_M6'},
     {name:'Xiaomi 14',folder:'Xiaomi_14'},{name:'Xiaomi 13T',folder:'Xiaomi_13T'},
     {name:'Redmi A3',folder:'Redmi_A3'},{name:'Redmi A2',folder:'Redmi_A2'}
   ]},
-  {name:'Oppo', folder:'Oppo', icon:'&#128995;', order:5, models:[
+  {name:'Oppo',folder:'Oppo',icon:'&#128995;',order:5,models:[
     {name:'A78',folder:'A78'},{name:'A58',folder:'A58'},{name:'A38',folder:'A38'},
     {name:'A18',folder:'A18'},{name:'Reno 11',folder:'Reno_11'},{name:'Reno 10',folder:'Reno_10'},
     {name:'Find X7',folder:'Find_X7'},{name:'A17',folder:'A17'},{name:'A57',folder:'A57'},{name:'F25 Pro',folder:'F25_Pro'}
   ]},
-  {name:'Realme', folder:'Realme', icon:'&#129002;', order:6, models:[
+  {name:'Realme',folder:'Realme',icon:'&#129002;',order:6,models:[
     {name:'C67',folder:'C67'},{name:'C55',folder:'C55'},{name:'C35',folder:'C35'},
     {name:'C30',folder:'C30'},{name:'Narzo 70',folder:'Narzo_70'},{name:'12 Pro',folder:'12_Pro'},
     {name:'12',folder:'12'},{name:'GT 6',folder:'GT_6'},{name:'GT Neo 6',folder:'GT_Neo_6'},{name:'10 Pro',folder:'10_Pro'}
   ]},
-  {name:'Vivo', folder:'Vivo', icon:'&#128309;', order:7, models:[
+  {name:'Vivo',folder:'Vivo',icon:'&#128309;',order:7,models:[
     {name:'Y38',folder:'Y38'},{name:'Y28',folder:'Y28'},{name:'Y18',folder:'Y18'},
     {name:'Y17s',folder:'Y17s'},{name:'V30',folder:'V30'},{name:'V29',folder:'V29'},
     {name:'T3',folder:'T3'},{name:'Y36',folder:'Y36'},{name:'S18',folder:'S18'},{name:'X100',folder:'X100'}
   ]},
-  {name:'Apple', folder:'Apple', icon:'&#127822;', order:8, models:[
+  {name:'Apple',folder:'Apple',icon:'&#127822;',order:8,models:[
     {name:'iPhone 16 Pro Max',folder:'iPhone_16_Pro_Max'},{name:'iPhone 16 Pro',folder:'iPhone_16_Pro'},
     {name:'iPhone 16',folder:'iPhone_16'},{name:'iPhone 15 Pro Max',folder:'iPhone_15_Pro_Max'},
     {name:'iPhone 15 Pro',folder:'iPhone_15_Pro'},{name:'iPhone 15',folder:'iPhone_15'},
@@ -327,42 +390,41 @@ const DEFAULT_BRANDS = [
     {name:'iPhone 12',folder:'iPhone_12'},{name:'iPhone 11',folder:'iPhone_11'},
     {name:'iPhone XS',folder:'iPhone_XS'},{name:'iPhone XR',folder:'iPhone_XR'},{name:'iPhone X',folder:'iPhone_X'}
   ]},
-  {name:'Nokia', folder:'Nokia', icon:'&#11035;', order:9, models:[
+  {name:'Nokia',folder:'Nokia',icon:'&#11035;',order:9,models:[
     {name:'C32',folder:'C32'},{name:'C22',folder:'C22'},{name:'G42',folder:'G42'},
     {name:'G21',folder:'G21'},{name:'X30',folder:'X30'},{name:'XR21',folder:'XR21'},
     {name:'C12',folder:'C12'},{name:'G60',folder:'G60'},{name:'C31',folder:'C31'}
   ]},
-  {name:'Huawei', folder:'Huawei', icon:'&#127800;', order:10, models:[
-    {name:'Nova 12',folder:'Nova_12'},{name:'Nova 11',folder:'Nova_11'},
-    {name:'Nova 10',folder:'Nova_10'},{name:'Mate 60 Pro',folder:'Mate_60_Pro'},
-    {name:'P60 Pro',folder:'P60_Pro'},{name:'P50 Pro',folder:'P50_Pro'},
+  {name:'Huawei',folder:'Huawei',icon:'&#127800;',order:10,models:[
+    {name:'Nova 12',folder:'Nova_12'},{name:'Nova 11',folder:'Nova_11'},{name:'Nova 10',folder:'Nova_10'},
+    {name:'Mate 60 Pro',folder:'Mate_60_Pro'},{name:'P60 Pro',folder:'P60_Pro'},{name:'P50 Pro',folder:'P50_Pro'},
     {name:'Y91',folder:'Y91'},{name:'Y61',folder:'Y61'},{name:'Y70',folder:'Y70'},{name:'Nova 9',folder:'Nova_9'}
   ]},
-  {name:'Honor', folder:'Honor', icon:'&#11088;', order:11, models:[
+  {name:'Honor',folder:'Honor',icon:'&#11088;',order:11,models:[
     {name:'X8b',folder:'X8b'},{name:'X7b',folder:'X7b'},{name:'90',folder:'90'},
     {name:'200 Pro',folder:'200_Pro'},{name:'Magic 6 Pro',folder:'Magic_6_Pro'},
     {name:'Magic V2',folder:'Magic_V2'},{name:'X9b',folder:'X9b'},
     {name:'90 Smart',folder:'90_Smart'},{name:'70',folder:'70'},{name:'X6a',folder:'X6a'}
   ]},
-  {name:'ZTE', folder:'ZTE', icon:'&#9632;', order:12, models:[
+  {name:'ZTE',folder:'ZTE',icon:'&#9632;',order:12,models:[
     {name:'Blade V50',folder:'Blade_V50'},{name:'Blade A75',folder:'Blade_A75'},
     {name:'Blade V40',folder:'Blade_V40'},{name:'Blade A54',folder:'Blade_A54'},
     {name:'Nubia Z60 Ultra',folder:'Nubia_Z60_Ultra'},{name:'Nubia Z50',folder:'Nubia_Z50'},
     {name:'Blade A52',folder:'Blade_A52'},{name:'V50 Vita',folder:'V50_Vita'},{name:'Blade A31',folder:'Blade_A31'}
   ]},
-  {name:'Itel', folder:'Itel', icon:'&#128307;', order:13, models:[
+  {name:'Itel',folder:'Itel',icon:'&#128307;',order:13,models:[
     {name:'A70',folder:'A70'},{name:'A60s',folder:'A60s'},{name:'P55',folder:'P55'},
     {name:'S24',folder:'S24'},{name:'Vision 3 Plus',folder:'Vision_3_Plus'},
     {name:'A58',folder:'A58'},{name:'Magic 3',folder:'Magic_3'},
     {name:'P40',folder:'P40'},{name:'A48',folder:'A48'},{name:'S23 Plus',folder:'S23_Plus'}
   ]},
-  {name:'OnePlus', folder:'OnePlus', icon:'&#128308;', order:14, models:[
+  {name:'OnePlus',folder:'OnePlus',icon:'&#128308;',order:14,models:[
     {name:'12',folder:'12'},{name:'11',folder:'11'},{name:'Nord 4',folder:'Nord_4'},
     {name:'Nord CE4',folder:'Nord_CE4'},{name:'Nord 3',folder:'Nord_3'},
     {name:'12R',folder:'12R'},{name:'Open',folder:'Open'},
     {name:'11R',folder:'11R'},{name:'10 Pro',folder:'10_Pro'},{name:'10T',folder:'10T'}
   ]},
-  {name:'Motorola', folder:'Motorola', icon:'&#127952;', order:15, models:[
+  {name:'Motorola',folder:'Motorola',icon:'&#127952;',order:15,models:[
     {name:'Edge 50 Pro',folder:'Edge_50_Pro'},{name:'Edge 50 Fusion',folder:'Edge_50_Fusion'},
     {name:'Moto G85',folder:'Moto_G85'},{name:'Moto G54',folder:'Moto_G54'},
     {name:'Moto G34',folder:'Moto_G34'},{name:'Edge 40 Neo',folder:'Edge_40_Neo'},
@@ -371,52 +433,55 @@ const DEFAULT_BRANDS = [
   ]}
 ];
 
-function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 
 async function seedData(){
-  document.getElementById('loading-msg').textContent = 'أول تشغيل - جاري حفظ البيانات...';
+  document.getElementById('loading-msg').textContent='أول تشغيل - جاري حفظ البيانات...';
   for(let i=0;i<DEFAULT_BRANDS.length;i++){
-    const b = DEFAULT_BRANDS[i];
-    document.getElementById('loading-msg').textContent = 'جاري حفظ: ' + b.name + ' (' + (i+1) + '/' + DEFAULT_BRANDS.length + ')';
-    await addDoc(collection(db,'brands'), b);
+    const b=DEFAULT_BRANDS[i];
+    document.getElementById('loading-msg').textContent='جاري حفظ: '+b.name+' ('+(i+1)+'/'+DEFAULT_BRANDS.length+')';
+    await addDoc(collection(db,'brands'),b);
     await sleep(400);
   }
 }
 
 async function loadData(){
-  try {
-    // طلب واحد فقط يجلب كل البراندات مع موديلاتها
-    const snap = await getDocs(query(collection(db,'brands'), orderBy('order')));
-
+  try{
+    const snap=await getDocs(query(collection(db,'brands'),orderBy('order')));
     if(snap.empty){
       await seedData();
-      // أعد القراءة
-      const fresh = await getDocs(query(collection(db,'brands'), orderBy('order')));
-      window._BRANDS = [];
-      fresh.forEach(d => window._BRANDS.push({id:d.id, ...d.data()}));
+      const fresh=await getDocs(query(collection(db,'brands'),orderBy('order')));
+      window._BRANDS=[];
+      fresh.forEach(d=>window._BRANDS.push({id:d.id,...d.data()}));
     } else {
-      window._BRANDS = [];
-      snap.forEach(d => window._BRANDS.push({id:d.id, ...d.data()}));
+      window._BRANDS=[];
+      snap.forEach(d=>window._BRANDS.push({id:d.id,...d.data()}));
     }
 
-    // expose firebase functions
-    window._db = db;
-    window._col = collection;
-    window._doc = doc;
-    window._addDoc = addDoc;
-    window._updateDoc = updateDoc;
-    window._deleteDoc = deleteDoc;
+    // تحميل الإشعار
+    try{
+      const annDoc=await getDoc(doc(db,'settings','announcement'));
+      if(annDoc.exists()&&annDoc.data().text&&annDoc.data().text.trim()){
+        window._announcement=annDoc.data().text;
+      }
+    }catch(e){}
 
-    // hide loading
-    const ls = document.getElementById('loading-screen');
+    window._db=db;
+    window._col=collection;
+    window._doc=doc;
+    window._addDoc=addDoc;
+    window._updateDoc=updateDoc;
+    window._deleteDoc=deleteDoc;
+    window._setDoc=setDoc;
+
+    const ls=document.getElementById('loading-screen');
     ls.classList.add('fade');
-    setTimeout(()=>ls.classList.add('hidden'), 400);
-
+    setTimeout(()=>ls.classList.add('hidden'),400);
     window._initApp();
 
-  } catch(err){
+  }catch(err){
     console.error(err);
-    document.getElementById('loading-msg').textContent = 'خطأ في الاتصال: ' + err.message;
+    document.getElementById('loading-msg').textContent='خطأ في الاتصال: '+err.message;
   }
 }
 
@@ -426,7 +491,7 @@ loadData();
 <script>
 var GH_USER='mohamd07917-creator',GH_REPO='hardware-solution',GH_BRANCH='main',GH_IMAGES='images';
 var ADMIN_PASS='17230';
-function buildURL(bf,mf,file){ return 'https://raw.githubusercontent.com/'+GH_USER+'/'+GH_REPO+'/'+GH_BRANCH+'/'+GH_IMAGES+'/'+bf+'/'+mf+'/'+file; }
+function buildURL(bf,mf,file){return 'https://raw.githubusercontent.com/'+GH_USER+'/'+GH_REPO+'/'+GH_BRANCH+'/'+GH_IMAGES+'/'+bf+'/'+mf+'/'+file;}
 
 var SOLUTIONS=[
   {name:'دائرة الإضاءة',icon:'&#128161;',file:'lighting.jpg'},
@@ -441,9 +506,73 @@ var SOLUTIONS=[
 
 var selectedBrand=null,selectedModel=null,allModels=[];
 var isAdmin=false,pendingDelType=null,pendingDelIdx=null;
+var annTimer=null;
 
 window._initApp=function(){
-  renderBrands(); updateBreadcrumb(); initStars();
+  renderBrands();updateBreadcrumb();initStars();
+  // أظهر الإشعار إن وجد
+  if(window._announcement&&window._announcement.trim()){
+    setTimeout(function(){showAnnouncementBanner(window._announcement);},1000);
+  }
+};
+
+// ====== ANNOUNCEMENT ======
+function showAnnouncementBanner(text){
+  document.getElementById('ann-text').textContent=text;
+  document.getElementById('announcement').classList.remove('hidden');
+  var secs=10;
+  document.getElementById('ann-timer').textContent='يُغلق بعد '+secs+' ثوانٍ';
+  var fill=document.getElementById('ann-bar-fill');
+  fill.style.transition='none';fill.style.width='100%';
+  setTimeout(function(){
+    fill.style.transition='width '+secs+'s linear';
+    fill.style.width='0%';
+  },50);
+  annTimer=setInterval(function(){
+    secs--;
+    if(secs<=0){clearInterval(annTimer);closeAnnouncement();}
+    else document.getElementById('ann-timer').textContent='يُغلق بعد '+secs+' ثوانٍ';
+  },1000);
+}
+window.closeAnnouncement=function(){
+  clearInterval(annTimer);
+  document.getElementById('announcement').classList.add('hidden');
+};
+
+// مودال الإشعار
+window.openAnnModal=function(){
+  if(!isAdmin)return;
+  document.getElementById('ann-input').value=window._announcement||'';
+  document.getElementById('ann-err').textContent='';
+  document.getElementById('btn-send-ann').disabled=false;
+  document.getElementById('btn-send-ann').textContent='&#128276; إرسال';
+  document.getElementById('modal-ann').classList.remove('hidden');
+  setTimeout(function(){document.getElementById('ann-input').focus();},100);
+};
+window.sendAnnouncement=async function(){
+  if(!isAdmin)return;
+  var text=document.getElementById('ann-input').value.trim();
+  if(!text){document.getElementById('ann-err').textContent='يرجى كتابة نص الإشعار';return;}
+  document.getElementById('btn-send-ann').disabled=true;
+  document.getElementById('btn-send-ann').textContent='جاري الإرسال...';
+  try{
+    await window._setDoc(window._doc(window._db,'settings','announcement'),{text:text,updatedAt:new Date().toISOString()});
+    window._announcement=text;
+    closeModal('modal-ann');
+    showToast('تم إرسال الإشعار لجميع الزوار ✓','success');
+  }catch(e){
+    document.getElementById('ann-err').textContent='خطأ: '+e.message;
+    document.getElementById('btn-send-ann').disabled=false;
+    document.getElementById('btn-send-ann').textContent='&#128276; إرسال';
+  }
+};
+window.clearAnnouncement=async function(){
+  try{
+    await window._setDoc(window._doc(window._db,'settings','announcement'),{text:'',updatedAt:new Date().toISOString()});
+    window._announcement='';
+    closeModal('modal-ann');
+    showToast('تم حذف الإشعار ✓','info');
+  }catch(e){showToast('خطأ: '+e.message,'error');}
 };
 
 function initStars(){
@@ -477,7 +606,7 @@ window.checkPassword=function(){
     document.getElementById('admin-btn').classList.add('active');
     document.getElementById('app').classList.add('admin-mode');
     showToast('تم الدخول كمدير ✓','success');
-  } else {
+  }else{
     document.getElementById('pwd-err').textContent='كلمة المرور غير صحيحة';
     document.getElementById('pwd-input').style.borderColor='var(--red)';
     setTimeout(function(){document.getElementById('pwd-input').style.borderColor='';},1000);
@@ -542,7 +671,6 @@ window.addModel=async function(){
   document.getElementById('btn-add-model').disabled=true;
   document.getElementById('btn-add-model').textContent='جاري الحفظ...';
   try{
-    // أضف الموديل داخل array الموجودة في وثيقة البراند
     var bidx=window._BRANDS.findIndex(function(b){return b.id===selectedBrand.id;});
     var updatedModels=(window._BRANDS[bidx].models||[]).concat([{name:name,folder:folder}]);
     await window._updateDoc(window._doc(window._db,'brands',selectedBrand.id),{models:updatedModels});
@@ -584,7 +712,7 @@ window.confirmDelete=async function(){
       window._BRANDS=window._BRANDS.filter(function(b){return b.id!==pendingDelIdx;});
       closeModal('modal-confirm-del');renderBrands();
       showToast('تم الحذف ✓','success');
-    } else {
+    }else{
       var bidx=window._BRANDS.findIndex(function(b){return b.id===selectedBrand.id;});
       var updated=window._BRANDS[bidx].models.filter(function(_,i){return i!==pendingDelIdx;});
       await window._updateDoc(window._doc(window._db,'brands',selectedBrand.id),{models:updated});
@@ -674,27 +802,46 @@ window.closeViewer=function(){
   resetZoom();
 };
 
-// ZOOM
+// ====== ZOOM - تكبير أقصى 10x ووضوح أعلى ======
 var sc=1,tx=0,ty=0;
 var imgEl=document.getElementById('viewer-img');
 var vcont=document.getElementById('viewer-img-container');
-function applyZoom(){imgEl.style.transform='translate('+tx+'px,'+ty+'px) scale('+sc+')';document.getElementById('zoom-level').textContent=Math.round(sc*100)+'%';}
+
+function applyZoom(){
+  // استخدام will-change لتحسين الأداء والوضوح
+  imgEl.style.willChange='transform';
+  imgEl.style.transform='translate('+tx+'px,'+ty+'px) scale('+sc+')';
+  // تحسين جودة التكبير
+  if(sc>2){
+    imgEl.style.imageRendering='auto';
+  } else {
+    imgEl.style.imageRendering='-webkit-optimize-contrast';
+  }
+  document.getElementById('zoom-level').textContent=Math.round(sc*100)+'%';
+}
 window.resetZoom=function(){sc=1;tx=0;ty=0;applyZoom();};
-window.zoomIn=function(){sc=Math.min(sc+0.25,5);applyZoom();};
-window.zoomOut=function(){sc=Math.max(sc-0.25,1);if(sc<=1){sc=1;tx=0;ty=0;}applyZoom();};
+window.zoomIn=function(){sc=Math.min(sc+0.5,10);applyZoom();}; // زيادة خطوة التكبير
+window.zoomOut=function(){sc=Math.max(sc-0.5,1);if(sc<=1){sc=1;tx=0;ty=0;}applyZoom();};
+
+// عجلة الماوس - أقصى تكبير 10x
 vcont.addEventListener('wheel',function(e){
   e.preventDefault();
-  var ns=Math.min(5,Math.max(1,sc+(e.deltaY>0?-0.15:0.15)));
+  var delta=e.deltaY>0?-0.2:0.2; // خطوة أسرع
+  var ns=Math.min(10,Math.max(1,sc+delta)); // أقصى تكبير 10x
   var rect=vcont.getBoundingClientRect();
   var mx=e.clientX-rect.left-rect.width/2,my=e.clientY-rect.top-rect.height/2;
-  var r=ns/sc;tx=(tx-mx)*r+mx;ty=(ty-my)*r+my;sc=ns;
-  if(sc<=1){sc=1;tx=0;ty=0;}applyZoom();
+  var r=ns/sc;tx=(tx-mx)*r+mx;ty=(ty-my)*r+my;
+  sc=ns;if(sc<=1){sc=1;tx=0;ty=0;}applyZoom();
 },{passive:false});
+
+// سحب الماوس
 var mdown=false,mlx=0,mly=0;
 vcont.addEventListener('mousedown',function(e){if(sc<=1)return;mdown=true;mlx=e.clientX;mly=e.clientY;e.preventDefault();});
 document.addEventListener('mousemove',function(e){if(!mdown)return;tx+=e.clientX-mlx;ty+=e.clientY-mly;mlx=e.clientX;mly=e.clientY;applyZoom();});
 document.addEventListener('mouseup',function(){mdown=false;});
 vcont.addEventListener('dblclick',function(){resetZoom();});
+
+// بينش الهاتف - أقصى تكبير 10x
 var touches={},pinching=false,psd=0,pss=1,pstx=0,psty=0,pmx=0,pmy=0,sdrag=false,dlx=0,dly=0;
 vcont.addEventListener('touchstart',function(e){
   e.preventDefault();
@@ -717,7 +864,7 @@ vcont.addEventListener('touchmove',function(e){
   if(pinching&&ids.length>=2){
     var t1=touches[ids[0]],t2=touches[ids[1]];
     var d=Math.hypot(t1.clientX-t2.clientX,t1.clientY-t2.clientY);
-    var ns=Math.min(5,Math.max(1,pss*(d/psd)));
+    var ns=Math.min(10,Math.max(1,pss*(d/psd))); // أقصى تكبير 10x
     sc=ns;tx=pstx+(ns/pss-1)*(-pmx);ty=psty+(ns/pss-1)*(-pmy);applyZoom();
   }else if(sdrag&&ids.length===1){
     var t=touches[ids[0]];tx+=t.clientX-dlx;ty+=t.clientY-dly;dlx=t.clientX;dly=t.clientY;applyZoom();
