@@ -1,0 +1,29 @@
+{
+  "name": "مخططات الحلول الجاهزة",
+  "short_name": "حلول الجاهزة",
+  "description": "تطبيق مخططات الحلول الجاهزة للدوائر الإلكترونية للهواتف",
+  "start_url": "/hardware-solution/",
+  "scope": "/hardware-solution/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0a12",
+  "theme_color": "#00d4ff",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/mohamd07917-creator/hardware-solution/main/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/mohamd07917-creator/hardware-solution/main/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "categories": ["utilities", "tools"]
+}
