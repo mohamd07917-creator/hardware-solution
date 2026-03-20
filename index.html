@@ -85,6 +85,7 @@
   .brand-num{position:absolute;top:7px;right:10px;font-size:0.68rem;color:var(--accent);font-weight:600;opacity:0.7;}
   .brand-del{position:absolute;top:6px;left:6px;width:20px;height:20px;border-radius:50%;background:rgba(255,68,68,0.15);border:1px solid rgba(255,68,68,0.4);color:var(--red);font-size:0.7rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:all 0.2s;z-index:5;}
   .brand-del:hover{background:rgba(255,68,68,0.4);}
+  .brand-model-count{font-size:0.7rem;color:var(--text2);margin-top:3px;}
   .admin-mode .brand-del{display:flex;}
   #models-list{display:flex;flex-direction:column;gap:10px;}
   .model-item{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:1rem 1.2rem;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all 0.3s cubic-bezier(.22,1,.36,1);}
@@ -110,12 +111,27 @@
   .admin-ann-btn{display:none;width:100%;background:rgba(240,192,64,0.08);border:1px dashed rgba(240,192,64,0.4);border-radius:14px;padding:0.9rem;text-align:center;cursor:pointer;font-family:'Cairo',sans-serif;color:var(--gold);font-size:0.9rem;font-weight:600;transition:all 0.2s;margin-top:4px;}
   .admin-ann-btn:hover{background:rgba(240,192,64,0.15);}
   .admin-mode .admin-ann-btn{display:block;}
+  /* آخر الموديلات */
+  #recent-section{width:100%;max-width:700px;padding:0 1rem 0.5rem;animation:fadeUp 0.45s cubic-bezier(.22,1,.36,1);}
+  #recent-section.hidden{display:none;}
+  .recent-title{font-size:0.8rem;color:var(--text2);letter-spacing:1px;margin-bottom:0.6rem;padding-right:4px;}
+  #recent-list{display:flex;flex-wrap:wrap;gap:8px;}
+  .recent-chip{background:rgba(240,192,64,0.08);border:1px solid rgba(240,192,64,0.25);border-radius:20px;padding:0.35rem 0.85rem;font-size:0.78rem;color:var(--gold);cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+  .recent-chip:hover{background:rgba(240,192,64,0.18);border-color:var(--gold);}
+  /* نتائج البحث الشامل */
+  .global-result-item{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid rgba(0,212,255,0.15);border-radius:12px;padding:0.75rem 1rem;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all 0.2s;margin-bottom:6px;}
+  .global-result-item:hover{border-color:var(--accent);background:rgba(0,212,255,0.06);}
+  .global-result-brand{font-size:0.72rem;color:var(--accent);background:rgba(0,212,255,0.1);border-radius:6px;padding:2px 7px;flex-shrink:0;}
+  .global-result-name{font-size:0.9rem;font-weight:600;flex:1;}
+  .global-no-result{text-align:center;color:var(--text2);padding:1rem;font-size:0.88rem;}
 
   /* ===== IMAGE VIEWER ===== */
   #image-viewer{position:fixed;inset:0;z-index:100;background:#000;display:flex;flex-direction:column;}
   #image-viewer.hidden{display:none;}
   #viewer-header{padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(0,0,0,0.95) 0%,transparent 100%);position:absolute;top:0;left:0;right:0;z-index:3;}
-  #viewer-title{font-size:0.88rem;font-weight:700;color:var(--gold);flex:1;padding-left:10px;}
+  #viewer-title{font-size:0.88rem;font-weight:700;color:var(--gold);flex:1;padding-left:10px;line-height:1.4;}
+  #viewer-title .vtitle-sol{font-size:1rem;display:block;}
+  #viewer-title .vtitle-model{font-size:0.75rem;color:var(--text2);display:block;font-weight:400;}
   #close-viewer{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;flex-shrink:0;}
   #close-viewer:hover{background:rgba(255,80,80,0.5);}
 
@@ -230,11 +246,18 @@
     <p>اختر الجهاز وعرض مخططات الدوائر الإلكترونية</p>
   </header>
   <div id="breadcrumb"></div>
+  <div id="recent-section" class="hidden">
+    <p class="recent-title">&#128336; آخر الموديلات المفتوحة</p>
+    <div id="recent-list"></div>
+  </div>
   <div id="screen-brands" class="screen">
     <p class="section-title">اختر <span>البراند</span></p>
+    <div class="search-wrap" style="margin-bottom:1rem;"><span class="search-icon">&#128269;</span><input type="text" class="search-input" id="global-search" placeholder="ابحث في كل البراندات والموديلات..." oninput="filterGlobal()"></div>
+    <div id="global-results" class="hidden" style="margin-bottom:1rem;"></div>
     <div id="brands-grid"></div>
     <button class="add-btn" onclick="openAddBrand()">&#43; إضافة براند جديد</button>
     <button class="admin-ann-btn" onclick="openAnnModal()">&#128276; إرسال إشعار للزوار</button>
+    <button class="admin-ann-btn" onclick="openStatsModal()" style="border-color:rgba(0,212,255,0.4);color:var(--accent);background:rgba(0,212,255,0.06);">&#128202; إحصائيات التطبيق</button>
   </div>
   <div id="screen-models" class="screen hidden">
     <button class="back-btn" onclick="goBack('brands')">&#8594; رجوع</button>
@@ -280,6 +303,18 @@
 <div id="modal-add-brand" class="modal-overlay hidden"><div class="modal"><h2>&#43; إضافة براند جديد</h2><input type="text" id="new-brand-name" placeholder="اسم البراند"><input type="text" id="new-brand-folder" placeholder="اسم المجلد على GitHub"><p class="modal-err" id="brand-err"></p><div class="modal-btns"><button class="btn-confirm" id="btn-add-brand" onclick="addBrand()">إضافة</button><button class="btn-cancel" onclick="closeModal('modal-add-brand')">إلغاء</button></div></div></div>
 <div id="modal-add-model" class="modal-overlay hidden"><div class="modal"><h2>&#43; إضافة موديل جديد</h2><input type="text" id="new-model-name" placeholder="اسم الموديل"><input type="text" id="new-model-folder" placeholder="اسم مجلد GitHub"><p class="modal-err" id="model-err"></p><div class="modal-btns"><button class="btn-confirm" id="btn-add-model" onclick="addModel()">إضافة</button><button class="btn-cancel" onclick="closeModal('modal-add-model')">إلغاء</button></div></div></div>
 <div id="modal-ann" class="modal-overlay hidden"><div class="modal"><h2>&#128276; إرسال إشعار للزوار</h2><p class="modal-note">يظهر مرة واحدة فقط لكل زائر</p><textarea id="ann-input" placeholder="اكتب الإشعار هنا..."></textarea><p class="modal-err" id="ann-err"></p><div class="modal-btns"><button class="btn-confirm" id="btn-send-ann" onclick="sendAnnouncement()">&#128276; إرسال</button><button class="btn-cancel" onclick="closeModal('modal-ann')">إلغاء</button></div><div style="margin-top:0.8rem;text-align:center;"><button onclick="clearAnnouncement()" style="background:none;border:none;color:var(--red);font-family:'Cairo',sans-serif;font-size:0.8rem;cursor:pointer;text-decoration:underline;">حذف الإشعار الحالي</button></div></div></div>
+<div id="modal-stats" class="modal-overlay hidden"><div class="modal"><h2>&#128202; إحصائيات التطبيق</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.2rem;">
+  <div style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:12px;padding:1rem;text-align:center;">
+    <div style="font-size:2rem;font-weight:900;color:var(--accent);" id="stats-brands">0</div>
+    <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">براند</div>
+  </div>
+  <div style="background:rgba(240,192,64,0.08);border:1px solid rgba(240,192,64,0.2);border-radius:12px;padding:1rem;text-align:center;">
+    <div style="font-size:2rem;font-weight:900;color:var(--gold);" id="stats-models">0</div>
+    <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">موديل</div>
+  </div>
+</div>
+<div class="modal-btns"><button class="btn-cancel" onclick="closeModal('modal-stats')">إغلاق</button></div></div></div>
 <div id="modal-confirm-del" class="modal-overlay hidden"><div class="modal"><h2>&#128465; تأكيد الحذف</h2><p style="text-align:center;color:var(--text2);margin-bottom:1rem;font-size:0.9rem;" id="del-msg"></p><div class="modal-btns"><button class="btn-confirm" id="btn-del-confirm" style="background:linear-gradient(135deg,var(--red),#cc0000);" onclick="confirmDelete()">حذف</button><button class="btn-cancel" onclick="closeModal('modal-confirm-del')">إلغاء</button></div></div></div>
 <div id="toast"></div>
 
@@ -345,8 +380,91 @@ var currentImgIdx=0;    // الصورة الحالية
 var currentSol=null;    // الحل الحالي
 var MAX_IMGS=5;         // أقصى عدد صور للبحث عنها
 
+// ===== آخر الموديلات المفتوحة =====
+function saveRecentModel(m){
+  var key='recent_models';
+  var list=[];
+  try{list=JSON.parse(localStorage.getItem(key)||'[]');}catch(e){}
+  // احفظ البراند أيضاً
+  var entry={name:m.name,folder:m.folder,brandId:selectedBrand.id,brandName:selectedBrand.name};
+  list=list.filter(function(x){return x.folder!==m.folder||x.brandId!==selectedBrand.id;});
+  list.unshift(entry);
+  if(list.length>5) list=list.slice(0,5);
+  localStorage.setItem(key,JSON.stringify(list));
+  renderRecent();
+}
+function renderRecent(){
+  var key='recent_models';
+  var list=[];
+  try{list=JSON.parse(localStorage.getItem(key)||'[]');}catch(e){}
+  var sec=document.getElementById('recent-section');
+  var el=document.getElementById('recent-list');
+  if(!list.length){sec.classList.add('hidden');return;}
+  sec.classList.remove('hidden');
+  el.innerHTML='';
+  list.forEach(function(entry){
+    var chip=document.createElement('span');
+    chip.className='recent-chip';
+    chip.title=entry.brandName;
+    chip.textContent='📱 '+entry.name;
+    chip.onclick=function(){
+      var brand=window._BRANDS.find(function(b){return b.id===entry.brandId;});
+      if(!brand)return;
+      var model=(brand.models||[]).find(function(mm){return mm.folder===entry.folder;});
+      if(!model)return;
+      selectBrand(brand);
+      setTimeout(function(){selectModel(model);},50);
+    };
+    el.appendChild(chip);
+  });
+}
+
+// ===== بحث شامل =====
+window.filterGlobal=function(){
+  var q=document.getElementById('global-search').value.toLowerCase().trim();
+  var resultsEl=document.getElementById('global-results');
+  var grid=document.getElementById('brands-grid');
+  if(!q){resultsEl.classList.add('hidden');resultsEl.innerHTML='';grid.style.display='';return;}
+  grid.style.display='none';
+  var results=[];
+  (window._BRANDS||[]).forEach(function(b){
+    (b.models||[]).forEach(function(m){
+      if(m.name.toLowerCase().includes(q)||b.name.toLowerCase().includes(q)){
+        results.push({brand:b,model:m});
+      }
+    });
+  });
+  results.sort(function(a,b){return a.model.name.localeCompare(b.model.name,'en',{sensitivity:'base'});});
+  resultsEl.classList.remove('hidden');
+  if(!results.length){resultsEl.innerHTML='<p class="global-no-result">لا توجد نتائج لـ "'+q+'"</p>';return;}
+  resultsEl.innerHTML='<p style="font-size:0.78rem;color:var(--text2);margin-bottom:8px;">'+results.length+' نتيجة</p>';
+  results.forEach(function(r){
+    var item=document.createElement('div');
+    item.className='global-result-item';
+    item.innerHTML='<span class="global-result-brand">'+r.brand.name+'</span><span class="global-result-name">'+r.model.name+'</span><span style="color:var(--text2);">&#8592;</span>';
+    item.onclick=function(){
+      document.getElementById('global-search').value='';
+      filterGlobal();
+      selectBrand(r.brand);
+      setTimeout(function(){selectModel(r.model);},50);
+    };
+    resultsEl.appendChild(item);
+  });
+};
+
+// ===== لوحة الإحصائيات =====
+window.openStatsModal=function(){
+  if(!isAdmin) return;
+  var totalBrands=(window._BRANDS||[]).length;
+  var totalModels=0;
+  (window._BRANDS||[]).forEach(function(b){totalModels+=(b.models?b.models.length:0);});
+  document.getElementById('stats-brands').textContent=totalBrands;
+  document.getElementById('stats-models').textContent=totalModels;
+  document.getElementById('modal-stats').classList.remove('hidden');
+};
+
 window._initApp=function(){
-  renderBrands();updateBreadcrumb();initStars();
+  renderBrands();renderRecent();updateBreadcrumb();initStars();
   if(window._annData&&window._annData.text){
     var seenKey='ann_seen_'+window._annData.id;
     if(!localStorage.getItem(seenKey)){setTimeout(function(){showAnnToast(window._annData.text,seenKey);},1200);}
@@ -399,11 +517,11 @@ window.askDeleteBrand=function(e,brandId){e.stopPropagation();if(!isAdmin)return
 window.askDeleteModel=function(e,idx){e.stopPropagation();if(!isAdmin)return;pendingDelType='model';pendingDelIdx=idx;document.getElementById('del-msg').textContent='حذف هذا الموديل نهائياً؟';document.getElementById('btn-del-confirm').disabled=false;document.getElementById('btn-del-confirm').textContent='حذف';document.getElementById('modal-confirm-del').classList.remove('hidden');};
 window.confirmDelete=async function(){document.getElementById('btn-del-confirm').disabled=true;document.getElementById('btn-del-confirm').textContent='جاري الحذف...';try{if(pendingDelType==='brand'){await window._deleteDoc(window._doc(window._db,'brands',pendingDelIdx));window._BRANDS=window._BRANDS.filter(function(b){return b.id!==pendingDelIdx;});closeModal('modal-confirm-del');renderBrands();showToast('تم الحذف ✓','success');}else{var bidx=window._BRANDS.findIndex(function(b){return b.id===selectedBrand.id;});var updated=window._BRANDS[bidx].models.filter(function(_,i){return i!==pendingDelIdx;});await window._updateDoc(window._doc(window._db,'brands',selectedBrand.id),{models:updated});window._BRANDS[bidx].models=updated;allModels=updated;closeModal('modal-confirm-del');renderModels(allModels);showToast('تم الحذف ✓','success');}}catch(e){document.getElementById('btn-del-confirm').disabled=false;document.getElementById('btn-del-confirm').textContent='حذف';showToast('خطأ: '+e.message,'error');}};
 
-function renderBrands(){var g=document.getElementById('brands-grid');g.innerHTML='';(window._BRANDS||[]).forEach(function(b,i){var c=document.createElement('div');c.className='brand-card';c.innerHTML='<span class="brand-num">'+(i+1)+'</span><button class="brand-del" onclick="askDeleteBrand(event,\''+b.id+'\')">&#10005;</button><div class="brand-logo-placeholder">'+b.icon+'</div><div class="brand-name">'+b.name+'</div>';c.onclick=function(){selectBrand(b);};g.appendChild(c);});}
-function selectBrand(b){selectedBrand=b;document.getElementById('brand-title-display').textContent=b.name;allModels=b.models||[];document.getElementById('model-search').value='';renderModels(allModels);showScreen('models');updateBreadcrumb();}
-function renderModels(list){var el=document.getElementById('models-list');el.innerHTML='';if(!list.length){el.innerHTML='<p style="text-align:center;color:var(--text2);padding:2rem;">لا توجد موديلات</p>';return;}list.forEach(function(m,i){var item=document.createElement('div');item.className='model-item';item.innerHTML='<span class="model-icon">&#128241;</span><span class="model-name">'+m.name+'</span><button class="model-del" onclick="askDeleteModel(event,'+i+')">&#10005;</button><span class="model-arrow">&#8592;</span>';item.onclick=function(){selectModel(m);};el.appendChild(item);});}
+function renderBrands(){var g=document.getElementById('brands-grid');g.innerHTML='';var sorted=(window._BRANDS||[]).slice().sort(function(a,b){return a.name.localeCompare(b.name,'en',{sensitivity:'base'});});sorted.forEach(function(b,i){var c=document.createElement('div');c.className='brand-card';c.innerHTML='<span class="brand-num">'+(i+1)+'</span><button class="brand-del" onclick="askDeleteBrand(event,\''+b.id+'\')">&#10005;</button><div class="brand-logo-placeholder">'+b.icon+'</div><div class="brand-name">'+b.name+'</div><div class="brand-model-count">'+(b.models?b.models.length:0)+' موديل</div>';c.onclick=function(){selectBrand(b);};g.appendChild(c);});}
+function selectBrand(b){selectedBrand=b;document.getElementById('brand-title-display').textContent=b.name;allModels=b.models||[];document.getElementById('model-search').value='';renderModels(allModels);showScreen('models');updateBreadcrumb();pushState();}
+function renderModels(list){var el=document.getElementById('models-list');el.innerHTML='';if(!list.length){el.innerHTML='<p style="text-align:center;color:var(--text2);padding:2rem;">لا توجد موديلات</p>';return;}var sorted=list.slice().sort(function(a,b){return a.name.localeCompare(b.name,'en',{sensitivity:'base'});});sorted.forEach(function(m){var origIdx=allModels.indexOf(m);var item=document.createElement('div');item.className='model-item';item.innerHTML='<span class="model-icon">&#128241;</span><span class="model-name">'+m.name+'</span><button class="model-del" onclick="askDeleteModel(event,'+origIdx+')">&#10005;</button><span class="model-arrow">&#8592;</span>';item.onclick=function(){selectModel(m);};el.appendChild(item);});}
 window.filterModels=function(){var q=document.getElementById('model-search').value.toLowerCase().trim();renderModels(q?allModels.filter(function(m){return m.name.toLowerCase().includes(q);}):allModels);};
-function selectModel(m){selectedModel=m;document.getElementById('model-title-display').textContent=m.name;renderSolutions();showScreen('solutions');updateBreadcrumb();}
+function selectModel(m){selectedModel=m;document.getElementById('model-title-display').textContent=m.name;renderSolutions();showScreen('solutions');updateBreadcrumb();pushState();saveRecentModel(m);}
 function renderSolutions(){var g=document.getElementById('solutions-grid');g.innerHTML='';SOLUTIONS.forEach(function(sol){var c=document.createElement('div');c.className='sol-card';c.innerHTML='<span class="sol-icon">'+sol.icon+'</span><span class="sol-name">'+sol.name+'</span>';c.onclick=function(){openSolution(sol);};g.appendChild(c);});}
 
 // ===== عارض الصور المتعدد =====
@@ -412,10 +530,10 @@ function openSolution(sol){
   currentImages=[];
   currentImgIdx=0;
   document.getElementById('image-viewer').classList.remove('hidden');
-  document.getElementById('viewer-title').textContent=sol.name+' \u2014 '+selectedModel.name;
+  document.getElementById('viewer-title').innerHTML='<span class="vtitle-sol">'+sol.name+'</span><span class="vtitle-model">'+selectedModel.name+'</span>';
   document.getElementById('viewer-error').classList.remove('show');
   resetZoom();
-  // ابدأ بتحميل الصور - جرب file_1.jpg أولاً ثم file.jpg
+  pushState();
   loadImagesForSolution(sol);
 }
 
@@ -597,6 +715,14 @@ var toastTimer;
 function showToast(msg,type){clearTimeout(toastTimer);var t=document.getElementById('toast');t.textContent=msg;t.className='show '+(type||'success');toastTimer=setTimeout(function(){t.className='';},3000);}
 function showScreen(name){['brands','models','solutions'].forEach(function(s){document.getElementById('screen-'+s).classList.toggle('hidden',s!==name);});window.scrollTo({top:0,behavior:'smooth'});}
 window.goBack=function(to){if(to==='brands'){selectedBrand=null;selectedModel=null;}if(to==='models'){selectedModel=null;document.getElementById('model-search').value='';renderModels(allModels);}showScreen(to);updateBreadcrumb();};
+// زر Back الأندرويد
+window.addEventListener('popstate',function(){
+  if(document.getElementById('image-viewer')&&!document.getElementById('image-viewer').classList.contains('hidden')){closeViewer();return;}
+  var modals=['modal-password','modal-add-brand','modal-add-model','modal-confirm-del','modal-ann'];
+  for(var i=0;i<modals.length;i++){var m=document.getElementById(modals[i]);if(m&&!m.classList.contains('hidden')){m.classList.add('hidden');return;}}
+  if(selectedModel){goBack('models');}else if(selectedBrand){goBack('brands');}
+});
+function pushState(){history.pushState({},'','');}
 function updateBreadcrumb(){var bc=document.getElementById('breadcrumb');var h='<span class="bc-item" onclick="goBack(\'brands\')">&#127968; الرئيسية</span>';if(selectedBrand)h+='<span class="bc-sep">&#8250;</span><span class="bc-item" onclick="goBack(\'models\')">'+selectedBrand.name+'</span>';if(selectedModel)h+='<span class="bc-sep">&#8250;</span><span class="bc-current">'+selectedModel.name+'</span>';bc.innerHTML=h;}
 </script>
 </body>
