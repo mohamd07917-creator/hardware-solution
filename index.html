@@ -219,6 +219,30 @@
   #toast.success{background:rgba(0,204,102,0.92);color:#fff;}
   #toast.error{background:rgba(255,68,68,0.92);color:#fff;}
   #toast.info{background:rgba(0,180,220,0.92);color:#fff;}
+
+  /* وسم جديد للموديلات */
+  .model-tag{font-size:0.62rem;background:linear-gradient(135deg,var(--accent),#0099cc);color:#fff;border-radius:6px;padding:1px 6px;margin-right:4px;flex-shrink:0;vertical-align:middle;}
+  /* تبديل عرض الموديلات */
+  #view-toggle{display:flex;gap:6px;margin-bottom:0.8rem;justify-content:flex-end;}
+  .vt-btn{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all 0.2s;}
+  .vt-btn.active{background:rgba(0,212,255,0.15);border-color:var(--accent);color:var(--accent);}
+  #models-list.grid-view{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+  #models-list.grid-view .model-item{flex-direction:column;text-align:center;padding:1rem 0.6rem;gap:6px;position:relative;}
+  #models-list.grid-view .model-icon{font-size:2rem;}
+  #models-list.grid-view .model-arrow{display:none;}
+  #models-list.grid-view .model-del{position:absolute;top:6px;left:6px;}
+  /* Skeleton */
+  .skeleton{background:linear-gradient(90deg,rgba(255,255,255,0.04) 25%,rgba(255,255,255,0.09) 50%,rgba(255,255,255,0.04) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:12px;}
+  @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+  .skeleton-brand{height:120px;border-radius:16px;}
+  .skeleton-model{height:58px;border-radius:14px;}
+  /* زر الإبلاغ */
+  #report-btn{position:absolute;bottom:0.8rem;left:0.8rem;width:36px;height:36px;border-radius:50%;background:rgba(255,68,68,0.1);border:1px solid rgba(255,68,68,0.3);color:var(--red);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;transition:all 0.2s;}
+  #report-btn:hover{background:rgba(255,68,68,0.3);}
+  /* صناديق الإحصائيات */
+  .stats-box{border-radius:12px;padding:0.9rem;text-align:center;}
+  .stats-box .snum{font-size:1.8rem;font-weight:900;display:block;}
+  .stats-box .slbl{font-size:0.72rem;color:var(--text2);margin-top:3px;display:block;}
 </style>
 </head>
 <body>
@@ -263,6 +287,7 @@
     <button class="back-btn" onclick="goBack('brands')">&#8594; رجوع</button>
     <p class="section-title">موديلات <span id="brand-title-display"></span></p>
     <div class="search-wrap"><span class="search-icon">&#128269;</span><input type="text" class="search-input" id="model-search" placeholder="ابحث عن موديل..." oninput="filterModels()"></div>
+    <div id="view-toggle"><button class="vt-btn active" id="vt-list" onclick="setViewMode('list')" title="قائمة">&#9776;</button><button class="vt-btn" id="vt-grid" onclick="setViewMode('grid')" title="شبكة">&#9783;</button></div>
     <div id="models-list"></div>
     <button class="add-btn" onclick="openAddModel()">&#43; إضافة موديل جديد</button>
   </div>
@@ -290,6 +315,7 @@
     <!-- نقاط الصور -->
     <div id="img-dots"></div>
   </div>
+  <button id="report-btn" onclick="openReportModal()" title="أبلغ عن خطأ">&#9888;</button>
   <div id="viewer-bottom">
     <button class="zoom-btn" onclick="zoomOut()">&#8722;</button>
     <span id="zoom-level">100%</span>
@@ -304,23 +330,35 @@
 <div id="modal-add-model" class="modal-overlay hidden"><div class="modal"><h2>&#43; إضافة موديل جديد</h2><input type="text" id="new-model-name" placeholder="اسم الموديل"><input type="text" id="new-model-folder" placeholder="اسم مجلد GitHub"><p class="modal-err" id="model-err"></p><div class="modal-btns"><button class="btn-confirm" id="btn-add-model" onclick="addModel()">إضافة</button><button class="btn-cancel" onclick="closeModal('modal-add-model')">إلغاء</button></div></div></div>
 <div id="modal-ann" class="modal-overlay hidden"><div class="modal"><h2>&#128276; إرسال إشعار للزوار</h2><p class="modal-note">يظهر مرة واحدة فقط لكل زائر</p><textarea id="ann-input" placeholder="اكتب الإشعار هنا..."></textarea><p class="modal-err" id="ann-err"></p><div class="modal-btns"><button class="btn-confirm" id="btn-send-ann" onclick="sendAnnouncement()">&#128276; إرسال</button><button class="btn-cancel" onclick="closeModal('modal-ann')">إلغاء</button></div><div style="margin-top:0.8rem;text-align:center;"><button onclick="clearAnnouncement()" style="background:none;border:none;color:var(--red);font-family:'Cairo',sans-serif;font-size:0.8rem;cursor:pointer;text-decoration:underline;">حذف الإشعار الحالي</button></div></div></div>
 <div id="modal-stats" class="modal-overlay hidden"><div class="modal"><h2>&#128202; إحصائيات التطبيق</h2>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.2rem;">
-  <div style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:12px;padding:1rem;text-align:center;">
-    <div style="font-size:2rem;font-weight:900;color:var(--accent);" id="stats-brands">0</div>
-    <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">براند</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:1.2rem;">
+  <div class="stats-box" style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);">
+    <span class="snum" style="color:var(--accent);" id="stats-brands">0</span><span class="slbl">براند</span>
   </div>
-  <div style="background:rgba(240,192,64,0.08);border:1px solid rgba(240,192,64,0.2);border-radius:12px;padding:1rem;text-align:center;">
-    <div style="font-size:2rem;font-weight:900;color:var(--gold);" id="stats-models">0</div>
-    <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">موديل</div>
+  <div class="stats-box" style="background:rgba(240,192,64,0.08);border:1px solid rgba(240,192,64,0.2);">
+    <span class="snum" style="color:var(--gold);" id="stats-models">0</span><span class="slbl">موديل</span>
+  </div>
+  <div class="stats-box" style="background:rgba(0,204,102,0.08);border:1px solid rgba(0,204,102,0.2);">
+    <span class="snum" style="color:var(--green);" id="stats-visitors">...</span><span class="slbl">زائر</span>
   </div>
 </div>
+<div style="margin-bottom:1rem;text-align:center;"><button onclick="closeModal('modal-stats');openReportsModal();" style="background:none;border:none;color:var(--accent);font-family:'Cairo',sans-serif;font-size:0.82rem;cursor:pointer;text-decoration:underline;">&#9888; عرض تقارير الأخطاء</button></div>
 <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('modal-stats')">إغلاق</button></div></div></div>
+
+<div id="modal-report" class="modal-overlay hidden"><div class="modal"><h2>&#9888; إبلاغ عن خطأ</h2>
+<p class="modal-note" id="report-context-text"></p>
+<textarea id="report-text" placeholder="وصف المشكلة... (اختياري)" style="min-height:80px;"></textarea>
+<p class="modal-err" id="report-err"></p>
+<div class="modal-btns"><button class="btn-confirm" id="btn-send-report" onclick="sendReport()" style="background:linear-gradient(135deg,var(--red),#cc0000);">&#9888; إرسال</button><button class="btn-cancel" onclick="closeModal('modal-report')">إلغاء</button></div></div></div>
+
+<div id="modal-reports-list" class="modal-overlay hidden"><div class="modal" style="max-width:480px;"><h2>&#9888; تقارير الأخطاء</h2>
+<div id="reports-list-content" style="max-height:350px;overflow-y:auto;margin-bottom:1rem;"></div>
+<div class="modal-btns"><button class="btn-cancel" onclick="closeModal('modal-reports-list')">إغلاق</button></div></div></div>
 <div id="modal-confirm-del" class="modal-overlay hidden"><div class="modal"><h2>&#128465; تأكيد الحذف</h2><p style="text-align:center;color:var(--text2);margin-bottom:1rem;font-size:0.9rem;" id="del-msg"></p><div class="modal-btns"><button class="btn-confirm" id="btn-del-confirm" style="background:linear-gradient(135deg,var(--red),#cc0000);" onclick="confirmDelete()">حذف</button><button class="btn-cancel" onclick="closeModal('modal-confirm-del')">إلغاء</button></div></div></div>
 <div id="toast"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore,collection,doc,getDocs,addDoc,updateDoc,deleteDoc,query,orderBy,setDoc,getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore,collection,doc,getDocs,addDoc,updateDoc,deleteDoc,query,orderBy,setDoc,getDoc,increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 const firebaseConfig={apiKey:"AIzaSyDKntmfI8dloN1Xx-TJw9m8S1OXbem6hNs",authDomain:"hardware-solotion.firebaseapp.com",projectId:"hardware-solotion",storageBucket:"hardware-solotion.firebasestorage.app",messagingSenderId:"586335779001",appId:"1:586335779001:web:09b94e39c5db11ea714368"};
 const app=initializeApp(firebaseConfig);const db=getFirestore(app);
 const DEFAULT_BRANDS=[
@@ -348,7 +386,9 @@ async function loadData(){
     if(snap.empty){await seedData();const fresh=await getDocs(query(collection(db,'brands'),orderBy('order')));window._BRANDS=[];fresh.forEach(d=>window._BRANDS.push({id:d.id,...d.data()}));}
     else{window._BRANDS=[];snap.forEach(d=>window._BRANDS.push({id:d.id,...d.data()}));}
     try{const annDoc=await getDoc(doc(db,'settings','announcement'));if(annDoc.exists()&&annDoc.data().text&&annDoc.data().text.trim()){window._annData={text:annDoc.data().text,id:annDoc.data().id||'default'};}}catch(e){}
-    window._db=db;window._col=collection;window._doc=doc;window._addDoc=addDoc;window._updateDoc=updateDoc;window._deleteDoc=deleteDoc;window._setDoc=setDoc;
+    window._db=db;window._col=collection;window._doc=doc;window._addDoc=addDoc;window._updateDoc=updateDoc;window._deleteDoc=deleteDoc;window._setDoc=setDoc;window._getDocs=getDocs;window._getDoc=getDoc;window._increment=increment;
+    // عداد الزوار الفريدين
+    try{var vk='v_'+location.hostname;if(!localStorage.getItem(vk)){localStorage.setItem(vk,'1');await setDoc(doc(db,'settings','stats'),{visitors:increment(1)},{merge:true});}}catch(e){}
     const ls=document.getElementById('loading-screen');ls.classList.add('fade');setTimeout(()=>ls.classList.add('hidden'),400);
     window._initApp();
   }catch(err){console.error(err);document.getElementById('loading-msg').textContent='خطأ: '+err.message;}
@@ -453,14 +493,19 @@ window.filterGlobal=function(){
 };
 
 // ===== لوحة الإحصائيات =====
-window.openStatsModal=function(){
+window.openStatsModal=async function(){
   if(!isAdmin) return;
   var totalBrands=(window._BRANDS||[]).length;
   var totalModels=0;
   (window._BRANDS||[]).forEach(function(b){totalModels+=(b.models?b.models.length:0);});
   document.getElementById('stats-brands').textContent=totalBrands;
   document.getElementById('stats-models').textContent=totalModels;
+  document.getElementById('stats-visitors').textContent='...';
   document.getElementById('modal-stats').classList.remove('hidden');
+  try{
+    var sd=await window._getDoc(window._doc(window._db,'settings','stats'));
+    document.getElementById('stats-visitors').textContent=(sd.exists()&&sd.data().visitors)?sd.data().visitors:'0';
+  }catch(e){document.getElementById('stats-visitors').textContent='—';}
 };
 
 window._initApp=function(){
@@ -512,16 +557,107 @@ function exitAdmin(){isAdmin=false;document.getElementById('admin-btn').textCont
 window.openAddBrand=function(){if(!isAdmin)return;document.getElementById('new-brand-name').value='';document.getElementById('new-brand-folder').value='';document.getElementById('brand-err').textContent='';document.getElementById('btn-add-brand').disabled=false;document.getElementById('btn-add-brand').textContent='إضافة';document.getElementById('modal-add-brand').classList.remove('hidden');setTimeout(function(){document.getElementById('new-brand-name').focus();},100);};
 window.addBrand=async function(){if(!isAdmin)return;var name=document.getElementById('new-brand-name').value.trim();var folder=document.getElementById('new-brand-folder').value.trim();if(!name||!folder){document.getElementById('brand-err').textContent='يرجى ملء جميع الحقول';return;}document.getElementById('btn-add-brand').disabled=true;document.getElementById('btn-add-brand').textContent='جاري الحفظ...';try{var maxOrder=window._BRANDS.length?Math.max.apply(null,window._BRANDS.map(function(b){return b.order||0;})):0;var nb={name:name,folder:folder,icon:'&#128241;',order:maxOrder+1,models:[]};var ref=await window._addDoc(window._col(window._db,'brands'),nb);window._BRANDS.push({id:ref.id,...nb});closeModal('modal-add-brand');renderBrands();showToast('تم إضافة '+name+' ✓','success');}catch(e){document.getElementById('brand-err').textContent='خطأ: '+e.message;document.getElementById('btn-add-brand').disabled=false;document.getElementById('btn-add-brand').textContent='إضافة';}};
 window.openAddModel=function(){if(!isAdmin)return;document.getElementById('new-model-name').value='';document.getElementById('new-model-folder').value='';document.getElementById('model-err').textContent='';document.getElementById('btn-add-model').disabled=false;document.getElementById('btn-add-model').textContent='إضافة';document.getElementById('modal-add-model').classList.remove('hidden');setTimeout(function(){document.getElementById('new-model-name').focus();},100);};
-window.addModel=async function(){if(!isAdmin||!selectedBrand)return;var name=document.getElementById('new-model-name').value.trim();var folder=document.getElementById('new-model-folder').value.trim();if(!name||!folder){document.getElementById('model-err').textContent='يرجى ملء جميع الحقول';return;}document.getElementById('btn-add-model').disabled=true;document.getElementById('btn-add-model').textContent='جاري الحفظ...';try{var bidx=window._BRANDS.findIndex(function(b){return b.id===selectedBrand.id;});var updatedModels=(window._BRANDS[bidx].models||[]).concat([{name:name,folder:folder}]);await window._updateDoc(window._doc(window._db,'brands',selectedBrand.id),{models:updatedModels});window._BRANDS[bidx].models=updatedModels;allModels=updatedModels;closeModal('modal-add-model');renderModels(allModels);showToast('تم إضافة '+name+' ✓','success');}catch(e){document.getElementById('model-err').textContent='خطأ: '+e.message;document.getElementById('btn-add-model').disabled=false;document.getElementById('btn-add-model').textContent='إضافة';}};
+window.addModel=async function(){if(!isAdmin||!selectedBrand)return;var name=document.getElementById('new-model-name').value.trim();var folder=document.getElementById('new-model-folder').value.trim();if(!name||!folder){document.getElementById('model-err').textContent='يرجى ملء جميع الحقول';return;}document.getElementById('btn-add-model').disabled=true;document.getElementById('btn-add-model').textContent='جاري الحفظ...';try{var bidx=window._BRANDS.findIndex(function(b){return b.id===selectedBrand.id;});var updatedModels=(window._BRANDS[bidx].models||[]).concat([{name:name,folder:folder,addedAt:new Date().toISOString()}]);await window._updateDoc(window._doc(window._db,'brands',selectedBrand.id),{models:updatedModels});window._BRANDS[bidx].models=updatedModels;allModels=updatedModels;closeModal('modal-add-model');renderModels(allModels);showToast('تم إضافة '+name+' ✓','success');}catch(e){document.getElementById('model-err').textContent='خطأ: '+e.message;document.getElementById('btn-add-model').disabled=false;document.getElementById('btn-add-model').textContent='إضافة';}};
 window.askDeleteBrand=function(e,brandId){e.stopPropagation();if(!isAdmin)return;pendingDelType='brand';pendingDelIdx=brandId;var b=window._BRANDS.find(function(x){return x.id===brandId;});document.getElementById('del-msg').textContent='حذف براند "'+b.name+'" نهائياً؟';document.getElementById('btn-del-confirm').disabled=false;document.getElementById('btn-del-confirm').textContent='حذف';document.getElementById('modal-confirm-del').classList.remove('hidden');};
 window.askDeleteModel=function(e,idx){e.stopPropagation();if(!isAdmin)return;pendingDelType='model';pendingDelIdx=idx;document.getElementById('del-msg').textContent='حذف هذا الموديل نهائياً؟';document.getElementById('btn-del-confirm').disabled=false;document.getElementById('btn-del-confirm').textContent='حذف';document.getElementById('modal-confirm-del').classList.remove('hidden');};
 window.confirmDelete=async function(){document.getElementById('btn-del-confirm').disabled=true;document.getElementById('btn-del-confirm').textContent='جاري الحذف...';try{if(pendingDelType==='brand'){await window._deleteDoc(window._doc(window._db,'brands',pendingDelIdx));window._BRANDS=window._BRANDS.filter(function(b){return b.id!==pendingDelIdx;});closeModal('modal-confirm-del');renderBrands();showToast('تم الحذف ✓','success');}else{var bidx=window._BRANDS.findIndex(function(b){return b.id===selectedBrand.id;});var updated=window._BRANDS[bidx].models.filter(function(_,i){return i!==pendingDelIdx;});await window._updateDoc(window._doc(window._db,'brands',selectedBrand.id),{models:updated});window._BRANDS[bidx].models=updated;allModels=updated;closeModal('modal-confirm-del');renderModels(allModels);showToast('تم الحذف ✓','success');}}catch(e){document.getElementById('btn-del-confirm').disabled=false;document.getElementById('btn-del-confirm').textContent='حذف';showToast('خطأ: '+e.message,'error');}};
 
+
+// ===== تبديل عرض الموديلات =====
+var currentViewMode='list';
+window.setViewMode=function(mode){
+  currentViewMode=mode;
+  try{localStorage.setItem('models_view',mode);}catch(e){}
+  var el=document.getElementById('models-list');
+  var vtl=document.getElementById('vt-list');
+  var vtg=document.getElementById('vt-grid');
+  if(el){if(mode==='grid')el.classList.add('grid-view');else el.classList.remove('grid-view');}
+  if(vtl)vtl.classList.toggle('active',mode==='list');
+  if(vtg)vtg.classList.toggle('active',mode==='grid');
+};
+
+// ===== Skeleton Loading =====
+function showSkeletonBrands(){
+  var g=document.getElementById('brands-grid');
+  if(!g)return;
+  g.innerHTML='';
+  for(var i=0;i<8;i++){var d=document.createElement('div');d.className='skeleton skeleton-brand';g.appendChild(d);}
+}
+
+// ===== زر الإبلاغ =====
+window.openReportModal=function(){
+  if(!selectedModel||!currentSol)return;
+  document.getElementById('report-context-text').textContent='الموديل: '+selectedModel.name+' | الحل: '+currentSol.name;
+  document.getElementById('report-text').value='';
+  document.getElementById('report-err').textContent='';
+  var btn=document.getElementById('btn-send-report');
+  btn.disabled=false;btn.textContent='⚠ إرسال';
+  document.getElementById('modal-report').classList.remove('hidden');
+};
+window.sendReport=async function(){
+  var text=document.getElementById('report-text').value.trim();
+  var btn=document.getElementById('btn-send-report');
+  btn.disabled=true;btn.textContent='جاري...';
+  try{
+    await window._addDoc(window._col(window._db,'reports'),{
+      brand:selectedBrand?selectedBrand.name:'',
+      model:selectedModel?selectedModel.name:'',
+      solution:currentSol?currentSol.name:'',
+      note:text,at:new Date().toISOString()
+    });
+    closeModal('modal-report');showToast('تم إرسال التقرير ✓','success');
+  }catch(e){
+    document.getElementById('report-err').textContent='خطأ: '+e.message;
+    btn.disabled=false;btn.textContent='⚠ إرسال';
+  }
+};
+
+// ===== قائمة التقارير للمدير =====
+window.openReportsModal=async function(){
+  if(!isAdmin)return;
+  var el=document.getElementById('reports-list-content');
+  el.innerHTML='<p style="color:var(--text2);text-align:center;font-size:0.85rem;">جاري التحميل...</p>';
+  document.getElementById('modal-reports-list').classList.remove('hidden');
+  try{
+    var snap=await window._getDocs(window._col(window._db,'reports'));
+    if(snap.empty){el.innerHTML='<p style="color:var(--text2);text-align:center;padding:1rem;">لا توجد تقارير</p>';return;}
+    var items=[];snap.forEach(function(d){items.push({id:d.id,...d.data()});});
+    items.sort(function(a,b){return b.at>a.at?1:-1;});
+    el.innerHTML='';
+    items.forEach(function(r){
+      var row=document.createElement('div');
+      row.style.cssText='background:rgba(255,255,255,0.04);border:1px solid rgba(255,68,68,0.2);border-radius:10px;padding:0.75rem;margin-bottom:8px;';
+      row.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'
+        +'<span style="font-size:0.8rem;font-weight:700;color:var(--gold);">'+r.brand+' — '+r.model+'</span>'
+        +'<button onclick="deleteReport(''+r.id+'',this)" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:0.75rem;">حذف</button></div>'
+        +'<div style="font-size:0.78rem;color:var(--accent);">'+r.solution+'</div>'
+        +(r.note?'<div style="font-size:0.82rem;color:var(--text2);margin-top:2px;">'+r.note+'</div>':'')
+        +'<div style="font-size:0.7rem;color:rgba(255,255,255,0.3);margin-top:4px;">'+(r.at?r.at.substring(0,16).replace('T',' '):'')+'</div>';
+      el.appendChild(row);
+    });
+  }catch(e){el.innerHTML='<p style="color:var(--red);text-align:center;">خطأ: '+e.message+'</p>';}
+};
+window.deleteReport=async function(id,btn){
+  btn.textContent='...';
+  try{await window._deleteDoc(window._doc(window._db,'reports',id));btn.closest('div[style]').remove();showToast('تم حذف التقرير','info');}
+  catch(e){showToast('خطأ','error');}
+};
+
+// ===== Preload صور الحلول =====
+function preloadSolutionImages(model,brand){
+  SOLUTIONS.forEach(function(sol){var img=new Image();img.src=buildURL(brand.folder,model.folder,sol.file+'_1.jpg');});
+}
+
+// ===== حفظ offline =====
+function saveOfflineModel(brand,model){
+  try{localStorage.setItem('offline_last',JSON.stringify({brand:{id:brand.id,name:brand.name,folder:brand.folder,icon:brand.icon},model:{name:model.name,folder:model.folder}}));}catch(e){}
+}
+
 function renderBrands(){var g=document.getElementById('brands-grid');g.innerHTML='';var sorted=(window._BRANDS||[]).slice().sort(function(a,b){return a.name.localeCompare(b.name,'en',{sensitivity:'base'});});sorted.forEach(function(b,i){var c=document.createElement('div');c.className='brand-card';c.innerHTML='<span class="brand-num">'+(i+1)+'</span><button class="brand-del" onclick="askDeleteBrand(event,\''+b.id+'\')">&#10005;</button><div class="brand-logo-placeholder">'+b.icon+'</div><div class="brand-name">'+b.name+'</div><div class="brand-model-count">'+(b.models?b.models.length:0)+' موديل</div>';c.onclick=function(){selectBrand(b);};g.appendChild(c);});}
-function selectBrand(b){selectedBrand=b;document.getElementById('brand-title-display').textContent=b.name;allModels=b.models||[];document.getElementById('model-search').value='';renderModels(allModels);showScreen('models');updateBreadcrumb();pushState();}
-function renderModels(list){var el=document.getElementById('models-list');el.innerHTML='';if(!list.length){el.innerHTML='<p style="text-align:center;color:var(--text2);padding:2rem;">لا توجد موديلات</p>';return;}var sorted=list.slice().sort(function(a,b){return a.name.localeCompare(b.name,'en',{sensitivity:'base'});});sorted.forEach(function(m){var origIdx=allModels.indexOf(m);var item=document.createElement('div');item.className='model-item';item.innerHTML='<span class="model-icon">&#128241;</span><span class="model-name">'+m.name+'</span><button class="model-del" onclick="askDeleteModel(event,'+origIdx+')">&#10005;</button><span class="model-arrow">&#8592;</span>';item.onclick=function(){selectModel(m);};el.appendChild(item);});}
+function selectBrand(b){selectedBrand=b;document.getElementById('brand-title-display').textContent=b.name;allModels=b.models||[];document.getElementById('model-search').value='';var sv=localStorage.getItem('models_view')||'list';currentViewMode=sv;var vtl=document.getElementById('vt-list');var vtg=document.getElementById('vt-grid');if(vtl)vtl.classList.toggle('active',sv==='list');if(vtg)vtg.classList.toggle('active',sv==='grid');renderModels(allModels);showScreen('models');updateBreadcrumb();pushState();}
+function renderModels(list){var el=document.getElementById('models-list');el.innerHTML='';if(currentViewMode==='grid')el.classList.add('grid-view');else el.classList.remove('grid-view');if(!list.length){el.innerHTML='<p style="text-align:center;color:var(--text2);padding:2rem;">لا توجد موديلات</p>';return;}var now=Date.now();var sorted=list.slice().sort(function(a,b){return a.name.localeCompare(b.name,'en',{sensitivity:'base'});});sorted.forEach(function(m){var origIdx=allModels.indexOf(m);var isNew=m.addedAt&&(now-new Date(m.addedAt).getTime())<7*24*3600*1000;var tag=isNew?'<span class="model-tag">جديد</span>':'';var item=document.createElement('div');item.className='model-item';item.innerHTML='<span class="model-icon">&#128241;</span><span class="model-name">'+m.name+tag+'</span><button class="model-del" onclick="askDeleteModel(event,'+origIdx+')">&#10005;</button><span class="model-arrow">&#8592;</span>';item.onclick=function(){selectModel(m);};el.appendChild(item);});}
 window.filterModels=function(){var q=document.getElementById('model-search').value.toLowerCase().trim();renderModels(q?allModels.filter(function(m){return m.name.toLowerCase().includes(q);}):allModels);};
-function selectModel(m){selectedModel=m;document.getElementById('model-title-display').textContent=m.name;renderSolutions();showScreen('solutions');updateBreadcrumb();pushState();saveRecentModel(m);}
+function selectModel(m){selectedModel=m;document.getElementById('model-title-display').textContent=m.name;renderSolutions();showScreen('solutions');updateBreadcrumb();pushState();saveRecentModel(m);if(selectedBrand){preloadSolutionImages(m,selectedBrand);saveOfflineModel(selectedBrand,m);}}
 function renderSolutions(){var g=document.getElementById('solutions-grid');g.innerHTML='';SOLUTIONS.forEach(function(sol){var c=document.createElement('div');c.className='sol-card';c.innerHTML='<span class="sol-icon">'+sol.icon+'</span><span class="sol-name">'+sol.name+'</span>';c.onclick=function(){openSolution(sol);};g.appendChild(c);});}
 
 // ===== عارض الصور المتعدد =====
