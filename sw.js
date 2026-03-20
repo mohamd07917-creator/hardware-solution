@@ -1,4 +1,4 @@
-const CACHE_NAME = 'hardware-solutions-v2';
+const CACHE_NAME = 'hardware-solutions-v3';
 
 // الملفات التي تُحفظ للعمل بدون إنترنت
 const STATIC_CACHE = [
