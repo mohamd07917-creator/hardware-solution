@@ -2,728 +2,1866 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>مخططات الحلول الجاهزة</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#00d4ff">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+<meta name="theme-color" content="#0a0f1e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="حلول الجاهزة">
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/mohamd07917-creator/hardware-solution/main/icons/icon-192.png">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<meta name="apple-mobile-web-app-title" content="محل موبايل">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192x192.png">
+<title>نظام محل موبايل - PWA متكامل</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-  :root{--gold:#f0c040;--dark:#0a0a12;--card:#16213e;--card2:#1e2a4a;--accent:#00d4ff;--text:#e8eaf6;--text2:#9aa0b8;--glow:rgba(0,212,255,0.18);--glow-gold:rgba(240,192,64,0.22);--red:#ff4444;--green:#00cc66;}
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html,body{height:100%;background:var(--dark);font-family:'Cairo',sans-serif;color:var(--text);overflow-x:hidden;}
-  #stars-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;
-    background:radial-gradient(ellipse at 20% 30%,rgba(0,80,180,0.13) 0%,transparent 60%),radial-gradient(ellipse at 80% 70%,rgba(0,180,120,0.08) 0%,transparent 60%),var(--dark);}
-  .star{position:absolute;border-radius:50%;background:#fff;animation:twinkle linear infinite;}
-  @keyframes twinkle{0%,100%{opacity:0.1;}50%{opacity:0.9;}}
-  .particle{position:fixed;border-radius:50%;pointer-events:none;animation:float linear infinite;z-index:1;}
-  @keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0;}10%{opacity:1;}90%{opacity:0.5;}100%{transform:translateY(-10vh) scale(1);opacity:0;}}
-  #app{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
-  header{width:100%;text-align:center;padding:2.5rem 1rem 1.5rem;background:linear-gradient(180deg,rgba(0,212,255,0.07) 0%,transparent 100%);border-bottom:1px solid rgba(0,212,255,0.1);position:relative;}
-  .logo-icon{font-size:3rem;display:block;margin-bottom:0.4rem;animation:pulse-icon 3s ease-in-out infinite;}
-  @keyframes pulse-icon{0%,100%{filter:drop-shadow(0 0 10px var(--accent));}50%{filter:drop-shadow(0 0 28px var(--accent));}}
-  header h1{font-size:1.8rem;font-weight:900;background:linear-gradient(90deg,var(--accent),var(--gold),var(--accent));background-clip:text;-webkit-background-clip:text;color:transparent;}
-  header p{color:var(--text2);font-size:0.9rem;margin-top:0.3rem;}
-  #admin-btn{position:absolute;top:1rem;left:1rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;font-family:'Cairo',sans-serif;font-size:0.78rem;color:var(--text2);transition:all 0.2s;}
-  #admin-btn:hover{border-color:var(--gold);color:var(--gold);}
-  #admin-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(240,192,64,0.1);}
-  #install-btn{position:absolute;top:1rem;right:1rem;background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(0,153,204,0.15));border:1px solid rgba(0,212,255,0.4);border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;font-family:'Cairo',sans-serif;font-size:0.78rem;color:var(--accent);transition:all 0.2s;display:none;gap:5px;align-items:center;}
-  #install-btn:hover{background:rgba(0,212,255,0.25);}
-  #install-btn.visible{display:flex;}
+:root{
+  --bg:#0a0f1e;--bg2:#0f1628;--bg3:#131d35;
+  --card:#16213e;--card2:#1a2744;
+  --accent:#00d4ff;--accent2:#7b2ff7;
+  --gold:#ffd700;--green:#00e676;--red:#ff4757;--yellow:#ffbb00;
+  --orange:#ff6b35;--purple:#a855f7;--teal:#14b8a6;
+  --text:#e8f0fe;--text2:#8fa3cc;
+  --border:rgba(0,212,255,0.15);--glow:0 0 20px rgba(0,212,255,0.3);
+  --repair-accent:#ff6b35;--repair-glow:0 0 20px rgba(255,107,53,0.3);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(0,212,255,0.07) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(123,47,247,0.07) 0%,transparent 60%);pointer-events:none;z-index:0;}
+.header,.nav,.content{position:relative;z-index:2;}
+#toast-container{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none;}
+.toast{padding:14px 28px;border-radius:50px;font-weight:800;font-size:0.95rem;opacity:0;transform:translateY(-30px) scale(0.9);transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center;}
+.toast.show{opacity:1;transform:translateY(0) scale(1);}
+.toast.success{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;}
+.toast.error{background:linear-gradient(135deg,#c0392b,#e74c3c);color:#fff;}
+.toast.sale{background:linear-gradient(135deg,#00b894,var(--green));color:#fff;}
+.toast.info{background:linear-gradient(135deg,#2c3e50,#34495e);color:#fff;}
+.toast.repair{background:linear-gradient(135deg,#c0392b,var(--orange));color:#fff;}
+#connection-status{position:fixed;bottom:16px;right:16px;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);padding:8px 16px;border-radius:40px;font-size:0.75rem;z-index:1000;display:flex;align-items:center;gap:8px;border:1px solid var(--border);pointer-events:none;}
+#connection-status .led{width:10px;height:10px;border-radius:50%;display:inline-block;}
+.led.online{background:#00e676;box-shadow:0 0 6px #00e676;}
+.led.offline{background:#ff4757;box-shadow:0 0 6px #ff4757;}
+#sale-success-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);z-index:8000;display:none;align-items:center;justify-content:center;}
+#sale-success-overlay.show{display:flex;}
+.sale-success-card{background:var(--card);border:2px solid var(--green);border-radius:24px;padding:40px 32px;text-align:center;max-width:440px;width:92%;position:relative;overflow:hidden;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes popIn{from{transform:scale(0.5);opacity:0;}to{transform:scale(1);opacity:1;}}
+.sale-icon{font-size:5rem;margin-bottom:12px;display:block;}
+.sale-success-card h2{font-size:1.8rem;color:var(--green);margin-bottom:8px;}
+.sale-detail{font-size:0.95rem;color:var(--text2);margin:5px 0;}
+.sale-total{font-size:2.2rem;font-weight:900;color:var(--gold);margin:16px 0;}
+.confetti-piece{position:absolute;width:8px;height:8px;animation:confettiFall 1.8s ease forwards;}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(350px) rotate(720deg);opacity:0;}}
+#confirm-dialog{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:7000;display:none;align-items:center;justify-content:center;}
+#confirm-dialog.open{display:flex;}
+.confirm-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;width:90%;max-width:420px;text-align:center;animation:popIn 0.3s ease;}
+.confirm-box .ci{font-size:3rem;margin-bottom:12px;}
+.confirm-box h3{font-size:1.2rem;color:var(--text);margin-bottom:10px;}
+.confirm-box p{color:var(--text2);font-size:0.9rem;margin-bottom:24px;line-height:1.6;}
+.confirm-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.header{position:sticky;top:0;background:rgba(10,15,30,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:var(--glow);}
+.logo-text h1{font-size:1.2rem;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.logo-text p{font-size:0.7rem;color:var(--text2);}
+.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.header-stats{display:flex;gap:10px;flex-wrap:wrap;}
+.hstat{text-align:center;padding:5px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;}
+.hstat .val{font-size:1rem;font-weight:800;color:var(--accent);}
+.hstat .lbl{font-size:0.6rem;color:var(--text2);}
+.clock{font-size:0.82rem;color:var(--accent);font-weight:700;background:var(--card);padding:7px 12px;border-radius:10px;border:1px solid var(--border);}
+.btn-header{padding:7px 12px;border-radius:9px;font-family:'Tajawal',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;border:none;transition:0.3s;}
+.btn-logout{background:rgba(255,71,87,0.15);border:1px solid rgba(255,71,87,0.3);color:var(--red);}
+.btn-logout:hover{background:rgba(255,71,87,0.3);}
+.nav{display:flex;gap:5px;padding:14px 20px 0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nav-btn{padding:9px 18px;border:none;border-radius:11px 11px 0 0;background:var(--card);color:var(--text2);font-family:'Tajawal',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;transition:all 0.3s;white-space:nowrap;border:1px solid var(--border);border-bottom:none;}
+.nav-btn:hover{background:var(--card2);color:var(--text);}
+.nav-btn.active{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;box-shadow:var(--glow);}
+.nav-btn.repair-tab{border-color:rgba(255,107,53,0.3);}
+.nav-btn.repair-tab.active{background:linear-gradient(135deg,#c0392b,var(--orange));box-shadow:var(--repair-glow);}
+.content{padding:20px;}
+.page{display:none;animation:slideIn 0.35s ease;}
+.page.active{display:block;}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;right:0;left:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.5;}
+.card.repair-card::before{background:linear-gradient(90deg,transparent,var(--orange),transparent);}
+.card-title{font-size:1.05rem;font-weight:800;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.card-title.repair-title{color:var(--orange);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;text-align:center;transition:transform 0.3s;}
+.stat-box:hover{transform:translateY(-4px);box-shadow:var(--glow);}
+.stat-box .sb-icon{font-size:1.8rem;margin-bottom:6px;}
+.stat-box .sb-val{font-size:1.7rem;font-weight:900;}
+.stat-box .sb-lbl{font-size:0.75rem;color:var(--text2);margin-top:4px;}
+.stat-box.cyan .sb-val{color:var(--accent);}
+.stat-box.gold .sb-val{color:var(--gold);}
+.stat-box.green .sb-val{color:var(--green);}
+.stat-box.red .sb-val{color:var(--red);}
+.stat-box.orange .sb-val{color:var(--orange);}
+.stat-box.purple .sb-val{color:var(--purple);}
+.form-group{margin-bottom:13px;}
+.form-group label{display:block;font-size:0.83rem;color:var(--text2);margin-bottom:5px;font-weight:700;}
+.form-control{width:100%;padding:11px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:0.93rem;outline:none;transition:0.3s;}
+.form-control:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,255,0.1);}
+.form-control.repair-focus:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,53,0.1);}
+.btn{padding:11px 22px;border:none;border-radius:11px;font-family:'Tajawal',sans-serif;font-size:0.93rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:0.3s;}
+.btn-primary{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;box-shadow:0 4px 15px rgba(123,47,247,0.35);}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-success{background:linear-gradient(135deg,#00b894,var(--green));color:#fff;}
+.btn-success:hover{transform:translateY(-2px);}
+.btn-danger{background:linear-gradient(135deg,#c0392b,var(--red));color:#fff;}
+.btn-danger:hover{transform:translateY(-2px);}
+.btn-warning{background:linear-gradient(135deg,#e67e22,var(--yellow));color:#fff;}
+.btn-warning:hover{transform:translateY(-2px);}
+.btn-orange{background:linear-gradient(135deg,#c0392b,var(--orange));color:#fff;box-shadow:0 4px 15px rgba(255,107,53,0.3);}
+.btn-orange:hover{transform:translateY(-2px);}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2);}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+.btn-sm{padding:7px 13px;font-size:0.8rem;border-radius:8px;}
+.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;min-width:600px;}
+thead{background:linear-gradient(135deg,rgba(123,47,247,0.25),rgba(0,212,255,0.15));}
+th{padding:12px 14px;font-size:0.82rem;font-weight:800;color:var(--accent);text-align:right;}
+td{padding:11px 14px;font-size:0.85rem;border-top:1px solid rgba(255,255,255,0.04);}
+tr:hover td{background:rgba(255,255,255,0.02);}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.73rem;font-weight:800;}
+.badge-green{background:rgba(0,230,118,0.15);color:var(--green);}
+.badge-yellow{background:rgba(255,187,0,0.15);color:var(--yellow);}
+.badge-red{background:rgba(255,71,87,0.15);color:var(--red);}
+.badge-orange{background:rgba(255,107,53,0.15);color:var(--orange);}
+.badge-blue{background:rgba(0,212,255,0.15);color:var(--accent);}
+.badge-purple{background:rgba(168,85,247,0.15);color:var(--purple);}
+.inv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin-top:14px;}
+.inv-item{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:15px;position:relative;transition:0.3s;}
+.inv-item:hover{transform:translateY(-4px);box-shadow:var(--glow);border-color:var(--accent);}
+.item-qty{position:absolute;top:10px;left:10px;background:var(--accent2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:800;}
+.item-qty.low{background:var(--red);animation:pulse 1.2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,71,87,0.5);}50%{box-shadow:0 0 0 6px rgba(255,71,87,0);}}
+.search-box{position:relative;margin-bottom:12px;}
+.search-box input{padding-right:40px;}
+.search-icon{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--text2);}
+.cat-filter{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;}
+.cat-chip{padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-family:'Tajawal',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;transition:0.3s;}
+.cat-chip.active{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;border-color:transparent;}
+.login-container{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);position:fixed;inset:0;z-index:1000;}
+.login-card{background:var(--card);border-radius:24px;padding:36px 32px;width:90%;max-width:440px;border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+.login-card h2{text-align:center;font-size:1.6rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;}
+.user-select-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px;}
+.user-card{background:var(--bg3);border:2px solid var(--border);border-radius:14px;padding:20px;text-align:center;cursor:pointer;transition:0.3s;}
+.user-card.selected{border-color:var(--accent);background:rgba(0,212,255,0.08);box-shadow:var(--glow);}
+.user-card .u-icon{font-size:2.5rem;margin-bottom:8px;}
+.user-card .u-name{font-weight:800;font-size:1rem;}
+.pin-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--accent);background:transparent;transition:0.2s;}
+.pin-dot.filled{background:var(--accent);box-shadow:0 0 10px var(--accent);}
+.pin-dot.error-dot{border-color:var(--red);background:var(--red);}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+.pin-shake{animation:shake 0.4s ease;}
+.pin-btn{padding:14px;font-size:1.3rem;font-weight:800;font-family:'Tajawal',sans-serif;background:var(--bg3);border:1px solid var(--border);border-radius:12px;color:var(--text);cursor:pointer;transition:0.2s;}
+.pin-btn:active{transform:scale(0.93);}
+.pin-back{background:rgba(255,71,87,0.1);border-color:rgba(255,71,87,0.2);color:var(--red);}
+.pin-ok{background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.3);color:var(--accent);}
+.quick-actions{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:20px;}
+.qa-btn{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;cursor:pointer;transition:0.3s;}
+.qa-btn:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--glow);}
+.qa-btn .qa-icon{font-size:1.8rem;margin-bottom:6px;}
+.qa-btn .qa-label{font-size:0.82rem;font-weight:700;color:var(--text2);}
+#scanner-wrap{border:2px solid var(--accent);border-radius:14px;overflow:hidden;margin-bottom:12px;}
+.empty-state{text-align:center;padding:40px;color:var(--text2);}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:9000;display:none;align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:26px;width:90%;max-width:560px;max-height:90vh;overflow-y:auto;}
+.modal h3{color:var(--accent);margin-bottom:16px;}
+.modal.repair-modal{border-color:rgba(255,107,53,0.3);}
+.modal.repair-modal h3{color:var(--orange);}
 
-  #loading-screen{position:fixed;inset:0;z-index:500;background:var(--dark);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity 0.4s;}
-  #loading-screen.fade{opacity:0;pointer-events:none;}
-  #loading-screen.hidden{display:none;}
-  .spinner-lg{width:52px;height:52px;border:3px solid rgba(0,212,255,0.2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;}
-  #loading-msg{color:var(--text2);font-size:0.88rem;text-align:center;}
+/* ===== REPAIR CARDS GRID ===== */
+.repair-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:16px;}
+.repair-card{background:var(--card2);border:1px solid var(--border);border-radius:16px;padding:16px;transition:0.3s;position:relative;overflow:hidden;}
+.repair-card::before{content:'';position:absolute;top:0;right:0;left:0;height:3px;}
+.repair-card.status-pending::before{background:linear-gradient(90deg,var(--yellow),var(--orange));}
+.repair-card.status-done::before{background:linear-gradient(90deg,var(--green),var(--teal));}
+.repair-card.status-failed::before{background:linear-gradient(90deg,var(--red),#c0392b);}
+.repair-card.status-delivered::before{background:linear-gradient(90deg,var(--accent),var(--accent2));}
+.repair-card:hover{transform:translateY(-4px);box-shadow:var(--repair-glow);border-color:rgba(255,107,53,0.4);}
+.repair-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.repair-brand-badge{padding:4px 12px;border-radius:20px;font-size:0.72rem;font-weight:800;background:rgba(255,107,53,0.15);color:var(--orange);}
+.repair-id{font-size:0.7rem;color:var(--text2);}
+.repair-device-name{font-size:1.05rem;font-weight:800;margin-bottom:4px;}
+.repair-issue{font-size:0.82rem;color:var(--text2);margin-bottom:8px;}
+.repair-cost{font-size:1.2rem;font-weight:900;color:var(--gold);}
+.repair-customer{font-size:0.8rem;color:var(--text2);margin-top:6px;}
+.repair-dates{font-size:0.72rem;color:var(--text2);margin-top:6px;display:flex;gap:10px;flex-wrap:wrap;}
+.repair-img{width:100%;height:100px;object-fit:cover;border-radius:8px;margin-top:8px;border:1px solid var(--border);cursor:pointer;}
+.repair-img-placeholder{width:100%;height:80px;background:var(--bg3);border-radius:8px;margin-top:8px;display:flex;align-items:center;justify-content:center;font-size:2rem;border:1px dashed var(--border);}
+.repair-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+.status-filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.status-chip{padding:6px 16px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-family:'Tajawal',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;transition:0.3s;}
+.status-chip.active-pending{background:rgba(255,187,0,0.15);border-color:var(--yellow);color:var(--yellow);}
+.status-chip.active-done{background:rgba(0,230,118,0.15);border-color:var(--green);color:var(--green);}
+.status-chip.active-failed{background:rgba(255,71,87,0.15);border-color:var(--red);color:var(--red);}
+.status-chip.active-delivered{background:rgba(0,212,255,0.15);border-color:var(--accent);color:var(--accent);}
+.status-chip.active-all{background:rgba(255,107,53,0.15);border-color:var(--orange);color:var(--orange);}
+.brand-logos{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.brand-logo-btn{width:52px;height:52px;border-radius:12px;border:2px solid var(--border);background:var(--bg3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:0.3s;flex-direction:column;}
+.brand-logo-btn:hover,.brand-logo-btn.selected{border-color:var(--orange);background:rgba(255,107,53,0.1);}
+.brand-logo-btn span{font-size:0.55rem;color:var(--text2);margin-top:2px;}
+.repair-receipt{background:var(--bg3);border:1px dashed var(--border);border-radius:12px;padding:16px;margin-top:12px;}
+.receipt-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.87rem;}
+.receipt-row:last-child{border-bottom:none;font-weight:800;font-size:1rem;color:var(--gold);}
+.img-upload-area{border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:0.3s;margin-bottom:10px;position:relative;}
+.img-upload-area:hover{border-color:var(--orange);background:rgba(255,107,53,0.05);}
+.img-preview{max-width:100%;max-height:200px;border-radius:8px;margin-top:8px;}
 
-  #ann-toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:400;width:90%;max-width:420px;background:linear-gradient(135deg,#0d1b3e,var(--card2));border:1px solid rgba(240,192,64,0.5);border-radius:14px;padding:0.9rem 1.2rem;cursor:pointer;box-shadow:0 6px 30px rgba(0,0,0,0.5);animation:slideUp 0.45s cubic-bezier(.22,1,.36,1);transition:opacity 0.3s,transform 0.3s;}
-  #ann-toast.hidden{display:none;}
-  #ann-toast.fade-out{opacity:0;transform:translateX(-50%) translateY(20px);}
-  @keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(30px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
-  .toast-row{display:flex;align-items:center;gap:10px;}
-  .toast-bell{font-size:1.2rem;flex-shrink:0;}
-  .toast-text{font-size:0.88rem;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .toast-tap{font-size:0.72rem;color:var(--gold);flex-shrink:0;}
-  .toast-bar{height:2px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:0.6rem;overflow:hidden;}
-  .toast-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--accent));border-radius:2px;width:100%;}
-  #ann-modal{position:fixed;inset:0;z-index:450;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;}
-  #ann-modal.hidden{display:none;}
-  .ann-card{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid rgba(240,192,64,0.3);border-radius:20px;padding:1.8rem;width:90%;max-width:440px;animation:scaleIn2 0.3s cubic-bezier(.22,1,.36,1);}
-  @keyframes scaleIn2{from{opacity:0;transform:scale(0.88);}to{opacity:1;transform:scale(1);}}
-  .ann-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
-  .ann-card-title{font-size:1rem;font-weight:700;color:var(--gold);}
-  .ann-card-close{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.08);border:none;color:var(--text2);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
-  .ann-card-close:hover{background:rgba(255,80,80,0.3);color:#fff;}
-  .ann-card-body{font-size:0.95rem;color:var(--text);line-height:1.8;white-space:pre-wrap;}
-  .ann-card-footer{margin-top:1.2rem;text-align:center;}
-  .ann-card-btn{background:linear-gradient(135deg,var(--accent),#0099cc);border:none;border-radius:10px;padding:0.65rem 2rem;color:#fff;font-family:'Cairo',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;}
+/* كاميرا الصيانة */
+#repair-camera-container{display:none;position:relative;border:2px solid var(--orange);border-radius:12px;overflow:hidden;margin-bottom:10px;background:#000;}
+#repair-camera-video{width:100%;max-height:240px;object-fit:cover;display:block;}
+.camera-controls{display:flex;gap:8px;justify-content:center;padding:8px;background:rgba(0,0,0,0.6);}
+.camera-source-btns{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
 
-  #breadcrumb{display:flex;align-items:center;gap:8px;padding:0.8rem 1.5rem;width:100%;max-width:700px;font-size:0.82rem;flex-wrap:wrap;}
-  .bc-item{color:var(--accent);cursor:pointer;transition:color 0.2s;}
-  .bc-item:hover{color:var(--gold);}
-  .bc-sep{color:rgba(255,255,255,0.2);}
-  .bc-current{color:var(--text);}
-  .section-title{font-size:1rem;color:var(--text2);margin:0.5rem 0 1.2rem;text-align:center;letter-spacing:2px;}
-  .section-title span{color:var(--gold);}
-  .screen{width:100%;max-width:700px;padding:0.5rem 1rem 2rem;animation:fadeUp 0.45s cubic-bezier(.22,1,.36,1);}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-  .screen.hidden{display:none;}
+/* REPAIR MONTHLY REPORT */
+.repair-month-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:16px;}
+.repair-stat{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center;}
+.repair-stat .rs-val{font-size:1.5rem;font-weight:900;color:var(--orange);}
+.repair-stat .rs-lbl{font-size:0.72rem;color:var(--text2);margin-top:4px;}
+.repair-stat.green .rs-val{color:var(--green);}
+.repair-stat.gold .rs-val{color:var(--gold);}
+.repair-stat.cyan .rs-val{color:var(--accent);}
+.repair-stat.red .rs-val{color:var(--red);}
 
-  #brands-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;}
-  .brand-card{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid rgba(0,212,255,0.12);border-radius:16px;padding:1.2rem 0.5rem;text-align:center;cursor:pointer;transition:all 0.3s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;}
-  .brand-card::before{content:'';position:absolute;inset:0;border-radius:16px;background:linear-gradient(135deg,rgba(0,212,255,0.08),transparent);opacity:0;transition:opacity 0.3s;}
-  .brand-card:hover::before{opacity:1;}
-  .brand-card:hover{transform:translateY(-5px) scale(1.03);border-color:var(--accent);box-shadow:0 8px 32px rgba(0,212,255,0.22);}
-  .brand-card:active{transform:scale(0.97);}
-  .brand-logo-placeholder{width:54px;height:54px;margin:0 auto 0.6rem;display:flex;align-items:center;justify-content:center;font-size:1.8rem;border-radius:12px;background:rgba(0,212,255,0.07);}
-  .brand-name{font-size:0.88rem;font-weight:700;}
-  .brand-num{position:absolute;top:7px;right:10px;font-size:0.68rem;color:var(--accent);font-weight:600;opacity:0.7;}
-  .brand-del{position:absolute;top:6px;left:6px;width:20px;height:20px;border-radius:50%;background:rgba(255,68,68,0.15);border:1px solid rgba(255,68,68,0.4);color:var(--red);font-size:0.7rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:all 0.2s;z-index:5;}
-  .brand-del:hover{background:rgba(255,68,68,0.4);}
-  .brand-model-count{font-size:0.7rem;color:var(--text2);margin-top:3px;}
-  .admin-mode .brand-del{display:flex;}
-  #models-list{display:flex;flex-direction:column;gap:10px;}
-  .model-item{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:1rem 1.2rem;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all 0.3s cubic-bezier(.22,1,.36,1);}
-  .model-item:hover{border-color:var(--gold);transform:translateX(-4px);box-shadow:0 4px 20px var(--glow-gold);}
-  .model-item:active{transform:scale(0.98);}
-  .model-icon{font-size:1.5rem;}
-  .model-name{font-size:0.95rem;font-weight:600;flex:1;}
-  .model-arrow{color:var(--text2);}
-  .model-del{width:28px;height:28px;border-radius:50%;background:rgba(255,68,68,0.1);border:1px solid rgba(255,68,68,0.3);color:var(--red);font-size:0.8rem;cursor:pointer;display:none;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
-  .model-del:hover{background:rgba(255,68,68,0.3);}
-  .admin-mode .model-del{display:flex;}
-  #solutions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;}
-  .sol-card{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:1.3rem 0.8rem;text-align:center;cursor:pointer;transition:all 0.3s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;}
-  .sol-card::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:40%;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity 0.3s;}
-  .sol-card:hover::after{opacity:1;}
-  .sol-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 8px 24px var(--glow);}
-  .sol-card:active{transform:scale(0.96);}
-  .sol-icon{font-size:2.2rem;display:block;margin-bottom:0.5rem;}
-  .sol-name{font-size:0.88rem;font-weight:700;line-height:1.4;}
-  .add-btn{display:none;width:100%;background:rgba(0,204,102,0.08);border:1px dashed rgba(0,204,102,0.4);border-radius:14px;padding:0.9rem;text-align:center;cursor:pointer;font-family:'Cairo',sans-serif;color:var(--green);font-size:0.9rem;font-weight:600;transition:all 0.2s;margin-top:4px;}
-  .add-btn:hover{background:rgba(0,204,102,0.15);border-color:var(--green);}
-  .admin-mode .add-btn{display:block;}
-  .admin-ann-btn{display:none;width:100%;background:rgba(240,192,64,0.08);border:1px dashed rgba(240,192,64,0.4);border-radius:14px;padding:0.9rem;text-align:center;cursor:pointer;font-family:'Cairo',sans-serif;color:var(--gold);font-size:0.9rem;font-weight:600;transition:all 0.2s;margin-top:4px;}
-  .admin-ann-btn:hover{background:rgba(240,192,64,0.15);}
-  .admin-mode .admin-ann-btn{display:block;}
-  /* آخر الموديلات */
-  #recent-section{width:100%;max-width:700px;padding:0 1rem 0.5rem;animation:fadeUp 0.45s cubic-bezier(.22,1,.36,1);}
-  #recent-section.hidden{display:none;}
-  .recent-title{font-size:0.8rem;color:var(--text2);letter-spacing:1px;margin-bottom:0.6rem;padding-right:4px;}
-  #recent-list{display:flex;flex-wrap:wrap;gap:8px;}
-  .recent-chip{background:rgba(240,192,64,0.08);border:1px solid rgba(240,192,64,0.25);border-radius:20px;padding:0.35rem 0.85rem;font-size:0.78rem;color:var(--gold);cursor:pointer;transition:all 0.2s;white-space:nowrap;}
-  .recent-chip:hover{background:rgba(240,192,64,0.18);border-color:var(--gold);}
-  /* نتائج البحث الشامل */
-  .global-result-item{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid rgba(0,212,255,0.15);border-radius:12px;padding:0.75rem 1rem;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all 0.2s;margin-bottom:6px;}
-  .global-result-item:hover{border-color:var(--accent);background:rgba(0,212,255,0.06);}
-  .global-result-brand{font-size:0.72rem;color:var(--accent);background:rgba(0,212,255,0.1);border-radius:6px;padding:2px 7px;flex-shrink:0;}
-  .global-result-name{font-size:0.9rem;font-weight:600;flex:1;}
-  .global-no-result{text-align:center;color:var(--text2);padding:1rem;font-size:0.88rem;}
+/* مودال عرض صورة مكبرة */
+#img-zoom-modal{position:fixed;inset:0;background:rgba(0,0,0,0.93);z-index:9999;display:none;align-items:center;justify-content:center;}
+#img-zoom-modal.open{display:flex;}
+#img-zoom-modal img{max-width:92vw;max-height:90vh;border-radius:12px;border:2px solid var(--orange);}
+#img-zoom-modal .close-zoom{position:absolute;top:20px;left:20px;background:rgba(255,71,87,0.2);border:1px solid var(--red);color:var(--red);padding:8px 16px;border-radius:10px;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:0.9rem;font-weight:700;}
 
-  /* ===== IMAGE VIEWER ===== */
-  #image-viewer{position:fixed;inset:0;z-index:100;background:#000;display:flex;flex-direction:column;}
-  #image-viewer.hidden{display:none;}
-  #viewer-header{padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(0,0,0,0.95) 0%,transparent 100%);position:absolute;top:0;left:0;right:0;z-index:3;}
-  #viewer-title{font-size:0.88rem;font-weight:700;color:var(--gold);flex:1;padding-left:10px;line-height:1.4;}
-  #viewer-title .vtitle-sol{font-size:1rem;display:block;}
-  #viewer-title .vtitle-model{font-size:0.75rem;color:var(--text2);display:block;font-weight:400;}
-  #close-viewer{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;flex-shrink:0;}
-  #close-viewer:hover{background:rgba(255,80,80,0.5);}
+/* صندوق إعادة الإيرادات */
+.reset-revenue-panel{background:var(--card2);border:1px solid rgba(255,107,53,0.3);border-radius:14px;padding:16px;margin-bottom:16px;}
+.reset-revenue-panel h4{color:var(--orange);margin-bottom:10px;font-size:1rem;}
 
-  /* عداد الصور */
-  #img-counter{position:absolute;top:1rem;left:50%;transform:translateX(-50%);z-index:3;
-    background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.15);
-    border-radius:20px;padding:0.3rem 1rem;font-size:0.82rem;color:var(--text2);
-    display:none;}
-  #img-counter.visible{display:block;}
-
-  /* منطقة الصورة */
-  #viewer-img-container{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;position:relative;cursor:grab;background:#000;margin-top:60px;margin-bottom:70px;}
-  #viewer-img-container:active{cursor:grabbing;}
-  #viewer-img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;transform-origin:center center;user-select:none;-webkit-user-select:none;display:none;image-rendering:high-quality;image-rendering:-webkit-optimize-contrast;-webkit-backface-visibility:hidden;backface-visibility:hidden;}
-  #viewer-loading{position:absolute;display:flex;flex-direction:column;align-items:center;gap:14px;}
-  #viewer-loading.hidden{display:none;}
-  .spinner{width:48px;height:48px;border:3px solid rgba(0,212,255,0.2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;}
-  @keyframes spin{to{transform:rotate(360deg);}}
-  #viewer-error{position:absolute;display:none;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:1rem;}
-  #viewer-error.show{display:flex;}
-  #viewer-error .err-icon{font-size:3rem;}
-  #viewer-error .err-title{font-size:1rem;color:var(--text2);}
-
-  /* أسهم التنقل بين الصور */
-  .nav-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:4;
-    width:44px;height:44px;border-radius:50%;
-    background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.2);
-    color:#fff;font-size:1.3rem;cursor:pointer;
-    display:none;align-items:center;justify-content:center;
-    transition:all 0.2s;user-select:none;}
-  .nav-arrow:hover{background:rgba(0,212,255,0.3);border-color:var(--accent);}
-  .nav-arrow:active{transform:translateY(-50%) scale(0.92);}
-  .nav-arrow.visible{display:flex;}
-  #nav-prev{right:10px;}
-  #nav-next{left:10px;}
-
-  /* تبويبات الصور الصغيرة */
-  #img-dots{position:absolute;bottom:0;left:0;right:0;z-index:3;
-    display:none;justify-content:center;gap:6px;padding:0.6rem;}
-  #img-dots.visible{display:flex;}
-  .img-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;transition:all 0.2s;}
-  .img-dot.active{background:var(--accent);transform:scale(1.3);}
-
-  /* شريط التحكم السفلي */
-  #viewer-bottom{position:absolute;bottom:0;left:0;right:0;z-index:3;
-    background:linear-gradient(0deg,rgba(0,0,0,0.9) 0%,transparent 100%);
-    padding:0.8rem;display:flex;align-items:center;justify-content:center;gap:10px;}
-  .zoom-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;user-select:none;}
-  .zoom-btn:hover{background:rgba(0,212,255,0.3);}
-  #zoom-level{font-size:0.78rem;color:rgba(255,255,255,0.5);min-width:44px;text-align:center;}
-
-  /* انتقال الصورة */
-  #viewer-img.slide-left{animation:slideLeft 0.22s ease;}
-  #viewer-img.slide-right{animation:slideRight 0.22s ease;}
-  @keyframes slideLeft{from{opacity:0;transform:translate3d(-40px,0,0) scale(1);}to{opacity:1;transform:translate3d(0,0,0) scale(1);}}
-  @keyframes slideRight{from{opacity:0;transform:translate3d(40px,0,0) scale(1);}to{opacity:1;transform:translate3d(0,0,0) scale(1);}}
-
-  .back-btn{display:inline-flex;align-items:center;gap:8px;margin-bottom:1rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.5rem 1rem;cursor:pointer;font-family:'Cairo',sans-serif;color:var(--text2);font-size:0.88rem;transition:all 0.2s;}
-  .back-btn:hover{background:rgba(0,212,255,0.1);color:var(--accent);border-color:var(--accent);}
-  .search-wrap{margin-bottom:1rem;position:relative;}
-  .search-input{width:100%;background:var(--card);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:0.75rem 1rem 0.75rem 2.8rem;color:var(--text);font-family:'Cairo',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;}
-  .search-input:focus{border-color:var(--accent);}
-  .search-input::placeholder{color:var(--text2);}
-  .search-icon{position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);color:var(--text2);}
-
-  .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;}
-  .modal-overlay.hidden{display:none;}
-  .modal{background:var(--card2);border:1px solid rgba(0,212,255,0.2);border-radius:20px;padding:2rem;width:90%;max-width:400px;animation:scaleIn 0.3s cubic-bezier(.22,1,.36,1);}
-  @keyframes scaleIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}
-  .modal h2{font-size:1.1rem;font-weight:700;margin-bottom:1.2rem;color:var(--gold);text-align:center;}
-  .modal input,.modal textarea{width:100%;background:var(--card);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:0.75rem 1rem;color:var(--text);font-family:'Cairo',sans-serif;font-size:1rem;outline:none;margin-bottom:0.8rem;transition:border-color 0.2s;text-align:right;}
-  .modal input[type=password]{text-align:center;letter-spacing:4px;}
-  .modal textarea{min-height:110px;resize:vertical;line-height:1.6;}
-  .modal input:focus,.modal textarea:focus{border-color:var(--accent);}
-  .modal-btns{display:flex;gap:10px;margin-top:0.5rem;}
-  .btn-confirm{flex:1;background:linear-gradient(135deg,var(--accent),#0099cc);border:none;border-radius:10px;padding:0.75rem;color:#fff;font-family:'Cairo',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;transition:opacity 0.2s;}
-  .btn-confirm:hover{opacity:0.85;}
-  .btn-confirm:disabled{opacity:0.5;cursor:not-allowed;}
-  .btn-cancel{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:0.75rem;color:var(--text2);font-family:'Cairo',sans-serif;font-size:0.95rem;cursor:pointer;transition:all 0.2s;}
-  .btn-cancel:hover{background:rgba(255,80,80,0.1);border-color:var(--red);color:var(--red);}
-  .modal-err{color:var(--red);font-size:0.82rem;text-align:center;margin-top:-4px;margin-bottom:6px;min-height:18px;}
-  .modal-note{font-size:0.78rem;color:var(--text2);text-align:center;margin-bottom:0.8rem;line-height:1.5;}
-  #toast{position:fixed;bottom:6rem;left:50%;transform:translateX(-50%);padding:0.7rem 1.4rem;border-radius:10px;font-size:0.88rem;z-index:300;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;}
-  #toast.show{opacity:1;}
-  #toast.success{background:rgba(0,204,102,0.92);color:#fff;}
-  #toast.error{background:rgba(255,68,68,0.92);color:#fff;}
-  #toast.info{background:rgba(0,180,220,0.92);color:#fff;}
+@media(max-width:768px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
+  .header-stats{display:none;}
+  .inv-grid,.repair-grid{grid-template-columns:1fr;}
+  .nav-btn{padding:6px 12px;font-size:0.75rem;}
+  .btn{padding:8px 16px;}
+  .card{padding:14px;}
+  .stat-box .sb-val{font-size:1.3rem;}
+  .hstat .val{font-size:0.85rem;}
+  .clock{font-size:0.7rem;padding:4px 8px;}
+}
 </style>
 </head>
 <body>
-<div id="loading-screen"><div class="spinner-lg"></div><p id="loading-msg">جاري تحميل البيانات...</p></div>
+<div id="toast-container"></div>
+<div id="connection-status"><span class="led offline" id="connLed"></span><span id="connText">جاري الاتصال...</span></div>
+<div id="sale-success-overlay"><div class="sale-success-card"><span class="sale-icon">🎉</span><h2>تم البيع بنجاح!</h2><div id="ss-product" class="sale-detail"></div><div id="ss-qty" class="sale-detail"></div><div id="ss-type" class="sale-detail"></div><div id="ss-total" class="sale-total"></div><div style="display:flex;gap:10px;justify-content:center;"><button class="btn btn-success" onclick="window.closeSaleSuccess()">✓ حسناً</button><button class="btn btn-outline" onclick="window.printLastInvoice()">طبع الفاتورة</button></div></div></div>
+<div id="confirm-dialog"><div class="confirm-box"><div class="ci" id="confirm-icon">⚠️</div><h3 id="confirm-title">تأكيد</h3><p id="confirm-msg"></p><div class="confirm-actions"><button class="btn btn-danger" id="confirm-yes-btn">تأكيد</button><button class="btn btn-outline" onclick="window.closeConfirm()">إلغاء</button></div></div></div>
 
-<div id="ann-toast" class="hidden" onclick="openAnnDetail()">
-  <div class="toast-row"><span class="toast-bell">&#128276;</span><span class="toast-text" id="ann-toast-text"></span><span class="toast-tap">اضغط للقراءة ←</span></div>
-  <div class="toast-bar"><div class="toast-bar-fill" id="ann-toast-bar"></div></div>
-</div>
-<div id="ann-modal" class="hidden">
-  <div class="ann-card">
-    <div class="ann-card-header"><span class="ann-card-title">&#128276; إشعار من المطور</span><button class="ann-card-close" onclick="closeAnnDetail()">&#10005;</button></div>
-    <div class="ann-card-body" id="ann-modal-text"></div>
-    <div class="ann-card-footer"><button class="ann-card-btn" onclick="closeAnnDetail()">حسناً ✓</button></div>
-  </div>
+<!-- مودال تكبير الصورة -->
+<div id="img-zoom-modal">
+  <button class="close-zoom" onclick="document.getElementById('img-zoom-modal').classList.remove('open')">✕ إغلاق</button>
+  <img id="img-zoom-src" src="" alt="">
 </div>
 
-<div id="stars-bg"></div>
-<div id="app">
-  <header>
-    <button id="admin-btn" onclick="openAdminModal()">&#9881; وضع المدير</button>
-    <button id="install-btn" onclick="installPWA()">&#128187; تنزيل التطبيق</button>
-    <span class="logo-icon">&#128241;</span>
-    <h1>مخططات الحلول الجاهزة</h1>
-    <p>اختر الجهاز وعرض مخططات الدوائر الإلكترونية</p>
-  </header>
-  <div id="breadcrumb"></div>
-  <div id="recent-section" class="hidden">
-    <p class="recent-title">&#128336; آخر الموديلات المفتوحة</p>
-    <div id="recent-list"></div>
-  </div>
-  <div id="screen-brands" class="screen">
-    <p class="section-title">اختر <span>البراند</span></p>
-    <div class="search-wrap" style="margin-bottom:1rem;"><span class="search-icon">&#128269;</span><input type="text" class="search-input" id="global-search" placeholder="ابحث في كل البراندات والموديلات..." oninput="filterGlobal()"></div>
-    <div id="global-results" class="hidden" style="margin-bottom:1rem;"></div>
-    <div id="brands-grid"></div>
-    <button class="add-btn" onclick="openAddBrand()">&#43; إضافة براند جديد</button>
-    <button class="admin-ann-btn" onclick="openAnnModal()">&#128276; إرسال إشعار للزوار</button>
-    <button class="admin-ann-btn" onclick="openStatsModal()" style="border-color:rgba(0,212,255,0.4);color:var(--accent);background:rgba(0,212,255,0.06);">&#128202; إحصائيات التطبيق</button>
-  </div>
-  <div id="screen-models" class="screen hidden">
-    <button class="back-btn" onclick="goBack('brands')">&#8594; رجوع</button>
-    <p class="section-title">موديلات <span id="brand-title-display"></span></p>
-    <div class="search-wrap"><span class="search-icon">&#128269;</span><input type="text" class="search-input" id="model-search" placeholder="ابحث عن موديل..." oninput="filterModels()"></div>
-    <div id="models-list"></div>
-    <button class="add-btn" onclick="openAddModel()">&#43; إضافة موديل جديد</button>
-  </div>
-  <div id="screen-solutions" class="screen hidden">
-    <button class="back-btn" onclick="goBack('models')">&#8594; رجوع</button>
-    <p class="section-title">حلول <span id="model-title-display"></span></p>
-    <div id="solutions-grid"></div>
+<!-- مودال تعديل منتج -->
+<div id="edit-product-modal" class="modal-bg"><div class="modal"><h3>✏ تعديل المنتج</h3><div class="form-group"><label>اسم المنتج</label><input id="edit-name" class="form-control"></div><div class="form-group"><label>الفئة</label><select id="edit-cat" class="form-control"><option>كفرات</option><option>شواحن</option><option>سماعات</option><option>كيبل</option><option>زجاجة</option><option>أخرى</option></select></div><div class="form-group"><label>سعر البيع (د.ع)</label><input id="edit-price" type="number" class="form-control"></div><div class="form-group"><label>سعر الشراء (التكلفة)</label><input id="edit-cost" type="number" class="form-control"></div><div class="form-group"><label>حد التنبيه</label><input id="edit-alert" type="number" class="form-control"></div><div style="display:flex;gap:10px;justify-content:center;"><button class="btn btn-primary" id="edit-save-btn">✓ حفظ التغييرات</button><button class="btn btn-outline" onclick="closeEditModal()">إلغاء</button></div></div></div>
+
+<!-- مودال عدد الباركودات -->
+<div id="qty-modal" class="modal-bg"><div class="modal"><h3>عدد نسخ طباعة الباركود</h3><div class="form-group"><label>عدد النسخ المطلوبة (1-100)</label><input type="number" id="barcode-qty" class="form-control" value="1" min="1" max="100"></div><div style="display:flex;gap:10px;justify-content:center;"><button class="btn btn-primary" id="confirm-qty-btn">طبع الآن</button><button class="btn btn-outline" onclick="closeQtyModal()">إلغاء</button></div></div></div>
+
+<!-- ===== مودال إضافة/تعديل طلب صيانة ===== -->
+<div id="repair-modal" class="modal-bg">
+  <div class="modal repair-modal" style="max-width:640px;">
+    <h3 id="repair-modal-title">🔧 إضافة طلب صيانة جديد</h3>
+    <input type="hidden" id="repair-edit-id">
+    
+    <div style="margin-bottom:14px;">
+      <label style="font-size:0.83rem;color:var(--text2);font-weight:700;margin-bottom:8px;display:block;">الشركة المصنعة</label>
+      <div class="brand-logos" id="brand-selector">
+        <div class="brand-logo-btn" data-brand="Samsung" onclick="selectBrand('Samsung',this)">📱<span>سامسونك</span></div>
+        <div class="brand-logo-btn" data-brand="iPhone" onclick="selectBrand('iPhone',this)">🍎<span>آيفون</span></div>
+        <div class="brand-logo-btn" data-brand="Infinix" onclick="selectBrand('Infinix',this)">🔵<span>انفنكس</span></div>
+        <div class="brand-logo-btn" data-brand="Tecno" onclick="selectBrand('Tecno',this)">🟢<span>تيكنو</span></div>
+        <div class="brand-logo-btn" data-brand="Itel" onclick="selectBrand('Itel',this)">🟡<span>ايتل</span></div>
+        <div class="brand-logo-btn" data-brand="Xiaomi" onclick="selectBrand('Xiaomi',this)">🟠<span>شاومي</span></div>
+        <div class="brand-logo-btn" data-brand="ZTE" onclick="selectBrand('ZTE',this)">🔴<span>زتي</span></div>
+        <div class="brand-logo-btn" data-brand="Huawei" onclick="selectBrand('Huawei',this)">🌸<span>هواوي</span></div>
+        <div class="brand-logo-btn" data-brand="Oppo" onclick="selectBrand('Oppo',this)">💚<span>أوبو</span></div>
+        <div class="brand-logo-btn" data-brand="Vivo" onclick="selectBrand('Vivo',this)">💙<span>فيفو</span></div>
+        <div class="brand-logo-btn" data-brand="أخرى" onclick="selectBrand('أخرى',this)">📲<span>أخرى</span></div>
+      </div>
+      <input id="repair-brand-other" class="form-control repair-focus" placeholder="اكتب اسم الشركة" style="display:none;margin-top:6px;">
+    </div>
+
+    <div class="grid-2">
+      <div class="form-group">
+        <label>اسم الجهاز / الموديل</label>
+        <input id="repair-device" class="form-control repair-focus" placeholder="مثال: Samsung A15">
+      </div>
+      <div class="form-group">
+        <label>اسم العطل</label>
+        <input id="repair-issue" class="form-control repair-focus" placeholder="مثال: شاشة مكسورة">
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-group">
+        <label>تكلفة الصيانة (د.ع)</label>
+        <input id="repair-cost" type="number" class="form-control repair-focus" placeholder="0" min="0" step="1" oninput="this.value=Math.abs(parseInt(this.value)||0)||''">
+      </div>
+      <div class="form-group">
+        <label>تكلفة القطعة (إن وجدت)</label>
+        <input id="repair-part-cost" type="number" class="form-control repair-focus" placeholder="0" min="0" step="1" oninput="this.value=Math.abs(parseInt(this.value)||0)||''">
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-group">
+        <label>📅 تاريخ الاستلام</label>
+        <input id="repair-date-in" type="datetime-local" class="form-control repair-focus">
+      </div>
+      <div class="form-group">
+        <label>📅 موعد التسليم للزبون</label>
+        <input id="repair-date-out" type="datetime-local" class="form-control repair-focus">
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-group">
+        <label>اسم الزبون</label>
+        <input id="repair-customer-name" class="form-control repair-focus" placeholder="اسم صاحب الجهاز">
+      </div>
+      <div class="form-group">
+        <label>رقم هاتف الزبون</label>
+        <input id="repair-customer-phone" class="form-control repair-focus" placeholder="07XX XXXXXXX">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>ملاحظات إضافية</label>
+      <textarea id="repair-notes" class="form-control repair-focus" rows="2" placeholder="ملاحظات عن الجهاز، الإكسسوارات المرفقة..."></textarea>
+    </div>
+
+    <!-- قسم الصورة مع دعم الكاميرا الحية -->
+    <div class="form-group">
+      <label>📷 صورة الجهاز</label>
+      <div class="camera-source-btns">
+        <button type="button" class="btn btn-outline btn-sm" onclick="openRepairCamera('user')">📷 كاميرا الحاسوب (أمامية)</button>
+        <button type="button" class="btn btn-outline btn-sm" onclick="openRepairCamera('environment')">📱 كاميرا الهاتف (خلفية)</button>
+        <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('repair-img-input').click()">🖼 اختيار من الجهاز</button>
+      </div>
+
+      <!-- عرض الكاميرا الحية -->
+      <div id="repair-camera-container">
+        <video id="repair-camera-video" autoplay playsinline muted></video>
+        <div class="camera-controls">
+          <button type="button" class="btn btn-orange btn-sm" onclick="captureRepairPhoto()">📸 التقاط صورة</button>
+          <button type="button" class="btn btn-danger btn-sm" onclick="stopRepairCamera()">⏹ إغلاق الكاميرا</button>
+        </div>
+      </div>
+
+      <div class="img-upload-area" onclick="document.getElementById('repair-img-input').click()" id="repair-img-drop" style="margin-top:8px;">
+        <div style="font-size:2rem;">📷</div>
+        <div style="font-size:0.85rem;color:var(--text2);margin-top:4px;">اضغط لاختيار صورة أو استخدم الكاميرا أعلاه</div>
+        <img id="repair-img-preview" class="img-preview" style="display:none;" onclick="event.stopPropagation();zoomImg(this.src)">
+      </div>
+      <input type="file" id="repair-img-input" accept="image/*" style="display:none;" onchange="handleRepairImgUpload(event)">
+      <button type="button" class="btn btn-danger btn-sm" id="clear-repair-img-btn" style="display:none;margin-top:6px;" onclick="clearRepairImg()">🗑 حذف الصورة</button>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-orange" onclick="window.saveRepair()">🔧 حفظ طلب الصيانة</button>
+      <button class="btn btn-outline" onclick="closeRepairModal()">إلغاء</button>
+    </div>
   </div>
 </div>
 
-<!-- عارض الصور مع التنقل -->
-<div id="image-viewer" class="hidden">
-  <div id="viewer-header">
-    <button id="close-viewer" onclick="closeViewer()">&#10005;</button>
-    <span id="viewer-title"></span>
-  </div>
-  <div id="img-counter"></div>
-  <div id="viewer-img-container">
-    <div id="viewer-loading"><div class="spinner"></div><span style="color:var(--text2);font-size:0.85rem;">جاري التحميل...</span></div>
-    <div id="viewer-error"><span class="err-icon">&#128269;</span><p class="err-title">الصورة غير متوفرة بعد</p></div>
-    <img id="viewer-img" alt="مخطط الدائرة">
-    <!-- أسهم التنقل -->
-    <button class="nav-arrow" id="nav-prev" onclick="prevImage()">&#8250;</button>
-    <button class="nav-arrow" id="nav-next" onclick="nextImage()">&#8249;</button>
-    <!-- نقاط الصور -->
-    <div id="img-dots"></div>
-  </div>
-  <div id="viewer-bottom">
-    <button class="zoom-btn" onclick="zoomOut()">&#8722;</button>
-    <span id="zoom-level">100%</span>
-    <button class="zoom-btn" onclick="zoomIn()">&#43;</button>
-    <button class="zoom-btn" onclick="resetZoom()" style="font-size:0.85rem;">&#8634;</button>
+<!-- مودال عرض تفاصيل طلب الصيانة -->
+<div id="repair-detail-modal" class="modal-bg">
+  <div class="modal repair-modal" style="max-width:500px;">
+    <h3>🔧 تفاصيل طلب الصيانة</h3>
+    <div id="repair-detail-content"></div>
+    <div id="repair-detail-actions" style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;"></div>
+    <div style="margin-top:12px;text-align:center;">
+      <button class="btn btn-outline btn-sm" onclick="closeRepairDetail()">إغلاق</button>
+    </div>
   </div>
 </div>
 
-<!-- Modals -->
-<div id="modal-password" class="modal-overlay hidden"><div class="modal"><h2>&#128274; وضع المدير</h2><input type="password" id="pwd-input" placeholder="كلمة المرور" maxlength="10" onkeydown="if(event.key==='Enter')checkPassword()"><p class="modal-err" id="pwd-err"></p><div class="modal-btns"><button class="btn-confirm" onclick="checkPassword()">دخول</button><button class="btn-cancel" onclick="closeModal('modal-password')">إلغاء</button></div></div></div>
-<div id="modal-add-brand" class="modal-overlay hidden"><div class="modal"><h2>&#43; إضافة براند جديد</h2><input type="text" id="new-brand-name" placeholder="اسم البراند"><input type="text" id="new-brand-folder" placeholder="اسم المجلد على GitHub"><p class="modal-err" id="brand-err"></p><div class="modal-btns"><button class="btn-confirm" id="btn-add-brand" onclick="addBrand()">إضافة</button><button class="btn-cancel" onclick="closeModal('modal-add-brand')">إلغاء</button></div></div></div>
-<div id="modal-add-model" class="modal-overlay hidden"><div class="modal"><h2>&#43; إضافة موديل جديد</h2><input type="text" id="new-model-name" placeholder="اسم الموديل"><input type="text" id="new-model-folder" placeholder="اسم مجلد GitHub"><p class="modal-err" id="model-err"></p><div class="modal-btns"><button class="btn-confirm" id="btn-add-model" onclick="addModel()">إضافة</button><button class="btn-cancel" onclick="closeModal('modal-add-model')">إلغاء</button></div></div></div>
-<div id="modal-ann" class="modal-overlay hidden"><div class="modal"><h2>&#128276; إرسال إشعار للزوار</h2><p class="modal-note">يظهر مرة واحدة فقط لكل زائر</p><textarea id="ann-input" placeholder="اكتب الإشعار هنا..."></textarea><p class="modal-err" id="ann-err"></p><div class="modal-btns"><button class="btn-confirm" id="btn-send-ann" onclick="sendAnnouncement()">&#128276; إرسال</button><button class="btn-cancel" onclick="closeModal('modal-ann')">إلغاء</button></div><div style="margin-top:0.8rem;text-align:center;"><button onclick="clearAnnouncement()" style="background:none;border:none;color:var(--red);font-family:'Cairo',sans-serif;font-size:0.8rem;cursor:pointer;text-decoration:underline;">حذف الإشعار الحالي</button></div></div></div>
-<div id="modal-stats" class="modal-overlay hidden"><div class="modal"><h2>&#128202; إحصائيات التطبيق</h2>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.2rem;">
-  <div style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:12px;padding:1rem;text-align:center;">
-    <div style="font-size:2rem;font-weight:900;color:var(--accent);" id="stats-brands">0</div>
-    <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">براند</div>
-  </div>
-  <div style="background:rgba(240,192,64,0.08);border:1px solid rgba(240,192,64,0.2);border-radius:12px;padding:1rem;text-align:center;">
-    <div style="font-size:2rem;font-weight:900;color:var(--gold);" id="stats-models">0</div>
-    <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">موديل</div>
+<div id="login-screen" class="login-container">
+  <div class="login-card">
+    <div style="text-align:center;margin-bottom:16px;">
+      <div style="width:60px;height:60px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px;">📱</div>
+    </div>
+    <h2>نظام محل موبايل</h2>
+    <div class="sub" style="color:var(--text2);text-align:center;">اختر نوع الدخول</div>
+    <div id="login-step1">
+      <div class="user-select-grid">
+        <div class="user-card" id="uc-admin" onclick="window.selectUser('admin')"><div class="u-icon">👨‍💼</div><div class="u-name">المدير</div><div class="u-role">صلاحيات كاملة</div></div>
+        <div class="user-card" id="uc-cashier" onclick="window.selectUser('cashier')"><div class="u-icon">👨‍💻</div><div class="u-name">الكاشير</div><div class="u-role">مبيعات فقط</div></div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:14px;" onclick="window.attemptLogin()">▶ دخول</button>
+      <div id="login-error" style="color:var(--red);text-align:center;margin-top:10px;display:none;">الرجاء اختيار نوع المستخدم</div>
+    </div>
+    <div id="login-step2" style="display:none;">
+      <div style="text-align:center;">
+        <div style="font-size:2.5rem;">🔐</div>
+        <div style="font-weight:800;">دخول المدير</div>
+        <div style="font-size:0.82rem;">أدخل رمز الدخول</div>
+      </div>
+      <div id="pin-dots" style="display:flex;justify-content:center;gap:14px;margin:20px 0;">
+        <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
+      </div>
+      <div id="pin-pad" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:240px;margin:0 auto;">
+        <button class="pin-btn" onclick="window.pinPress('1')">1</button><button class="pin-btn" onclick="window.pinPress('2')">2</button><button class="pin-btn" onclick="window.pinPress('3')">3</button>
+        <button class="pin-btn" onclick="window.pinPress('4')">4</button><button class="pin-btn" onclick="window.pinPress('5')">5</button><button class="pin-btn" onclick="window.pinPress('6')">6</button>
+        <button class="pin-btn" onclick="window.pinPress('7')">7</button><button class="pin-btn" onclick="window.pinPress('8')">8</button><button class="pin-btn" onclick="window.pinPress('9')">9</button>
+        <button class="pin-btn pin-back" onclick="window.pinBack()">⌫</button><button class="pin-btn" onclick="window.pinPress('0')">0</button><button class="pin-btn pin-ok" onclick="window.pinConfirm()">✓</button>
+      </div>
+      <div id="pin-error" style="color:var(--red);text-align:center;margin-top:14px;display:none;">✗ رمز خاطئ</div>
+      <button class="btn btn-outline btn-sm" style="width:100%;margin-top:16px;" onclick="window.backToStep1()">↩ رجوع</button>
+    </div>
   </div>
 </div>
-<div class="modal-btns"><button class="btn-cancel" onclick="closeModal('modal-stats')">إغلاق</button></div></div></div>
-<div id="modal-confirm-del" class="modal-overlay hidden"><div class="modal"><h2>&#128465; تأكيد الحذف</h2><p style="text-align:center;color:var(--text2);margin-bottom:1rem;font-size:0.9rem;" id="del-msg"></p><div class="modal-btns"><button class="btn-confirm" id="btn-del-confirm" style="background:linear-gradient(135deg,var(--red),#cc0000);" onclick="confirmDelete()">حذف</button><button class="btn-cancel" onclick="closeModal('modal-confirm-del')">إلغاء</button></div></div></div>
-<div id="toast"></div>
+
+<div id="main-app" style="display:none;">
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon">📱</div>
+    <div class="logo-text"><h1>نظام محل موبايل</h1><p id="user-label-header">المستخدم</p></div>
+  </div>
+  <div class="header-right">
+    <div class="header-stats">
+      <div class="hstat"><div class="val" id="h-items">0</div><div class="lbl">المنتجات</div></div>
+      <div class="hstat"><div class="val" id="h-sales">0</div><div class="lbl">مبيعات اليوم</div></div>
+      <div class="hstat"><div class="val" id="h-rev" style="color:var(--gold)">0 د.ع</div><div class="lbl">إيرادات اليوم</div></div>
+      <div class="hstat admin-only" id="hstat-profit-day"><div class="val" id="h-profit-day">0 د.ع</div><div class="lbl">ربح اليوم</div></div>
+      <div class="hstat admin-only" id="hstat-profit-month"><div class="val" id="h-profit-month">0 د.ع</div><div class="lbl">ربح الشهر</div></div>
+      <div class="hstat" id="hstat-totalcost"><div class="val" id="h-total-cost" style="color:var(--green);">0 د.ع</div><div class="lbl">تكلفة المخزن</div></div>
+      <div class="hstat" style="border-color:rgba(255,107,53,0.3);"><div class="val" id="h-repair-active" style="color:var(--orange);">0</div><div class="lbl">صيانة نشطة</div></div>
+    </div>
+    <div class="clock" id="clock">--:--:--</div>
+    <button class="btn-header btn-logout" onclick="window.confirmLogout()">خروج</button>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="window.showPage('dashboard')" data-page="dashboard">📊 لوحة التحكم</button>
+  <button class="nav-btn" onclick="window.showPage('inventory')" data-page="inventory">📦 المخزون</button>
+  <button class="nav-btn admin-only" onclick="window.showPage('add-product')" data-page="add-product">➕ إضافة منتج</button>
+  <button class="nav-btn" onclick="window.showPage('scan')" data-page="scan">📷 نقطة البيع</button>
+  <button class="nav-btn" onclick="window.showPage('sales')" data-page="sales">💰 سجل المبيعات</button>
+  <button class="nav-btn" onclick="window.showPage('report')" data-page="report">📈 التقارير</button>
+  <button class="nav-btn" onclick="window.showPage('debts')" data-page="debts">💳 الديون</button>
+  <button class="nav-btn repair-tab" onclick="window.showPage('repair')" data-page="repair">🔧 الصيانة</button>
+  <button class="nav-btn repair-tab admin-only" onclick="window.showPage('repair-report')" data-page="repair-report">📋 تقارير الصيانة</button>
+  <button class="nav-btn admin-only" onclick="window.showPage('settings')" data-page="settings">⚙ الإعدادات</button>
+</div>
+
+<div class="content">
+
+<!-- لوحة التحكم -->
+<div class="page active" id="page-dashboard">
+  <div class="quick-actions">
+    <div class="qa-btn" onclick="window.showPage('scan')"><div class="qa-icon">📷</div><div class="qa-label">بيع الآن</div></div>
+    <div class="qa-btn" onclick="window.showPage('debts')"><div class="qa-icon">💳</div><div class="qa-label">الديون</div></div>
+    <div class="qa-btn" onclick="window.showPage('repair')"><div class="qa-icon">🔧</div><div class="qa-label">الصيانة</div></div>
+    <div class="qa-btn admin-only" onclick="window.showPage('add-product')"><div class="qa-icon">➕</div><div class="qa-label">إضافة منتج</div></div>
+    <div class="qa-btn" onclick="window.showPage('report')"><div class="qa-icon">📈</div><div class="qa-label">التقارير</div></div>
+  </div>
+  <div class="grid-4">
+    <div class="stat-box cyan"><div class="sb-icon">📦</div><div class="sb-val" id="stat-items">0</div><div class="sb-lbl">منتجات المخزون</div></div>
+    <div class="stat-box gold"><div class="sb-icon">💰</div><div class="sb-val" id="stat-rev">0</div><div class="sb-lbl">إيرادات نقدية</div></div>
+    <div class="stat-box green"><div class="sb-icon">🛒</div><div class="sb-val" id="stat-sales">0</div><div class="sb-lbl">عمليات المبيعات</div></div>
+    <div class="stat-box red"><div class="sb-icon">💳</div><div class="sb-val" id="stat-debts">0</div><div class="sb-lbl">ديون باقية</div></div>
+  </div>
+  <div class="grid-4" style="margin-top:14px;">
+    <div class="stat-box orange"><div class="sb-icon">🔧</div><div class="sb-val" id="dash-repair-total">0</div><div class="sb-lbl">طلبات صيانة كلية</div></div>
+    <div class="stat-box" style=""><div class="sb-icon">⏳</div><div class="sb-val" id="dash-repair-pending" style="color:var(--yellow);">0</div><div class="sb-lbl">قيد الصيانة</div></div>
+    <div class="stat-box green"><div class="sb-icon">✅</div><div class="sb-val" id="dash-repair-done">0</div><div class="sb-lbl">تم الإصلاح</div></div>
+    <div class="stat-box gold"><div class="sb-icon">💵</div><div class="sb-val" id="dash-repair-revenue">0</div><div class="sb-lbl">ربح الصيانة هذا الشهر</div></div>
+  </div>
+  <div class="grid-2" style="margin-top:18px;">
+    <div class="card"><div class="card-title">📈 مبيعات آخر 7 أيام</div><canvas id="chart-weekly" height="160"></canvas></div>
+    <div class="card"><div class="card-title">⚠️ منتجات تقترب من النفاد</div><div id="low-stock-list"></div></div>
+  </div>
+  <div class="grid-2" style="margin-top:18px;">
+    <div class="card"><div class="card-title">🍩 توزيع الإيرادات</div><canvas id="profit-pie-chart" height="200"></canvas></div>
+    <div class="card"><div class="card-title">🔧 آخر طلبات الصيانة</div><div id="recent-repairs-dash"></div></div>
+  </div>
+</div>
+
+<!-- المخزون -->
+<div class="page" id="page-inventory">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+    <div style="font-size:1.15rem;font-weight:800;">📦 المخزون</div>
+    <div>
+      <button class="btn btn-outline btn-sm" onclick="window.printBarcodes()">طبع الباركودات</button>
+      <button class="btn btn-primary btn-sm admin-only" onclick="window.showPage('add-product')">➕ إضافة</button>
+    </div>
+  </div>
+  <div class="search-box"><span class="search-icon">🔍</span><input type="text" class="form-control" placeholder="بحث..." oninput="window.filterInventory(this.value)" id="inv-search"></div>
+  <div class="cat-filter" id="cat-filter"></div>
+  <div class="inv-grid" id="inventory-grid"></div>
+</div>
+
+<!-- إضافة منتج -->
+<div class="page admin-only" id="page-add-product">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">➕ إضافة منتج جديد</div>
+      <div class="form-group"><label>اسم المنتج</label><input id="prod-name" class="form-control"></div>
+      <div class="form-group"><label>الفئة</label><select id="prod-cat" class="form-control" onchange="window.handleCatChange()"><option>كفرات</option><option>شواحن</option><option>سماعات</option><option>كيبل</option><option>زجاجة</option><option>أخرى</option><option value="__new__">➕ فئة جديدة...</option></select></div>
+      <div id="new-cat-group" style="display:none;"><label>اسم الفئة الجديدة</label><input id="new-cat-name" class="form-control" placeholder="أدخل اسم الفئة"></div>
+      <div class="form-group"><label>سعر البيع (د.ع)</label><input id="prod-price" type="number" class="form-control"></div>
+      <div class="form-group"><label>سعر الشراء (التكلفة)</label><input id="prod-cost" type="number" class="form-control"></div>
+      <div class="form-group"><label>الكمية</label><input id="prod-qty" type="number" value="1" class="form-control"></div>
+      <div class="form-group"><label>حد التنبيه</label><input id="prod-alert" type="number" value="3" class="form-control"></div>
+      <button class="btn btn-primary" onclick="window.addProduct()" style="width:100%;">➕ إضافة</button>
+    </div>
+    <div class="card">
+      <div class="card-title">🔲 معاينة الباركود</div>
+      <div id="barcode-preview-section" style="text-align:center;padding:30px;"><div style="font-size:3rem;">📦</div><p>أضف منتجاً لعرض الباركود</p></div>
+      <div id="barcode-actions" style="display:none;margin-top:12px;"><button class="btn btn-success btn-sm" onclick="window.printLastBarcode()">طبع الباركود</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- نقطة البيع -->
+<div class="page" id="page-scan">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">📷 ماسح الباركود</div>
+      <div id="scanner-wrap"><div id="scanner-vc" style="min-height:80px;padding:20px;text-align:center;">اضغط تشغيل للمسح</div></div>
+      <div id="scan-status">جاهز للمسح</div>
+      <div><button class="btn btn-primary btn-sm" onclick="window.startScanner()">▶ تشغيل</button><button class="btn btn-danger btn-sm" onclick="window.stopScanner()">⏹ إيقاف</button></div>
+      <div class="form-group" style="margin-top:10px;"><label>أدخل الباركود يدوياً</label><div style="display:flex;gap:8px;"><input id="manual-barcode" class="form-control" onkeydown="if(event.key==='Enter')window.doManualLookup()"><button class="btn btn-primary btn-sm" onclick="window.doManualLookup()">بحث</button></div></div>
+      <div class="form-group"><label>اختر من القائمة</label><select id="product-dropdown" class="form-control" onchange="window.onDropdownChange()"><option>-- اختر منتجاً --</option></select></div>
+    </div>
+    <div class="card">
+      <div class="card-title">💰 إتمام البيع</div>
+      <div id="state-idle" style="text-align:center;padding:40px;"><div style="font-size:3rem;">🛒</div><p>امسح أو اختر منتجاً</p></div>
+      <div id="state-found" style="display:none;">
+        <div id="product-info" style="background:var(--bg3);border-radius:12px;padding:14px;margin-bottom:14px;"></div>
+        <div class="form-group"><label>الكمية</label><input id="r-qty" type="number" value="1" class="form-control"></div>
+        <div class="form-group"><label>سعر البيع</label><input id="r-price" type="number" class="form-control"></div>
+        <div class="form-group"><label>نوع البيع</label><select id="r-type" class="form-control" onchange="window.toggleDebtor()"><option>نقد</option><option>دين</option></select></div>
+        <div id="debtor-wrap" style="display:none;"><label>اسم المدين</label><input id="r-debtor" class="form-control"></div>
+        <button class="btn btn-success" onclick="window.doSell()" style="width:100%;">✓ إتمام البيع</button>
+      </div>
+      <div id="state-notfound" style="display:none;text-align:center;padding:30px;"><div style="font-size:2.5rem;">❌</div><p>المنتج غير موجود</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- سجل المبيعات -->
+<div class="page" id="page-sales">
+  <div class="card">
+    <div class="card-title" style="justify-content:space-between;">
+      <span>💰 سجل المبيعات</span>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <input type="date" id="sales-date-filter" onchange="window.renderSalesTable()" class="form-control" style="width:auto;">
+        <button class="btn btn-outline btn-sm" onclick="window.resetSalesFilter()">إلغاء</button>
+        <button class="btn btn-outline btn-sm" onclick="window.printSalesReport()">طبع الكشف</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table><thead><tr><th>#</th><th>المنتج</th><th>الكمية</th><th>المبلغ</th><th>النوع</th><th>المدين</th><th>الكاشير</th><th>التاريخ والوقت</th><th>حذف</th></tr></thead>
+      <tbody id="sales-table-body"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- التقارير -->
+<div class="page" id="page-report">
+  <div class="report-nav" style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
+    <button class="btn btn-outline btn-sm" onclick="window.changeMonth(-1)">◀</button>
+    <div id="month-display" class="month-display"></div>
+    <button class="btn btn-outline btn-sm" onclick="window.changeMonth(1)">▶</button>
+    <button class="btn btn-primary btn-sm" onclick="window.printReport()">طبع التقرير</button>
+    <button class="btn btn-danger btn-sm admin-only" onclick="window.deleteMonthConfirm()">حذف كل سجلات هذا الشهر</button>
+  </div>
+  <div class="grid-4">
+    <div class="stat-box cyan"><div class="sb-val" id="m-count">0</div><div class="sb-lbl">عدد المبيعات</div></div>
+    <div class="stat-box gold"><div class="sb-val" id="m-cash">0</div><div class="sb-lbl">نقد</div></div>
+    <div class="stat-box red"><div class="sb-val" id="m-debt">0</div><div class="sb-lbl">دين</div></div>
+    <div class="stat-box green"><div class="sb-val" id="m-total">0</div><div class="sb-lbl">الإجمالي</div></div>
+  </div>
+  <div class="card" style="margin-top:14px;">
+    <div class="card-title">حذف سجلات يوم محدد</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <input type="date" id="delete-day-input" class="form-control" style="width:auto;">
+      <button class="btn btn-danger btn-sm admin-only" onclick="window.deleteDayConfirm()">حذف اليوم</button>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px;">
+    <div class="card-title">تفاصيل مبيعات الشهر</div>
+    <div class="table-wrap">
+      <table><thead><tr><th>#</th><th>المنتج</th><th>الكمية</th><th>المبلغ</th><th>النوع</th><th>الكاشير</th><th>التاريخ والوقت</th></tr></thead>
+      <tbody id="monthly-body"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- الديون -->
+<div class="page" id="page-debts">
+  <div class="card">
+    <div class="card-title">💳 سجل الديون</div>
+    <div id="debts-summary" style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;"></div>
+    <div class="table-wrap">
+      <table><thead><tr><th>المدين</th><th>المنتج</th><th>المبلغ</th><th>التاريخ</th><th>الكاشير</th><th>الحالة</th><th>إجراء</th></tr></thead>
+      <tbody id="debts-body"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== صفحة الصيانة ===== -->
+<div class="page" id="page-repair">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+    <div style="font-size:1.2rem;font-weight:900;color:var(--orange);">🔧 إدارة الصيانة</div>
+    <button class="btn btn-orange" onclick="openRepairModal()">➕ طلب صيانة جديد</button>
+  </div>
+
+  <!-- شريط إحصائيات سريعة للصيانة -->
+  <div class="repair-month-stats">
+    <div class="repair-stat"><div class="rs-val" id="r-stat-total">0</div><div class="rs-lbl">إجمالي الطلبات</div></div>
+    <div class="repair-stat"><div class="rs-val" id="r-stat-pending" style="color:var(--yellow);">0</div><div class="rs-lbl">قيد الصيانة</div></div>
+    <div class="repair-stat green"><div class="rs-val" id="r-stat-done">0</div><div class="rs-lbl">تم الإصلاح</div></div>
+    <div class="repair-stat red"><div class="rs-val" id="r-stat-failed">0</div><div class="rs-lbl">فشل الإصلاح</div></div>
+    <div class="repair-stat cyan"><div class="rs-val" id="r-stat-delivered">0</div><div class="rs-lbl">تم التسليم</div></div>
+    <div class="repair-stat gold"><div class="rs-val" id="r-stat-revenue">0</div><div class="rs-lbl">إجمالي الربح (د.ع)</div></div>
+  </div>
+
+  <!-- فلتر الحالة -->
+  <div class="status-filter-bar">
+    <button class="status-chip active-all" id="rfilt-all" onclick="window.setRepairFilter('all',this)">📋 الكل</button>
+    <button class="status-chip" id="rfilt-pending" onclick="window.setRepairFilter('pending',this)">⏳ قيد الصيانة</button>
+    <button class="status-chip" id="rfilt-done" onclick="window.setRepairFilter('done',this)">✅ تم الإصلاح</button>
+    <button class="status-chip" id="rfilt-failed" onclick="window.setRepairFilter('failed',this)">❌ فشل الإصلاح</button>
+    <button class="status-chip" id="rfilt-delivered" onclick="window.setRepairFilter('delivered',this)">📦 تم التسليم</button>
+  </div>
+
+  <!-- بحث الصيانة -->
+  <div class="search-box"><span class="search-icon">🔍</span><input type="text" class="form-control" placeholder="بحث باسم الزبون أو الجهاز..." oninput="window.filterRepairs(this.value)" id="repair-search"></div>
+
+  <div class="repair-grid" id="repair-grid">
+    <div class="empty-state"><div style="font-size:3rem;">🔧</div><p>لا توجد طلبات صيانة</p></div>
+  </div>
+</div>
+
+<!-- ===== صفحة تقارير الصيانة ===== -->
+<div class="page admin-only" id="page-repair-report">
+  <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center;">
+    <button class="btn btn-outline btn-sm" onclick="window.changeRepairMonth(-1)">◀</button>
+    <div id="repair-month-display" style="font-size:1.1rem;font-weight:800;color:var(--orange);padding:0 8px;"></div>
+    <button class="btn btn-outline btn-sm" onclick="window.changeRepairMonth(1)">▶</button>
+    <button class="btn btn-orange btn-sm" onclick="window.printRepairReport()">🖨️ طبع التقرير</button>
+  </div>
+
+  <div class="repair-month-stats">
+    <div class="repair-stat"><div class="rs-val" id="rm-total">0</div><div class="rs-lbl">إجمالي الطلبات</div></div>
+    <div class="repair-stat green"><div class="rs-val" id="rm-done">0</div><div class="rs-lbl">ناجح</div></div>
+    <div class="repair-stat red"><div class="rs-val" id="rm-failed">0</div><div class="rs-lbl">فاشل</div></div>
+    <div class="repair-stat gold"><div class="rs-val" id="rm-revenue">0</div><div class="rs-lbl">إجمالي التحصيل (د.ع)</div></div>
+    <div class="repair-stat cyan"><div class="rs-val" id="rm-profit">0</div><div class="rs-lbl">صافي الربح (د.ع)</div></div>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px;">
+    <div class="card repair-card">
+      <div class="card-title repair-title">🍩 توزيع أنواع الأعطال</div>
+      <canvas id="repair-issues-chart" height="200"></canvas>
+    </div>
+    <div class="card repair-card">
+      <div class="card-title repair-title">📊 توزيع الشركات</div>
+      <canvas id="repair-brands-chart" height="200"></canvas>
+    </div>
+  </div>
+
+  <div class="card repair-card" style="margin-top:16px;">
+    <div class="card-title repair-title">📋 تفاصيل صيانة الشهر</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>الجهاز</th><th>الشركة</th><th>العطل</th><th>الزبون</th><th>التكلفة</th><th>الحالة</th><th>تاريخ الاستلام</th><th>تاريخ التسليم</th></tr></thead>
+        <tbody id="repair-monthly-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- الإعدادات -->
+<div class="page admin-only" id="page-settings">
+  <div class="card">
+    <div class="card-title">⚙ إعدادات النظام</div>
+
+    <!-- ===== قسم إعادة تعيين الإيرادات والأرباح ===== -->
+    <div class="reset-revenue-panel">
+      <h4>🔄 إعادة تعيين الإيرادات والأرباح اليومية</h4>
+      <p style="color:var(--text2);font-size:0.85rem;margin-bottom:12px;">يمكنك إعادة عرض العداد اليومي للإيرادات والأرباح دون حذف أي سجلات. تبقى كل البيانات محفوظة في التقارير.</p>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:8px 16px;">
+          <div style="font-size:0.75rem;color:var(--text2);">آخر إعادة تعيين</div>
+          <div style="font-weight:800;color:var(--orange);" id="last-reset-time">—</div>
+        </div>
+        <button class="btn btn-warning btn-sm" onclick="window.resetDailyRevenue()">🔄 إعادة التعيين الآن</button>
+      </div>
+      <div style="margin-top:12px;font-size:0.82rem;color:var(--text2);">
+        💡 ملاحظة: تظهر الإيرادات المُعاد تعيينها في الهيدر ونقطة البيع فقط. لن يتأثر أي تقرير أو سجل.
+      </div>
+    </div>
+
+    <div class="settings-section"><h3>🔔 الإشعارات</h3><div><button class="btn btn-outline btn-sm" onclick="window.requestNotifPerm()">تفعيل الإشعارات</button></div></div>
+    <div class="settings-section"><h3>💾 النسخ الاحتياطي</h3><div><button class="btn btn-outline btn-sm" onclick="window.exportData()">📤 تصدير JSON</button><button class="btn btn-outline btn-sm" onclick="document.getElementById('import-file').click()">📥 استيراد JSON</button><input type="file" id="import-file" style="display:none" accept=".json" onchange="window.handleImport(event)"></div></div>
+    <div class="settings-section">
+      <h3 style="color:var(--red);">⚠ منطقة الخطر</h3>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-warning btn-sm" onclick="window.clearSalesConfirm()">مسح كل المبيعات</button>
+        <button class="btn btn-danger btn-sm" onclick="window.clearAllConfirm()">مسح كل البيانات</button>
+      </div>
+    </div>
+    <div class="settings-section">
+      <h3>📊 معلومات النظام</h3>
+      <div>المستخدم الحالي: <strong id="cur-user-info" style="color:var(--accent);">—</strong></div>
+      <div>عدد المنتجات: <strong id="info-products">0</strong></div>
+      <div>عمليات المبيعات: <strong id="info-sales">0</strong></div>
+      <div>الديون النشطة: <strong id="info-debts">0</strong></div>
+      <div>طلبات الصيانة: <strong id="info-repairs">0</strong></div>
+    </div>
+    <hr>
+    <button class="btn btn-danger btn-sm" onclick="window.confirmLogout()">🚪 تسجيل الخروج</button>
+  </div>
+</div>
+
+</div><!-- end content -->
+</div><!-- end main-app -->
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore,collection,doc,getDocs,addDoc,updateDoc,deleteDoc,query,orderBy,setDoc,getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-const firebaseConfig={apiKey:"AIzaSyDKntmfI8dloN1Xx-TJw9m8S1OXbem6hNs",authDomain:"hardware-solotion.firebaseapp.com",projectId:"hardware-solotion",storageBucket:"hardware-solotion.firebasestorage.app",messagingSenderId:"586335779001",appId:"1:586335779001:web:09b94e39c5db11ea714368"};
-const app=initializeApp(firebaseConfig);const db=getFirestore(app);
-const DEFAULT_BRANDS=[
-  {name:'Samsung',folder:'Samsung',icon:'&#128308;',order:1,models:[{name:'Galaxy A14',folder:'A145F_A14'},{name:'Galaxy A05',folder:'A055F_A05'},{name:'Galaxy A15',folder:'A155F_A15'},{name:'Galaxy A25',folder:'A255F_A25'},{name:'Galaxy A35',folder:'A355F_A35'},{name:'Galaxy A55',folder:'A556B_A55'},{name:'Galaxy A34',folder:'A346B_A34'},{name:'Galaxy A54',folder:'A546B_A54'},{name:'Galaxy S23',folder:'S911B_S23'},{name:'Galaxy S24',folder:'S921B_S24'},{name:'Galaxy S24 Ultra',folder:'S928B_S24Ultra'},{name:'Galaxy M14',folder:'M145F_M14'},{name:'Galaxy M34',folder:'M346B_M34'},{name:'Galaxy M54',folder:'M546B_M54'},{name:'Galaxy Note 20',folder:'N980F_Note20'},{name:'Galaxy Note 10',folder:'N970F_Note10'}]},
-  {name:'Infinix',folder:'Infinix',icon:'&#128994;',order:2,models:[{name:'Hot 40',folder:'Hot_40'},{name:'Hot 40i',folder:'Hot_40i'},{name:'Hot 30',folder:'Hot_30'},{name:'Hot 20',folder:'Hot_20'},{name:'Note 40',folder:'Note_40'},{name:'Note 30',folder:'Note_30'},{name:'Note 12',folder:'Note_12'},{name:'Smart 8',folder:'Smart_8'},{name:'Smart 7',folder:'Smart_7'},{name:'Zero 30',folder:'Zero_30'},{name:'Zero 20',folder:'Zero_20'},{name:'GT 20 Pro',folder:'GT_20_Pro'}]},
-  {name:'Tecno',folder:'Tecno',icon:'&#128993;',order:3,models:[{name:'Spark 20',folder:'Spark_20'},{name:'Spark 20 Pro',folder:'Spark_20_Pro'},{name:'Spark 10',folder:'Spark_10'},{name:'Camon 20',folder:'Camon_20'},{name:'Camon 30',folder:'Camon_30'},{name:'Pop 8',folder:'Pop_8'},{name:'Pop 7',folder:'Pop_7'},{name:'Pova 6',folder:'Pova_6'},{name:'Pova 5',folder:'Pova_5'},{name:'Phantom X2',folder:'Phantom_X2'}]},
-  {name:'Xiaomi',folder:'Xiaomi',icon:'&#128992;',order:4,models:[{name:'Redmi 13',folder:'Redmi_13'},{name:'Redmi 12',folder:'Redmi_12'},{name:'Redmi Note 13',folder:'Redmi_Note_13'},{name:'Redmi Note 12',folder:'Redmi_Note_12'},{name:'POCO X6',folder:'POCO_X6'},{name:'POCO M6',folder:'POCO_M6'},{name:'Xiaomi 14',folder:'Xiaomi_14'},{name:'Xiaomi 13T',folder:'Xiaomi_13T'},{name:'Redmi A3',folder:'Redmi_A3'},{name:'Redmi A2',folder:'Redmi_A2'}]},
-  {name:'Oppo',folder:'Oppo',icon:'&#128995;',order:5,models:[{name:'A78',folder:'A78'},{name:'A58',folder:'A58'},{name:'A38',folder:'A38'},{name:'A18',folder:'A18'},{name:'Reno 11',folder:'Reno_11'},{name:'Reno 10',folder:'Reno_10'},{name:'Find X7',folder:'Find_X7'},{name:'A17',folder:'A17'},{name:'A57',folder:'A57'},{name:'F25 Pro',folder:'F25_Pro'}]},
-  {name:'Realme',folder:'Realme',icon:'&#129002;',order:6,models:[{name:'C67',folder:'C67'},{name:'C55',folder:'C55'},{name:'C35',folder:'C35'},{name:'C30',folder:'C30'},{name:'Narzo 70',folder:'Narzo_70'},{name:'12 Pro',folder:'12_Pro'},{name:'12',folder:'12'},{name:'GT 6',folder:'GT_6'},{name:'GT Neo 6',folder:'GT_Neo_6'},{name:'10 Pro',folder:'10_Pro'}]},
-  {name:'Vivo',folder:'Vivo',icon:'&#128309;',order:7,models:[{name:'Y38',folder:'Y38'},{name:'Y28',folder:'Y28'},{name:'Y18',folder:'Y18'},{name:'Y17s',folder:'Y17s'},{name:'V30',folder:'V30'},{name:'V29',folder:'V29'},{name:'T3',folder:'T3'},{name:'Y36',folder:'Y36'},{name:'S18',folder:'S18'},{name:'X100',folder:'X100'}]},
-  {name:'Apple',folder:'Apple',icon:'&#127822;',order:8,models:[{name:'iPhone 16 Pro Max',folder:'iPhone_16_Pro_Max'},{name:'iPhone 16 Pro',folder:'iPhone_16_Pro'},{name:'iPhone 16',folder:'iPhone_16'},{name:'iPhone 15 Pro Max',folder:'iPhone_15_Pro_Max'},{name:'iPhone 15 Pro',folder:'iPhone_15_Pro'},{name:'iPhone 15',folder:'iPhone_15'},{name:'iPhone 14 Pro Max',folder:'iPhone_14_Pro_Max'},{name:'iPhone 14',folder:'iPhone_14'},{name:'iPhone 13 Pro',folder:'iPhone_13_Pro'},{name:'iPhone 13',folder:'iPhone_13'},{name:'iPhone 12',folder:'iPhone_12'},{name:'iPhone 11',folder:'iPhone_11'},{name:'iPhone XS',folder:'iPhone_XS'},{name:'iPhone XR',folder:'iPhone_XR'},{name:'iPhone X',folder:'iPhone_X'}]},
-  {name:'Nokia',folder:'Nokia',icon:'&#11035;',order:9,models:[{name:'C32',folder:'C32'},{name:'C22',folder:'C22'},{name:'G42',folder:'G42'},{name:'G21',folder:'G21'},{name:'X30',folder:'X30'},{name:'XR21',folder:'XR21'},{name:'C12',folder:'C12'},{name:'G60',folder:'G60'},{name:'C31',folder:'C31'}]},
-  {name:'Huawei',folder:'Huawei',icon:'&#127800;',order:10,models:[{name:'Nova 12',folder:'Nova_12'},{name:'Nova 11',folder:'Nova_11'},{name:'Nova 10',folder:'Nova_10'},{name:'Mate 60 Pro',folder:'Mate_60_Pro'},{name:'P60 Pro',folder:'P60_Pro'},{name:'P50 Pro',folder:'P50_Pro'},{name:'Y91',folder:'Y91'},{name:'Y61',folder:'Y61'},{name:'Y70',folder:'Y70'},{name:'Nova 9',folder:'Nova_9'}]},
-  {name:'Honor',folder:'Honor',icon:'&#11088;',order:11,models:[{name:'X8b',folder:'X8b'},{name:'X7b',folder:'X7b'},{name:'90',folder:'90'},{name:'200 Pro',folder:'200_Pro'},{name:'Magic 6 Pro',folder:'Magic_6_Pro'},{name:'Magic V2',folder:'Magic_V2'},{name:'X9b',folder:'X9b'},{name:'90 Smart',folder:'90_Smart'},{name:'70',folder:'70'},{name:'X6a',folder:'X6a'}]},
-  {name:'ZTE',folder:'ZTE',icon:'&#9632;',order:12,models:[{name:'Blade V50',folder:'Blade_V50'},{name:'Blade A75',folder:'Blade_A75'},{name:'Blade V40',folder:'Blade_V40'},{name:'Blade A54',folder:'Blade_A54'},{name:'Nubia Z60 Ultra',folder:'Nubia_Z60_Ultra'},{name:'Nubia Z50',folder:'Nubia_Z50'},{name:'Blade A52',folder:'Blade_A52'},{name:'V50 Vita',folder:'V50_Vita'},{name:'Blade A31',folder:'Blade_A31'}]},
-  {name:'Itel',folder:'Itel',icon:'&#128307;',order:13,models:[{name:'A70',folder:'A70'},{name:'A60s',folder:'A60s'},{name:'P55',folder:'P55'},{name:'S24',folder:'S24'},{name:'Vision 3 Plus',folder:'Vision_3_Plus'},{name:'A58',folder:'A58'},{name:'Magic 3',folder:'Magic_3'},{name:'P40',folder:'P40'},{name:'A48',folder:'A48'},{name:'S23 Plus',folder:'S23_Plus'}]},
-  {name:'OnePlus',folder:'OnePlus',icon:'&#128308;',order:14,models:[{name:'12',folder:'12'},{name:'11',folder:'11'},{name:'Nord 4',folder:'Nord_4'},{name:'Nord CE4',folder:'Nord_CE4'},{name:'Nord 3',folder:'Nord_3'},{name:'12R',folder:'12R'},{name:'Open',folder:'Open'},{name:'11R',folder:'11R'},{name:'10 Pro',folder:'10_Pro'},{name:'10T',folder:'10T'}]},
-  {name:'Motorola',folder:'Motorola',icon:'&#127952;',order:15,models:[{name:'Edge 50 Pro',folder:'Edge_50_Pro'},{name:'Edge 50 Fusion',folder:'Edge_50_Fusion'},{name:'Moto G85',folder:'Moto_G85'},{name:'Moto G54',folder:'Moto_G54'},{name:'Moto G34',folder:'Moto_G34'},{name:'Edge 40 Neo',folder:'Edge_40_Neo'},{name:'Moto E14',folder:'Moto_E14'},{name:'Moto G14',folder:'Moto_G14'},{name:'Edge 30',folder:'Edge_30'},{name:'Razr 50',folder:'Razr_50'}]}
-];
-function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
-async function seedData(){document.getElementById('loading-msg').textContent='أول تشغيل - جاري حفظ البيانات...';for(let i=0;i<DEFAULT_BRANDS.length;i++){const b=DEFAULT_BRANDS[i];document.getElementById('loading-msg').textContent='جاري حفظ: '+b.name+' ('+(i+1)+'/'+DEFAULT_BRANDS.length+')';await addDoc(collection(db,'brands'),b);await sleep(400);}}
-async function loadData(){
-  try{
-    const snap=await getDocs(query(collection(db,'brands'),orderBy('order')));
-    if(snap.empty){await seedData();const fresh=await getDocs(query(collection(db,'brands'),orderBy('order')));window._BRANDS=[];fresh.forEach(d=>window._BRANDS.push({id:d.id,...d.data()}));}
-    else{window._BRANDS=[];snap.forEach(d=>window._BRANDS.push({id:d.id,...d.data()}));}
-    try{const annDoc=await getDoc(doc(db,'settings','announcement'));if(annDoc.exists()&&annDoc.data().text&&annDoc.data().text.trim()){window._annData={text:annDoc.data().text,id:annDoc.data().id||'default'};}}catch(e){}
-    window._db=db;window._col=collection;window._doc=doc;window._addDoc=addDoc;window._updateDoc=updateDoc;window._deleteDoc=deleteDoc;window._setDoc=setDoc;
-    const ls=document.getElementById('loading-screen');ls.classList.add('fade');setTimeout(()=>ls.classList.add('hidden'),400);
-    window._initApp();
-  }catch(err){console.error(err);document.getElementById('loading-msg').textContent='خطأ: '+err.message;}
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import { getFirestore, collection, doc, setDoc, deleteDoc, updateDoc, query, orderBy, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAhZ1n1lbNHMR-EIc0xXyre6_aHfhBhXG0",
+  authDomain: "mobile-store-86076.firebaseapp.com",
+  projectId: "mobile-store-86076",
+  storageBucket: "mobile-store-86076.firebasestorage.app",
+  messagingSenderId: "900222880952",
+  appId: "1:900222880952:web:25b09fd2b3b844409db84d",
+  measurementId: "G-WJ9LPJL6KH"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let isOnline = true;
+const connLed = document.getElementById('connLed');
+const connText = document.getElementById('connText');
+function updateConnectionStatus(online) {
+  isOnline = online;
+  connLed.className = online ? 'led online' : 'led offline';
+  connText.innerText = online ? '🟢 متصل بالإنترنت' : '🔴 غير متصل (وضع محلي)';
 }
-loadData();
-</script>
+setInterval(async () => {
+  try { await getDoc(doc(db, '_test_', 'health')); if (!isOnline) updateConnectionStatus(true); }
+  catch(e) { if (isOnline) updateConnectionStatus(false); }
+}, 5000);
+updateConnectionStatus(true);
 
-<script>
-var GH_USER='mohamd07917-creator',GH_REPO='hardware-solution',GH_BRANCH='main',GH_IMAGES='images';
-var ADMIN_PASS='17230';
-function buildURL(bf,mf,file){return 'https://raw.githubusercontent.com/'+GH_USER+'/'+GH_REPO+'/'+GH_BRANCH+'/'+GH_IMAGES+'/'+bf+'/'+mf+'/'+file;}
+const productsCol = collection(db, "products");
+const salesCol = collection(db, "sales");
+const debtsCol = collection(db, "debts");
+const repairsCol = collection(db, "repairs");
 
-var SOLUTIONS=[
-  {name:'دائرة الإضاءة',icon:'&#128161;',file:'lighting'},
-  {name:'دائرة الشحن',icon:'&#128267;',file:'charging'},
+let products = [], sales = [], debts = [], repairs = [];
+let currentUser = null, selectedUser = null, pinEntry = "";
+let SELECTED_PRODUCT = null, lastSale = null;
+let scannerRunning = false, activeCatFilter = "all";
+let weeklyChart = null, pieChart = null, repairIssuesChart = null, repairBrandsChart = null;
+let currentMonthYear = new Date();
+let currentRepairMonthYear = new Date();
+let confirmCB = null;
+const ADMIN_PIN = "1723";
+let unsubscribeProducts = null, unsubscribeSales = null, unsubscribeDebts = null, unsubscribeRepairs = null;
+let currentEditProductId = null, pendingPrintProduct = null;
+let activeRepairFilter = "all";
+let currentRepairImg = null;
+let editingRepairId = null;
+let selectedBrand = "";
+let repairCameraStream = null;
 
-  {name:'دائرة الواي فاي والبلوتوث',icon:'&#128246;',file:'wifi_bt'},
-  {name:'دائرة اللمس',icon:'&#128070;',file:'touch'},
-  {name:'ممانعات كونكتر الشاشة',icon:'&#128250;',file:'screen_connector'},
-  {name:'أسماء المكونات',icon:'&#128295;',file:'components'}
-];
-
-var selectedBrand=null,selectedModel=null,allModels=[];
-var isAdmin=false,pendingDelType=null,pendingDelIdx=null,annCountTimer=null;
-
-// ===== متغيرات عارض الصور المتعدد =====
-var currentImages=[];   // قائمة روابط الصور المحملة
-var currentImgIdx=0;    // الصورة الحالية
-var currentSol=null;    // الحل الحالي
-var MAX_IMGS=5;         // أقصى عدد صور للبحث عنها
-
-// ===== آخر الموديلات المفتوحة =====
-function saveRecentModel(m){
-  var key='recent_models';
-  var list=[];
-  try{list=JSON.parse(localStorage.getItem(key)||'[]');}catch(e){}
-  // احفظ البراند أيضاً
-  var entry={name:m.name,folder:m.folder,brandId:selectedBrand.id,brandName:selectedBrand.name};
-  list=list.filter(function(x){return x.folder!==m.folder||x.brandId!==selectedBrand.id;});
-  list.unshift(entry);
-  if(list.length>5) list=list.slice(0,5);
-  localStorage.setItem(key,JSON.stringify(list));
-  renderRecent();
-}
-function renderRecent(){
-  var key='recent_models';
-  var list=[];
-  try{list=JSON.parse(localStorage.getItem(key)||'[]');}catch(e){}
-  var sec=document.getElementById('recent-section');
-  var el=document.getElementById('recent-list');
-  if(!list.length){sec.classList.add('hidden');return;}
-  sec.classList.remove('hidden');
-  el.innerHTML='';
-  list.forEach(function(entry){
-    var chip=document.createElement('span');
-    chip.className='recent-chip';
-    chip.title=entry.brandName;
-    chip.textContent='📱 '+entry.name;
-    chip.onclick=function(){
-      var brand=window._BRANDS.find(function(b){return b.id===entry.brandId;});
-      if(!brand)return;
-      var model=(brand.models||[]).find(function(mm){return mm.folder===entry.folder;});
-      if(!model)return;
-      selectBrand(brand);
-      setTimeout(function(){selectModel(model);},50);
-    };
-    el.appendChild(chip);
-  });
-}
-
-// ===== بحث شامل =====
-window.filterGlobal=function(){
-  var q=document.getElementById('global-search').value.toLowerCase().trim();
-  var resultsEl=document.getElementById('global-results');
-  var grid=document.getElementById('brands-grid');
-  if(!q){resultsEl.classList.add('hidden');resultsEl.innerHTML='';grid.style.display='';return;}
-  grid.style.display='none';
-  var results=[];
-  (window._BRANDS||[]).forEach(function(b){
-    (b.models||[]).forEach(function(m){
-      if(m.name.toLowerCase().includes(q)||b.name.toLowerCase().includes(q)){
-        results.push({brand:b,model:m});
-      }
+// إعادة تعيين الإيرادات اليومية - نتتبع تاريخ إعادة التعيين في localStorage
+let revenueResetDate = localStorage.getItem("revenueResetDate") || null;
+function getEffectiveSalesForToday() {
+  const today = new Date().toISOString().slice(0,10);
+  if (revenueResetDate && revenueResetDate === today) {
+    const resetTime = localStorage.getItem("revenueResetTime") || "00:00:00";
+    return sales.filter(s => {
+      if (!s.date.startsWith(today)) return false;
+      const saleTime = s.date.slice(11,19);
+      return saleTime >= resetTime;
     });
-  });
-  results.sort(function(a,b){return a.model.name.localeCompare(b.model.name,'en',{sensitivity:'base'});});
-  resultsEl.classList.remove('hidden');
-  if(!results.length){resultsEl.innerHTML='<p class="global-no-result">لا توجد نتائج لـ "'+q+'"</p>';return;}
-  resultsEl.innerHTML='<p style="font-size:0.78rem;color:var(--text2);margin-bottom:8px;">'+results.length+' نتيجة</p>';
-  results.forEach(function(r){
-    var item=document.createElement('div');
-    item.className='global-result-item';
-    item.innerHTML='<span class="global-result-brand">'+r.brand.name+'</span><span class="global-result-name">'+r.model.name+'</span><span style="color:var(--text2);">&#8592;</span>';
-    item.onclick=function(){
-      document.getElementById('global-search').value='';
-      filterGlobal();
-      selectBrand(r.brand);
-      setTimeout(function(){selectModel(r.model);},50);
-    };
-    resultsEl.appendChild(item);
-  });
+  }
+  return sales.filter(s => s.date.startsWith(today));
+}
+
+// ======= Toast =======
+function notify(msg, type = "success") {
+  const c = document.getElementById("toast-container");
+  const t = document.createElement("div");
+  t.className = `toast ${type}`;
+  t.textContent = msg;
+  c.appendChild(t);
+  requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add("show")));
+  setTimeout(() => { t.classList.remove("show"); setTimeout(() => t.remove(), 400); }, 3200);
+}
+
+// ======= Confirm Dialog =======
+window.closeConfirm = () => { document.getElementById("confirm-dialog").classList.remove("open"); confirmCB = null; };
+function openConfirm(icon, title, msg, cb, dangerLabel = "تأكيد") {
+  document.getElementById("confirm-icon").textContent = icon;
+  document.getElementById("confirm-title").textContent = title;
+  document.getElementById("confirm-msg").textContent = msg;
+  document.getElementById("confirm-yes-btn").textContent = dangerLabel;
+  confirmCB = cb;
+  document.getElementById("confirm-dialog").classList.add("open");
+}
+document.getElementById("confirm-yes-btn").onclick = () => { if (confirmCB) confirmCB(); window.closeConfirm(); };
+
+window.closeSaleSuccess = () => document.getElementById("sale-success-overlay").classList.remove("show");
+window.printLastInvoice = () => { if (lastSale) printInvoice(lastSale); window.closeSaleSuccess(); };
+function printInvoice(s) {
+  const w = window.open("", "_blank");
+  w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>فاتورة</title><style>body{font-family:Tajawal;padding:30px;}h2{text-align:center;}.row{display:flex;justify-content:space-between;margin:8px 0;}</style></head><body><h2>🏪 نظام محل موبايل</h2><div>${new Date(s.date).toLocaleString()}</div><hr><div class="row"><span>المنتج</span><span>${s.productName}</span></div><div class="row"><span>الكمية</span><span>${s.qty}</span></div><div class="row"><span>السعر</span><span>${s.price} د.ع</span></div><div class="row"><span>الإجمالي</span><span>${s.total} د.ع</span></div><div class="row"><span>النوع</span><span>${s.type}</span></div>${s.debtorName?`<div class="row"><span>المدين</span><span>${s.debtorName}</span></div>`:""}<hr><div>شكراً لزيارتكم</div></body></html>`);
+  w.document.close(); w.print();
+}
+
+// ======= Firebase CRUD =======
+async function addProductToDB(p) { await setDoc(doc(productsCol, p.id), p); notify(`✅ تم إضافة "${p.name}" للمخزون`); }
+async function deleteProductFromDB(id) { await deleteDoc(doc(productsCol, id)); }
+async function updateProductToDB(id, d) { await updateDoc(doc(productsCol, id), d); notify("✅ تم التحديث"); }
+async function updateProductQty(id, qty) { await updateDoc(doc(productsCol, id), { qty }); }
+async function addSaleToDB(s) { await setDoc(doc(salesCol, s.id), s); }
+async function deleteSaleFromDB(id) { await deleteDoc(doc(salesCol, id)); }
+async function addDebtToDB(d) { await setDoc(doc(debtsCol, d.saleId), d); }
+async function updateDebtPaid(sid) { await updateDoc(doc(debtsCol, sid), { paid: true }); }
+async function deleteDebtFromDB(sid) { await deleteDoc(doc(debtsCol, sid)); }
+async function addRepairToDB(r) { await setDoc(doc(repairsCol, r.id), r); }
+async function updateRepairInDB(id, data) { await updateDoc(doc(repairsCol, id), data); }
+async function deleteRepairFromDB(id) { await deleteDoc(doc(repairsCol, id)); }
+
+// ======= Real-time Subscriptions =======
+function subscribeProducts() {
+  if (unsubscribeProducts) unsubscribeProducts();
+  unsubscribeProducts = onSnapshot(query(productsCol, orderBy("name")), snap => {
+    products = snap.docs.map(d => ({id: d.id, ...d.data()}));
+    renderInventory(); updateHeader(); populateDropdown(); buildCatFilter(); renderDashboard(); computeTotalCost();
+  }, err => notify("❌ خطأ في المنتجات: "+err.message, "error"));
+}
+function subscribeSales() {
+  if (unsubscribeSales) unsubscribeSales();
+  unsubscribeSales = onSnapshot(query(salesCol, orderBy("date", "desc")), snap => {
+    sales = snap.docs.map(d => ({id: d.id, ...d.data()}));
+    renderSalesTable(); renderDashboard(); renderReport(); updateHeader();
+  }, err => notify("❌ خطأ في المبيعات", "error"));
+}
+function subscribeDebts() {
+  if (unsubscribeDebts) unsubscribeDebts();
+  unsubscribeDebts = onSnapshot(debtsCol, snap => {
+    debts = snap.docs.map(d => ({id: d.id, ...d.data()}));
+    renderDebts(); renderDashboard(); updateHeader();
+  }, err => notify("❌ خطأ في الديون", "error"));
+}
+function subscribeRepairs() {
+  if (unsubscribeRepairs) unsubscribeRepairs();
+  unsubscribeRepairs = onSnapshot(query(repairsCol, orderBy("dateIn", "desc")), snap => {
+    repairs = snap.docs.map(d => ({id: d.id, ...d.data()}));
+    renderRepairGrid(); renderRepairStats(); updateHeader(); renderDashboard(); renderRepairReport();
+  }, err => notify("❌ خطأ في الصيانة", "error"));
+}
+
+function computeTotalCost() {
+  const total = products.reduce((s,p) => s+(p.cost||0)*p.qty, 0);
+  const el = document.getElementById("h-total-cost");
+  if (el) el.innerText = total.toLocaleString()+" د.ع";
+}
+
+// ======= تكبير الصورة =======
+window.zoomImg = function(src) {
+  document.getElementById("img-zoom-src").src = src;
+  document.getElementById("img-zoom-modal").classList.add("open");
 };
 
-// ===== لوحة الإحصائيات =====
-window.openStatsModal=function(){
-  if(!isAdmin) return;
-  var totalBrands=(window._BRANDS||[]).length;
-  var totalModels=0;
-  (window._BRANDS||[]).forEach(function(b){totalModels+=(b.models?b.models.length:0);});
-  document.getElementById('stats-brands').textContent=totalBrands;
-  document.getElementById('stats-models').textContent=totalModels;
-  document.getElementById('modal-stats').classList.remove('hidden');
-};
-
-window._initApp=function(){
-  renderBrands();renderRecent();updateBreadcrumb();initStars();
-  if(window._annData&&window._annData.text){
-    var seenKey='ann_seen_'+window._annData.id;
-    if(!localStorage.getItem(seenKey)){setTimeout(function(){showAnnToast(window._annData.text,seenKey);},1200);}
+// ======= كاميرا الصيانة =======
+window.openRepairCamera = async function(facing) {
+  stopRepairCamera();
+  try {
+    const constraints = { video: { facingMode: facing || "environment" }, audio: false };
+    repairCameraStream = await navigator.mediaDevices.getUserMedia(constraints);
+    const video = document.getElementById("repair-camera-video");
+    video.srcObject = repairCameraStream;
+    document.getElementById("repair-camera-container").style.display = "block";
+    document.getElementById("repair-img-drop").style.display = "none";
+  } catch(e) {
+    notify("❌ لا يمكن الوصول للكاميرا: " + e.message, "error");
   }
 };
 
-// ===== PWA =====
-var deferredPrompt=null;
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
-window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;document.getElementById('install-btn').classList.add('visible');});
-window.addEventListener('appinstalled',function(){document.getElementById('install-btn').classList.remove('visible');deferredPrompt=null;showToast('تم تثبيت التطبيق ✓','success');});
-window.installPWA=function(){if(!deferredPrompt){showToast('التطبيق مثبّت مسبقاً','info');return;}deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;document.getElementById('install-btn').classList.remove('visible');});};
+window.captureRepairPhoto = function() {
+  const video = document.getElementById("repair-camera-video");
+  const canvas = document.createElement("canvas");
+  const MAX = 700;
+  let w = video.videoWidth, h = video.videoHeight;
+  if (w > MAX) { h = Math.round(h*(MAX/w)); w = MAX; }
+  if (h > MAX) { w = Math.round(w*(MAX/h)); h = MAX; }
+  canvas.width = w; canvas.height = h;
+  canvas.getContext("2d").drawImage(video, 0, 0, w, h);
+  currentRepairImg = canvas.toDataURL("image/jpeg", 0.82);
+  const prev = document.getElementById("repair-img-preview");
+  prev.src = currentRepairImg;
+  prev.style.display = "block";
+  document.getElementById("clear-repair-img-btn").style.display = "inline-flex";
+  stopRepairCamera();
+  document.getElementById("repair-img-drop").style.display = "block";
+  notify("📸 تم التقاط الصورة!", "success");
+};
 
-// ===== الإشعارات =====
-function showAnnToast(text,seenKey){
-  var shortText=text.length>60?text.substring(0,57)+'...':text;
-  document.getElementById('ann-toast-text').textContent=shortText;
-  document.getElementById('ann-modal-text').textContent=text;
-  document.getElementById('ann-toast').classList.remove('hidden');
-  var bar=document.getElementById('ann-toast-bar');
-  bar.style.transition='none';bar.style.width='100%';
-  setTimeout(function(){bar.style.transition='width 10s linear';bar.style.width='0%';},50);
-  var secs=10;
-  annCountTimer=setInterval(function(){secs--;if(secs<=0){clearInterval(annCountTimer);fadeOutToast();localStorage.setItem(seenKey,'1');}},1000);
-  window._annSeenKey=seenKey;
-}
-function fadeOutToast(){var t=document.getElementById('ann-toast');t.classList.add('fade-out');setTimeout(function(){t.classList.add('hidden');t.classList.remove('fade-out');},300);}
-window.openAnnDetail=function(){clearInterval(annCountTimer);fadeOutToast();if(window._annSeenKey)localStorage.setItem(window._annSeenKey,'1');document.getElementById('ann-modal').classList.remove('hidden');};
-window.closeAnnDetail=function(){document.getElementById('ann-modal').classList.add('hidden');};
-document.getElementById('ann-modal').addEventListener('click',function(e){if(e.target===document.getElementById('ann-modal'))closeAnnDetail();});
-window.openAnnModal=function(){if(!isAdmin)return;document.getElementById('ann-input').value=window._annData?window._annData.text:'';document.getElementById('ann-err').textContent='';document.getElementById('btn-send-ann').disabled=false;document.getElementById('btn-send-ann').textContent='&#128276; إرسال';document.getElementById('modal-ann').classList.remove('hidden');setTimeout(function(){document.getElementById('ann-input').focus();},100);};
-window.sendAnnouncement=async function(){if(!isAdmin)return;var text=document.getElementById('ann-input').value.trim();if(!text){document.getElementById('ann-err').textContent='يرجى كتابة نص الإشعار';return;}document.getElementById('btn-send-ann').disabled=true;document.getElementById('btn-send-ann').textContent='جاري الإرسال...';try{var annId='ann_'+Date.now();await window._setDoc(window._doc(window._db,'settings','announcement'),{text:text,id:annId,updatedAt:new Date().toISOString()});window._annData={text:text,id:annId};closeModal('modal-ann');showToast('تم إرسال الإشعار ✓','success');}catch(e){document.getElementById('ann-err').textContent='خطأ: '+e.message;document.getElementById('btn-send-ann').disabled=false;document.getElementById('btn-send-ann').textContent='&#128276; إرسال';}};
-window.clearAnnouncement=async function(){try{await window._setDoc(window._doc(window._db,'settings','announcement'),{text:'',id:'',updatedAt:new Date().toISOString()});window._annData=null;closeModal('modal-ann');showToast('تم حذف الإشعار ✓','info');}catch(e){showToast('خطأ: '+e.message,'error');}};
-
-function initStars(){
-  var bg=document.getElementById('stars-bg');
-  for(var i=0;i<80;i++){var s=document.createElement('div');s.className='star';var sz=Math.random()*2.5+0.5;s.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+(Math.random()*100)+'%;left:'+(Math.random()*100)+'%;animation-duration:'+(2+Math.random()*4)+'s;animation-delay:'+(Math.random()*4)+'s;opacity:'+(0.1+Math.random()*0.6);bg.appendChild(s);}
-  for(var j=0;j<10;j++){var p=document.createElement('div');p.className='particle';var ps=Math.random()*4+2;var col=Math.random()>0.5?'0,212,255':'240,192,64';p.style.cssText='width:'+ps+'px;height:'+ps+'px;left:'+(Math.random()*100)+'%;background:rgba('+col+',0.5);animation-duration:'+(8+Math.random()*12)+'s;animation-delay:'+(Math.random()*8)+'s;';document.body.appendChild(p);}
+window.stopRepairCamera = stopRepairCamera;
+function stopRepairCamera() {
+  if (repairCameraStream) {
+    repairCameraStream.getTracks().forEach(t => t.stop());
+    repairCameraStream = null;
+  }
+  document.getElementById("repair-camera-container").style.display = "none";
+  document.getElementById("repair-img-drop").style.display = "block";
 }
 
-// ADMIN
-window.openAdminModal=function(){if(isAdmin){exitAdmin();return;}document.getElementById('pwd-input').value='';document.getElementById('pwd-err').textContent='';document.getElementById('modal-password').classList.remove('hidden');setTimeout(function(){document.getElementById('pwd-input').focus();},100);};
-window.checkPassword=function(){if(document.getElementById('pwd-input').value.trim()===ADMIN_PASS){isAdmin=true;closeModal('modal-password');document.getElementById('admin-btn').textContent='&#128274; خروج من المدير';document.getElementById('admin-btn').classList.add('active');document.getElementById('app').classList.add('admin-mode');showToast('تم الدخول كمدير ✓','success');}else{document.getElementById('pwd-err').textContent='كلمة المرور غير صحيحة';document.getElementById('pwd-input').style.borderColor='var(--red)';setTimeout(function(){document.getElementById('pwd-input').style.borderColor='';},1000);}};
-function exitAdmin(){isAdmin=false;document.getElementById('admin-btn').textContent='&#9881; وضع المدير';document.getElementById('admin-btn').classList.remove('active');document.getElementById('app').classList.remove('admin-mode');showToast('تم الخروج','info');}
-window.openAddBrand=function(){if(!isAdmin)return;document.getElementById('new-brand-name').value='';document.getElementById('new-brand-folder').value='';document.getElementById('brand-err').textContent='';document.getElementById('btn-add-brand').disabled=false;document.getElementById('btn-add-brand').textContent='إضافة';document.getElementById('modal-add-brand').classList.remove('hidden');setTimeout(function(){document.getElementById('new-brand-name').focus();},100);};
-window.addBrand=async function(){if(!isAdmin)return;var name=document.getElementById('new-brand-name').value.trim();var folder=document.getElementById('new-brand-folder').value.trim();if(!name||!folder){document.getElementById('brand-err').textContent='يرجى ملء جميع الحقول';return;}document.getElementById('btn-add-brand').disabled=true;document.getElementById('btn-add-brand').textContent='جاري الحفظ...';try{var maxOrder=window._BRANDS.length?Math.max.apply(null,window._BRANDS.map(function(b){return b.order||0;})):0;var nb={name:name,folder:folder,icon:'&#128241;',order:maxOrder+1,models:[]};var ref=await window._addDoc(window._col(window._db,'brands'),nb);window._BRANDS.push({id:ref.id,...nb});closeModal('modal-add-brand');renderBrands();showToast('تم إضافة '+name+' ✓','success');}catch(e){document.getElementById('brand-err').textContent='خطأ: '+e.message;document.getElementById('btn-add-brand').disabled=false;document.getElementById('btn-add-brand').textContent='إضافة';}};
-window.openAddModel=function(){if(!isAdmin)return;document.getElementById('new-model-name').value='';document.getElementById('new-model-folder').value='';document.getElementById('model-err').textContent='';document.getElementById('btn-add-model').disabled=false;document.getElementById('btn-add-model').textContent='إضافة';document.getElementById('modal-add-model').classList.remove('hidden');setTimeout(function(){document.getElementById('new-model-name').focus();},100);};
-window.addModel=async function(){if(!isAdmin||!selectedBrand)return;var name=document.getElementById('new-model-name').value.trim();var folder=document.getElementById('new-model-folder').value.trim();if(!name||!folder){document.getElementById('model-err').textContent='يرجى ملء جميع الحقول';return;}document.getElementById('btn-add-model').disabled=true;document.getElementById('btn-add-model').textContent='جاري الحفظ...';try{var bidx=window._BRANDS.findIndex(function(b){return b.id===selectedBrand.id;});var updatedModels=(window._BRANDS[bidx].models||[]).concat([{name:name,folder:folder}]);await window._updateDoc(window._doc(window._db,'brands',selectedBrand.id),{models:updatedModels});window._BRANDS[bidx].models=updatedModels;allModels=updatedModels;closeModal('modal-add-model');renderModels(allModels);showToast('تم إضافة '+name+' ✓','success');}catch(e){document.getElementById('model-err').textContent='خطأ: '+e.message;document.getElementById('btn-add-model').disabled=false;document.getElementById('btn-add-model').textContent='إضافة';}};
-window.askDeleteBrand=function(e,brandId){e.stopPropagation();if(!isAdmin)return;pendingDelType='brand';pendingDelIdx=brandId;var b=window._BRANDS.find(function(x){return x.id===brandId;});document.getElementById('del-msg').textContent='حذف براند "'+b.name+'" نهائياً؟';document.getElementById('btn-del-confirm').disabled=false;document.getElementById('btn-del-confirm').textContent='حذف';document.getElementById('modal-confirm-del').classList.remove('hidden');};
-window.askDeleteModel=function(e,idx){e.stopPropagation();if(!isAdmin)return;pendingDelType='model';pendingDelIdx=idx;document.getElementById('del-msg').textContent='حذف هذا الموديل نهائياً؟';document.getElementById('btn-del-confirm').disabled=false;document.getElementById('btn-del-confirm').textContent='حذف';document.getElementById('modal-confirm-del').classList.remove('hidden');};
-window.confirmDelete=async function(){document.getElementById('btn-del-confirm').disabled=true;document.getElementById('btn-del-confirm').textContent='جاري الحذف...';try{if(pendingDelType==='brand'){await window._deleteDoc(window._doc(window._db,'brands',pendingDelIdx));window._BRANDS=window._BRANDS.filter(function(b){return b.id!==pendingDelIdx;});closeModal('modal-confirm-del');renderBrands();showToast('تم الحذف ✓','success');}else{var bidx=window._BRANDS.findIndex(function(b){return b.id===selectedBrand.id;});var updated=window._BRANDS[bidx].models.filter(function(_,i){return i!==pendingDelIdx;});await window._updateDoc(window._doc(window._db,'brands',selectedBrand.id),{models:updated});window._BRANDS[bidx].models=updated;allModels=updated;closeModal('modal-confirm-del');renderModels(allModels);showToast('تم الحذف ✓','success');}}catch(e){document.getElementById('btn-del-confirm').disabled=false;document.getElementById('btn-del-confirm').textContent='حذف';showToast('خطأ: '+e.message,'error');}};
+window.clearRepairImg = function() {
+  currentRepairImg = null;
+  const prev = document.getElementById("repair-img-preview");
+  prev.src = ""; prev.style.display = "none";
+  document.getElementById("clear-repair-img-btn").style.display = "none";
+};
 
-function renderBrands(){var g=document.getElementById('brands-grid');g.innerHTML='';var sorted=(window._BRANDS||[]).slice().sort(function(a,b){return a.name.localeCompare(b.name,'en',{sensitivity:'base'});});sorted.forEach(function(b,i){var c=document.createElement('div');c.className='brand-card';c.innerHTML='<span class="brand-num">'+(i+1)+'</span><button class="brand-del" onclick="askDeleteBrand(event,\''+b.id+'\')">&#10005;</button><div class="brand-logo-placeholder">'+b.icon+'</div><div class="brand-name">'+b.name+'</div><div class="brand-model-count">'+(b.models?b.models.length:0)+' موديل</div>';c.onclick=function(){selectBrand(b);};g.appendChild(c);});}
-function selectBrand(b){selectedBrand=b;document.getElementById('brand-title-display').textContent=b.name;allModels=b.models||[];document.getElementById('model-search').value='';renderModels(allModels);showScreen('models');updateBreadcrumb();pushState();}
-function renderModels(list){var el=document.getElementById('models-list');el.innerHTML='';if(!list.length){el.innerHTML='<p style="text-align:center;color:var(--text2);padding:2rem;">لا توجد موديلات</p>';return;}var sorted=list.slice().sort(function(a,b){return a.name.localeCompare(b.name,'en',{sensitivity:'base'});});sorted.forEach(function(m){var origIdx=allModels.indexOf(m);var item=document.createElement('div');item.className='model-item';item.innerHTML='<span class="model-icon">&#128241;</span><span class="model-name">'+m.name+'</span><button class="model-del" onclick="askDeleteModel(event,'+origIdx+')">&#10005;</button><span class="model-arrow">&#8592;</span>';item.onclick=function(){selectModel(m);};el.appendChild(item);});}
-window.filterModels=function(){var q=document.getElementById('model-search').value.toLowerCase().trim();renderModels(q?allModels.filter(function(m){return m.name.toLowerCase().includes(q);}):allModels);};
-function selectModel(m){selectedModel=m;document.getElementById('model-title-display').textContent=m.name;renderSolutions();showScreen('solutions');updateBreadcrumb();pushState();saveRecentModel(m);}
-function renderSolutions(){var g=document.getElementById('solutions-grid');g.innerHTML='';SOLUTIONS.forEach(function(sol){var c=document.createElement('div');c.className='sol-card';c.innerHTML='<span class="sol-icon">'+sol.icon+'</span><span class="sol-name">'+sol.name+'</span>';c.onclick=function(){openSolution(sol);};g.appendChild(c);});}
+// ======= REPAIR MODAL =======
+window.openRepairModal = openRepairModal;
+function openRepairModal(repairId = null) {
+  editingRepairId = repairId;
+  currentRepairImg = null;
+  selectedBrand = "";
+  stopRepairCamera();
+  document.querySelectorAll(".brand-logo-btn").forEach(b => b.classList.remove("selected"));
+  document.getElementById("repair-brand-other").style.display = "none";
+  document.getElementById("repair-brand-other").value = "";
+  document.getElementById("clear-repair-img-btn").style.display = "none";
 
-// ===== عارض الصور المتعدد =====
-function openSolution(sol){
-  currentSol=sol;
-  currentImages=[];
-  currentImgIdx=0;
-  document.getElementById('image-viewer').classList.remove('hidden');
-  document.getElementById('viewer-title').innerHTML='<span class="vtitle-sol">'+sol.name+'</span><span class="vtitle-model">'+selectedModel.name+'</span>';
-  document.getElementById('viewer-error').classList.remove('show');
-  resetZoom();
-  pushState();
-  loadImagesForSolution(sol);
-}
-
-async function loadImagesForSolution(sol){
-  document.getElementById('viewer-loading').classList.remove('hidden');
-  document.getElementById('viewer-img').style.display='none';
-  var found=[];
-
-  // جرب الصورة الأولى: file_1.jpg
-  var url1=buildURL(selectedBrand.folder,selectedModel.folder,sol.file+'_1.jpg');
-  var ok1=await checkImage(url1);
-  if(ok1){
-    found.push(url1);
-    // جرب المزيد: _2, _3, ...
-    for(var i=2;i<=MAX_IMGS;i++){
-      var urlN=buildURL(selectedBrand.folder,selectedModel.folder,sol.file+'_'+i+'.jpg');
-      var okN=await checkImage(urlN);
-      if(okN) found.push(urlN);
-      else break;
+  if (repairId) {
+    const r = repairs.find(x => x.id === repairId);
+    if (!r) return;
+    document.getElementById("repair-modal-title").textContent = "✏ تعديل طلب الصيانة";
+    document.getElementById("repair-edit-id").value = repairId;
+    document.getElementById("repair-device").value = r.device || "";
+    document.getElementById("repair-issue").value = r.issue || "";
+    // تأكد أن القيمة عدد صحيح موجب بدون طرح أي شيء
+    document.getElementById("repair-cost").value = Math.abs(parseInt(r.cost)||0) || "";
+    document.getElementById("repair-part-cost").value = Math.abs(parseInt(r.partCost)||0) || "";
+    document.getElementById("repair-date-in").value = r.dateIn ? r.dateIn.slice(0,16) : "";
+    document.getElementById("repair-date-out").value = r.dateOut ? r.dateOut.slice(0,16) : "";
+    document.getElementById("repair-customer-name").value = r.customerName || "";
+    document.getElementById("repair-customer-phone").value = r.customerPhone || "";
+    document.getElementById("repair-notes").value = r.notes || "";
+    selectedBrand = r.brand || "";
+    const btn = document.querySelector(`.brand-logo-btn[data-brand="${r.brand}"]`);
+    if (btn) { btn.classList.add("selected"); }
+    else if (r.brand) {
+      const otherBtn = document.querySelector('.brand-logo-btn[data-brand="أخرى"]');
+      if (otherBtn) otherBtn.classList.add("selected");
+      document.getElementById("repair-brand-other").style.display = "block";
+      document.getElementById("repair-brand-other").value = r.brand;
+    }
+    if (r.image) {
+      currentRepairImg = r.image;
+      const prev = document.getElementById("repair-img-preview");
+      prev.src = r.image; prev.style.display = "block";
+      document.getElementById("clear-repair-img-btn").style.display = "inline-flex";
+    } else {
+      document.getElementById("repair-img-preview").style.display = "none";
     }
   } else {
-    // جرب الصورة الأصلية file.jpg
-    var url0=buildURL(selectedBrand.folder,selectedModel.folder,sol.file+'.jpg');
-    var ok0=await checkImage(url0);
-    if(ok0) found.push(url0);
+    document.getElementById("repair-modal-title").textContent = "🔧 إضافة طلب صيانة جديد";
+    document.getElementById("repair-edit-id").value = "";
+    document.getElementById("repair-device").value = "";
+    document.getElementById("repair-issue").value = "";
+    document.getElementById("repair-cost").value = "";
+    document.getElementById("repair-part-cost").value = "";
+    const now = new Date();
+    document.getElementById("repair-date-in").value = now.toISOString().slice(0,16);
+    document.getElementById("repair-date-out").value = "";
+    document.getElementById("repair-customer-name").value = "";
+    document.getElementById("repair-customer-phone").value = "";
+    document.getElementById("repair-notes").value = "";
+    document.getElementById("repair-img-preview").style.display = "none";
   }
+  document.getElementById("repair-modal").classList.add("open");
+}
 
-  document.getElementById('viewer-loading').classList.add('hidden');
+window.closeRepairModal = closeRepairModal;
+function closeRepairModal() {
+  stopRepairCamera();
+  document.getElementById("repair-modal").classList.remove("open");
+  editingRepairId = null; currentRepairImg = null;
+}
 
-  if(found.length===0){
-    document.getElementById('viewer-error').classList.add('show');
-    updateNavUI();
+window.selectBrand = selectBrand;
+function selectBrand(brand, el) {
+  document.querySelectorAll(".brand-logo-btn").forEach(b => b.classList.remove("selected"));
+  el.classList.add("selected");
+  if (brand === "أخرى") {
+    document.getElementById("repair-brand-other").style.display = "block";
+    selectedBrand = "";
+  } else {
+    document.getElementById("repair-brand-other").style.display = "none";
+    document.getElementById("repair-brand-other").value = "";
+    selectedBrand = brand;
+  }
+}
+
+window.handleRepairImgUpload = function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const MAX = 700;
+      let w = img.width, h = img.height;
+      if (w > MAX) { h = Math.round(h*(MAX/w)); w = MAX; }
+      if (h > MAX) { w = Math.round(w*(MAX/h)); h = MAX; }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+      currentRepairImg = canvas.toDataURL("image/jpeg", 0.82);
+      const prev = document.getElementById("repair-img-preview");
+      prev.src = currentRepairImg; prev.style.display = "block";
+      document.getElementById("clear-repair-img-btn").style.display = "inline-flex";
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+};
+
+window.saveRepair = async function() {
+  const brand = document.getElementById("repair-brand-other").value.trim() || selectedBrand;
+  const device = document.getElementById("repair-device").value.trim();
+  const issue = document.getElementById("repair-issue").value.trim();
+  // استخدام parseInt لضمان عدد صحيح وليس عشري ودون طرح
+  const cost = Math.abs(parseInt(document.getElementById("repair-cost").value) || 0);
+  const partCost = Math.abs(parseInt(document.getElementById("repair-part-cost").value) || 0);
+  const dateIn = document.getElementById("repair-date-in").value;
+  const dateOut = document.getElementById("repair-date-out").value;
+  const customerName = document.getElementById("repair-customer-name").value.trim();
+  const customerPhone = document.getElementById("repair-customer-phone").value.trim();
+  const notes = document.getElementById("repair-notes").value.trim();
+
+  if (!brand) { notify("❌ اختر الشركة المصنعة", "error"); return; }
+  if (!device) { notify("❌ أدخل اسم الجهاز", "error"); return; }
+  if (!issue) { notify("❌ أدخل وصف العطل", "error"); return; }
+  if (!customerName) { notify("❌ أدخل اسم الزبون", "error"); return; }
+
+  if (editingRepairId) {
+    const updateData = { brand, device, issue, cost, partCost, dateIn, dateOut, customerName, customerPhone, notes, image: currentRepairImg || null, updatedAt: new Date().toISOString() };
+    await updateRepairInDB(editingRepairId, updateData);
+    notify("✅ تم تحديث طلب الصيانة", "success");
+  } else {
+    const rid = "R" + Date.now();
+    const repair = {
+      id: rid, brand, device, issue, cost, partCost,
+      dateIn: dateIn || new Date().toISOString(),
+      dateOut: dateOut || null,
+      customerName, customerPhone, notes,
+      image: currentRepairImg || null,
+      status: "pending",
+      technician: currentUser?.username || "غير محدد",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    await addRepairToDB(repair);
+    notify("🔧 تم إضافة طلب الصيانة بنجاح", "repair");
+  }
+  closeRepairModal();
+};
+
+// ======= عرض بطاقات الصيانة =======
+function renderRepairGrid() {
+  const searchTerm = document.getElementById("repair-search")?.value || "";
+  let filtered = [...repairs];
+
+  if (activeRepairFilter !== "all") filtered = filtered.filter(r => r.status === activeRepairFilter);
+  if (searchTerm) filtered = filtered.filter(r =>
+    r.customerName?.includes(searchTerm) ||
+    r.device?.includes(searchTerm) ||
+    r.brand?.includes(searchTerm)
+  );
+
+  const grid = document.getElementById("repair-grid");
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty-state"><div style="font-size:3rem;">🔧</div><p>لا توجد طلبات صيانة</p></div>';
     return;
   }
 
-  currentImages=found;
-  currentImgIdx=0;
-  showImageAt(0,'');
-  updateNavUI();
+  grid.innerHTML = filtered.map(r => {
+    const statusLabel = {pending:"⏳ قيد الصيانة", done:"✅ تم الإصلاح", failed:"❌ فشل الإصلاح", delivered:"📦 تم التسليم"}[r.status] || r.status;
+    const badgeClass = {pending:"badge-yellow", done:"badge-green", failed:"badge-red", delivered:"badge-blue"}[r.status] || "badge-yellow";
+    const dateIn = r.dateIn ? new Date(r.dateIn).toLocaleDateString("ar-IQ") : "—";
+    const dateOut = r.dateOut ? new Date(r.dateOut).toLocaleDateString("ar-IQ") : "غير محدد";
+    // عرض تكلفة صحيحة بدون خصم
+    const totalCost = (Math.abs(parseInt(r.cost)||0)) + (Math.abs(parseInt(r.partCost)||0));
+
+    // في بطاقة "تم التسليم" نُظهر نجح/فشل بجانبها
+    let deliveredOutcome = "";
+    if (r.status === "delivered") {
+      deliveredOutcome = r.repairOutcome === "failed"
+        ? `<span class="badge badge-red" style="margin-right:6px;">❌ فشل الإصلاح</span>`
+        : `<span class="badge badge-green" style="margin-right:6px;">✅ نجح الإصلاح</span>`;
+    }
+
+    return `
+      <div class="repair-card status-${r.status}">
+        <div class="repair-card-header">
+          <div class="repair-brand-badge">${r.brand}</div>
+          <div class="repair-id">#${r.id.slice(-6)}</div>
+        </div>
+        ${r.image ? `<img src="${r.image}" class="repair-img" alt="صورة الجهاز" onclick="window.zoomImg('${r.image}')">` : `<div class="repair-img-placeholder">📱</div>`}
+        <div class="repair-device-name" style="margin-top:8px;">📱 ${r.device}</div>
+        <div class="repair-issue">🔴 ${r.issue}</div>
+        <div class="repair-cost">${totalCost.toLocaleString()} د.ع</div>
+        <div class="repair-customer">👤 ${r.customerName} ${r.customerPhone ? `| 📞 ${r.customerPhone}` : ""}</div>
+        <div class="repair-dates">
+          <span>📥 ${dateIn}</span>
+          <span>📤 ${dateOut}</span>
+        </div>
+        <div style="margin-top:8px;display:flex;align-items:center;flex-wrap:wrap;gap:4px;">
+          <span class="badge ${badgeClass}">${statusLabel}</span>
+          ${deliveredOutcome}
+        </div>
+        <div class="repair-actions">
+          <button class="btn btn-outline btn-sm" onclick="window.viewRepairDetail('${r.id}')">👁 تفاصيل</button>
+          ${isAdmin() ? `<button class="btn btn-warning btn-sm" onclick="openRepairModal('${r.id}')">✏</button>` : ""}
+          ${r.status === "pending" ? `
+            <button class="btn btn-success btn-sm" onclick="window.markRepairStatus('${r.id}','done')">✅ نجح</button>
+            <button class="btn btn-danger btn-sm" onclick="window.markRepairStatus('${r.id}','failed')">❌ فشل</button>
+          ` : ""}
+          ${r.status === "done" ? `<button class="btn btn-primary btn-sm" onclick="window.deliverRepair('${r.id}','done')">📦 تسليم (نجح)</button>` : ""}
+          ${r.status === "failed" ? `<button class="btn btn-orange btn-sm" onclick="window.deliverRepair('${r.id}','failed')">📦 تسليم (فشل)</button>` : ""}
+          ${isAdmin() ? `<button class="btn btn-danger btn-sm" onclick="window.deleteRepairConfirm('${r.id}')">🗑</button>` : ""}
+        </div>
+      </div>
+    `;
+  }).join("");
 }
 
-function checkImage(url){
-  return new Promise(function(resolve){
-    var img=new Image();
-    img.onload=function(){resolve(true);};
-    img.onerror=function(){resolve(false);};
-    img.src=url;
+window.setRepairFilter = function(f, el) {
+  activeRepairFilter = f;
+  document.querySelectorAll(".status-chip").forEach(c => {
+    c.className = "status-chip";
+    const id = c.id.replace("rfilt-","");
+    if (id === f) c.classList.add("active-"+f);
   });
-}
-
-function showImageAt(idx,direction){
-  var img=document.getElementById('viewer-img');
-  img.style.display='none';
-  resetZoom();
-  img.className='';
-  img.src=currentImages[idx];
-  img.onload=function(){
-    img.style.display='block';
-    if(direction) img.classList.add(direction);
-    setTimeout(function(){img.classList.remove('slide-left','slide-right');},250);
-  };
-  updateCounter();
-  updateDots();
-}
-
-function updateNavUI(){
-  var multi=currentImages.length>1;
-  document.getElementById('nav-prev').classList.toggle('visible',multi);
-  document.getElementById('nav-next').classList.toggle('visible',multi);
-  document.getElementById('img-counter').classList.toggle('visible',multi);
-  document.getElementById('img-dots').classList.toggle('visible',multi);
-  updateDots();
-  updateCounter();
-}
-
-function updateCounter(){
-  var c=document.getElementById('img-counter');
-  if(currentImages.length>1) c.textContent=(currentImgIdx+1)+' / '+currentImages.length;
-}
-
-function updateDots(){
-  var dotsEl=document.getElementById('img-dots');
-  dotsEl.innerHTML='';
-  if(currentImages.length<=1) return;
-  currentImages.forEach(function(_,i){
-    var d=document.createElement('span');
-    d.className='img-dot'+(i===currentImgIdx?' active':'');
-    d.onclick=function(){goToImage(i);};
-    dotsEl.appendChild(d);
-  });
-}
-
-window.prevImage=function(){
-  if(currentImages.length<=1) return;
-  currentImgIdx=(currentImgIdx+1)%currentImages.length;
-  showImageAt(currentImgIdx,'slide-right');
-  updateDots();updateCounter();
+  renderRepairGrid();
 };
-window.nextImage=function(){
-  if(currentImages.length<=1) return;
-  currentImgIdx=(currentImgIdx-1+currentImages.length)%currentImages.length;
-  showImageAt(currentImgIdx,'slide-left');
-  updateDots();updateCounter();
-};
-function goToImage(idx){
-  if(idx===currentImgIdx) return;
-  var dir=idx>currentImgIdx?'slide-left':'slide-right';
-  currentImgIdx=idx;
-  showImageAt(idx,dir);
-  updateDots();updateCounter();
-}
 
-// سحب أفقي للتنقل بين الصور
-var swipeStartX=0,swipeStartY=0,isSwiping=false;
-var vcont=document.getElementById('viewer-img-container');
-vcont.addEventListener('touchstart',function(e){
-  if(e.touches.length===1&&sc===1){swipeStartX=e.touches[0].clientX;swipeStartY=e.touches[0].clientY;isSwiping=true;}
-},{passive:true});
-vcont.addEventListener('touchend',function(e){
-  if(!isSwiping||currentImages.length<=1){isSwiping=false;return;}
-  var dx=e.changedTouches[0].clientX-swipeStartX;
-  var dy=e.changedTouches[0].clientY-swipeStartY;
-  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){
-    if(dx<0) nextImage();
-    else prevImage();
+window.filterRepairs = function() { renderRepairGrid(); };
+
+window.markRepairStatus = async function(id, status) {
+  await updateRepairInDB(id, { status, updatedAt: new Date().toISOString() });
+  const labels = {done:"✅ تم الإصلاح بنجاح!", failed:"❌ تم تسجيل فشل الإصلاح"};
+  notify(labels[status] || "تم التحديث", status === "done" ? "success" : "error");
+};
+
+// تسليم الجهاز مع تسجيل نتيجة الإصلاح (نجح أو فشل)
+window.deliverRepair = async function(id, outcome) {
+  await updateRepairInDB(id, { status: "delivered", repairOutcome: outcome, updatedAt: new Date().toISOString() });
+  const msg = outcome === "done" ? "📦 تم تسليم الجهاز للزبون (إصلاح ناجح)" : "📦 تم تسليم الجهاز للزبون (إصلاح فاشل)";
+  notify(msg, "info");
+};
+
+window.deleteRepairConfirm = function(id) {
+  const r = repairs.find(x => x.id === id);
+  openConfirm("🗑", "حذف طلب الصيانة", `حذف جهاز "${r?.device}" للزبون "${r?.customerName}"؟`, async () => {
+    await deleteRepairFromDB(id);
+    notify("🗑 تم حذف طلب الصيانة", "info");
+  }, "حذف الطلب");
+};
+
+window.viewRepairDetail = function(id) {
+  const r = repairs.find(x => x.id === id);
+  if (!r) return;
+  const statusLabel = {pending:"⏳ قيد الصيانة", done:"✅ تم الإصلاح", failed:"❌ فشل الإصلاح", delivered:"📦 تم التسليم"}[r.status] || r.status;
+  const totalCost = (Math.abs(parseInt(r.cost)||0)) + (Math.abs(parseInt(r.partCost)||0));
+  let outcomeRow = "";
+  if (r.status === "delivered") {
+    const oc = r.repairOutcome === "failed" ? "❌ فشل الإصلاح" : "✅ نجح الإصلاح";
+    outcomeRow = `<div class="receipt-row"><span>نتيجة الإصلاح</span><span>${oc}</span></div>`;
   }
-  isSwiping=false;
-},{passive:true});
+  document.getElementById("repair-detail-content").innerHTML = `
+    <div class="repair-receipt">
+      ${r.image ? `<img src="${r.image}" style="width:100%;border-radius:8px;margin-bottom:12px;cursor:pointer;" onclick="window.zoomImg('${r.image}')">` : ""}
+      <div class="receipt-row"><span>الشركة</span><span>${r.brand}</span></div>
+      <div class="receipt-row"><span>الجهاز</span><span>${r.device}</span></div>
+      <div class="receipt-row"><span>العطل</span><span>${r.issue}</span></div>
+      <div class="receipt-row"><span>الحالة</span><span>${statusLabel}</span></div>
+      ${outcomeRow}
+      <div class="receipt-row"><span>الزبون</span><span>${r.customerName}</span></div>
+      <div class="receipt-row"><span>رقم الهاتف</span><span>${r.customerPhone || "—"}</span></div>
+      <div class="receipt-row"><span>تاريخ الاستلام</span><span>${r.dateIn ? new Date(r.dateIn).toLocaleString("ar-IQ") : "—"}</span></div>
+      <div class="receipt-row"><span>موعد التسليم</span><span>${r.dateOut ? new Date(r.dateOut).toLocaleString("ar-IQ") : "—"}</span></div>
+      <div class="receipt-row"><span>أجرة الصيانة</span><span>${(Math.abs(parseInt(r.cost)||0)).toLocaleString()} د.ع</span></div>
+      <div class="receipt-row"><span>تكلفة القطعة</span><span>${(Math.abs(parseInt(r.partCost)||0)).toLocaleString()} د.ع</span></div>
+      ${r.notes ? `<div class="receipt-row"><span>ملاحظات</span><span>${r.notes}</span></div>` : ""}
+      <div class="receipt-row"><span>الفني</span><span>${r.technician || "—"}</span></div>
+      <div class="receipt-row"><span>💰 الإجمالي</span><span>${totalCost.toLocaleString()} د.ع</span></div>
+    </div>
+  `;
+  document.getElementById("repair-detail-actions").innerHTML = `
+    <button class="btn btn-orange btn-sm" onclick="window.printRepairReceipt('${id}')">🖨️ طبع الوصل</button>
+    ${r.status === "pending" ? `
+      <button class="btn btn-success btn-sm" onclick="window.markRepairStatus('${r.id}','done');closeRepairDetail();">✅ نجح الإصلاح</button>
+      <button class="btn btn-danger btn-sm" onclick="window.markRepairStatus('${r.id}','failed');closeRepairDetail();">❌ فشل</button>
+    ` : ""}
+    ${r.status === "done" ? `<button class="btn btn-primary btn-sm" onclick="window.deliverRepair('${r.id}','done');closeRepairDetail();">📦 تسليم للزبون</button>` : ""}
+    ${r.status === "failed" ? `<button class="btn btn-orange btn-sm" onclick="window.deliverRepair('${r.id}','failed');closeRepairDetail();">📦 تسليم (فشل)</button>` : ""}
+  `;
+  document.getElementById("repair-detail-modal").classList.add("open");
+};
+window.closeRepairDetail = () => document.getElementById("repair-detail-modal").classList.remove("open");
 
-window.closeViewer=function(){
-  document.getElementById('image-viewer').classList.add('hidden');
-  var img=document.getElementById('viewer-img');
-  img.src='';img.style.display='none';
-  document.getElementById('viewer-error').classList.remove('show');
-  document.getElementById('viewer-loading').classList.remove('hidden');
-  currentImages=[];currentImgIdx=0;
-  document.getElementById('nav-prev').classList.remove('visible');
-  document.getElementById('nav-next').classList.remove('visible');
-  document.getElementById('img-counter').classList.remove('visible');
-  document.getElementById('img-dots').classList.remove('visible');
-  resetZoom();
+window.printRepairReceipt = function(id) {
+  const r = repairs.find(x => x.id === id);
+  if (!r) return;
+  const total = (Math.abs(parseInt(r.cost)||0)) + (Math.abs(parseInt(r.partCost)||0));
+  const outcomeText = r.status === "delivered" ? (r.repairOutcome === "failed" ? "❌ فشل الإصلاح" : "✅ نجح الإصلاح") : "";
+  const w = window.open("","_blank");
+  w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>وصل الصيانة</title>
+  <style>body{font-family:Tajawal;padding:30px;max-width:400px;margin:0 auto;}h2{text-align:center;border-bottom:2px solid #333;padding-bottom:10px;}.row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #ccc;}.total{font-size:1.3rem;font-weight:900;color:#c0392b;}.logo{text-align:center;font-size:2rem;margin-bottom:8px;}img{max-width:100%;border-radius:8px;margin-bottom:10px;}</style>
+  </head><body>
+  <div class="logo">🔧</div>
+  <h2>وصل الصيانة</h2>
+  ${r.image ? `<img src="${r.image}">` : ""}
+  <div class="row"><span>رقم الطلب</span><span>#${r.id.slice(-8)}</span></div>
+  <div class="row"><span>الجهاز</span><span>${r.brand} ${r.device}</span></div>
+  <div class="row"><span>العطل</span><span>${r.issue}</span></div>
+  <div class="row"><span>الزبون</span><span>${r.customerName}</span></div>
+  ${r.customerPhone ? `<div class="row"><span>الهاتف</span><span>${r.customerPhone}</span></div>` : ""}
+  <div class="row"><span>تاريخ الاستلام</span><span>${r.dateIn ? new Date(r.dateIn).toLocaleDateString("ar-IQ") : "—"}</span></div>
+  <div class="row"><span>موعد التسليم</span><span>${r.dateOut ? new Date(r.dateOut).toLocaleDateString("ar-IQ") : "—"}</span></div>
+  <div class="row"><span>أجرة الصيانة</span><span>${(Math.abs(parseInt(r.cost)||0)).toLocaleString()} د.ع</span></div>
+  ${r.partCost ? `<div class="row"><span>تكلفة القطعة</span><span>${(Math.abs(parseInt(r.partCost)||0)).toLocaleString()} د.ع</span></div>` : ""}
+  ${outcomeText ? `<div class="row"><span>النتيجة</span><span>${outcomeText}</span></div>` : ""}
+  ${r.notes ? `<div class="row"><span>ملاحظات</span><span>${r.notes}</span></div>` : ""}
+  <div class="row total"><span>💰 الإجمالي</span><span>${total.toLocaleString()} د.ع</span></div>
+  <p style="text-align:center;margin-top:20px;color:#666;">شكراً لثقتكم بنا</p>
+  <script>window.print();<\/script>
+  </body></html>`);
+  w.document.close();
 };
 
-// ===== ZOOM =====
-var sc=1,tx=0,ty=0,MAX_ZOOM=20;
-var imgEl=document.getElementById('viewer-img');
-function applyZoom(){imgEl.style.transform='translate3d('+tx+'px,'+ty+'px,0) scale('+sc+')';imgEl.style.imageRendering=sc>3?'auto':'-webkit-optimize-contrast';document.getElementById('zoom-level').textContent=Math.round(sc*100)+'%';}
-window.resetZoom=function(){sc=1;tx=0;ty=0;applyZoom();};
-window.zoomIn=function(){sc=Math.min(sc+1,MAX_ZOOM);applyZoom();};
-window.zoomOut=function(){sc=Math.max(sc-1,1);if(sc<=1){sc=1;tx=0;ty=0;}applyZoom();};
-vcont.addEventListener('wheel',function(e){e.preventDefault();var factor=e.deltaY<0?1.15:0.87;var ns=Math.min(MAX_ZOOM,Math.max(1,sc*factor));var rect=vcont.getBoundingClientRect();var mx=e.clientX-rect.left-rect.width/2;var my=e.clientY-rect.top-rect.height/2;var r=ns/sc;tx=(tx-mx)*r+mx;ty=(ty-my)*r+my;sc=ns;if(sc<=1){sc=1;tx=0;ty=0;}applyZoom();},{passive:false});
-var mdown=false,mlx=0,mly=0;
-vcont.addEventListener('mousedown',function(e){if(sc<=1)return;mdown=true;mlx=e.clientX;mly=e.clientY;e.preventDefault();});
-document.addEventListener('mousemove',function(e){if(!mdown)return;tx+=e.clientX-mlx;ty+=e.clientY-mly;mlx=e.clientX;mly=e.clientY;applyZoom();});
-document.addEventListener('mouseup',function(){mdown=false;});
-vcont.addEventListener('dblclick',function(e){if(sc>1){resetZoom();}else{var rect=vcont.getBoundingClientRect();var mx=e.clientX-rect.left-rect.width/2;var my=e.clientY-rect.top-rect.height/2;sc=3;tx=-mx*(sc-1);ty=-my*(sc-1);applyZoom();}});
-var touches={},pinching=false,psd=0,pss=1,pstx=0,psty=0,pmx=0,pmy=0,sdrag=false,dlx=0,dly=0;
-vcont.addEventListener('touchstart',function(e){
-  e.preventDefault();
-  Array.from(e.changedTouches).forEach(function(t){touches[t.identifier]=t;});
-  var ids=Object.keys(touches);
-  if(ids.length===2){pinching=true;sdrag=false;isSwiping=false;var t1=touches[ids[0]],t2=touches[ids[1]];psd=Math.hypot(t1.clientX-t2.clientX,t1.clientY-t2.clientY);pss=sc;pstx=tx;psty=ty;var rect=vcont.getBoundingClientRect();pmx=(t1.clientX+t2.clientX)/2-rect.left-rect.width/2;pmy=(t1.clientY+t2.clientY)/2-rect.top-rect.height/2;}
-  else if(ids.length===1&&sc>1){sdrag=true;pinching=false;isSwiping=false;var t=touches[ids[0]];dlx=t.clientX;dly=t.clientY;}
-},{passive:false});
-vcont.addEventListener('touchmove',function(e){
-  e.preventDefault();
-  Array.from(e.changedTouches).forEach(function(t){touches[t.identifier]=t;});
-  var ids=Object.keys(touches);
-  if(pinching&&ids.length>=2){var t1=touches[ids[0]],t2=touches[ids[1]];var d=Math.hypot(t1.clientX-t2.clientX,t1.clientY-t2.clientY);var ns=Math.min(MAX_ZOOM,Math.max(1,pss*(d/psd)));sc=ns;tx=pstx+(ns/pss-1)*(-pmx);ty=psty+(ns/pss-1)*(-pmy);applyZoom();}
-  else if(sdrag&&ids.length===1){var t=touches[ids[0]];tx+=t.clientX-dlx;ty+=t.clientY-dly;dlx=t.clientX;dly=t.clientY;applyZoom();}
-},{passive:false});
-vcont.addEventListener('touchend',function(e){Array.from(e.changedTouches).forEach(function(t){delete touches[t.identifier];});if(Object.keys(touches).length<2)pinching=false;if(Object.keys(touches).length===0)sdrag=false;if(sc<=1){sc=1;tx=0;ty=0;applyZoom();}},{passive:false});
-var ltap=0;
-vcont.addEventListener('touchend',function(){if(Object.keys(touches).length>0)return;var n=Date.now();if(n-ltap<300){if(sc>1)resetZoom();else{sc=3;applyZoom();}}ltap=n;},{passive:true});
+// ======= إحصائيات الصيانة =======
+function renderRepairStats() {
+  const total = repairs.length;
+  const pending = repairs.filter(r => r.status==="pending").length;
+  const done = repairs.filter(r => r.status==="done").length;
+  const failed = repairs.filter(r => r.status==="failed").length;
+  const delivered = repairs.filter(r => r.status==="delivered").length;
+  const revenue = repairs.filter(r => r.status==="done"||r.status==="delivered")
+    .reduce((s,r) => s + (Math.abs(parseInt(r.cost)||0)) + (Math.abs(parseInt(r.partCost)||0)), 0);
 
-window.closeModal=function(id){document.getElementById(id).classList.add('hidden');};
-document.querySelectorAll('.modal-overlay').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)o.classList.add('hidden');});});
-var toastTimer;
-function showToast(msg,type){clearTimeout(toastTimer);var t=document.getElementById('toast');t.textContent=msg;t.className='show '+(type||'success');toastTimer=setTimeout(function(){t.className='';},3000);}
-function showScreen(name){['brands','models','solutions'].forEach(function(s){document.getElementById('screen-'+s).classList.toggle('hidden',s!==name);});window.scrollTo({top:0,behavior:'smooth'});}
-window.goBack=function(to){if(to==='brands'){selectedBrand=null;selectedModel=null;}if(to==='models'){selectedModel=null;document.getElementById('model-search').value='';renderModels(allModels);}showScreen(to);updateBreadcrumb();};
-// زر Back الأندرويد
-window.addEventListener('popstate',function(){
-  if(document.getElementById('image-viewer')&&!document.getElementById('image-viewer').classList.contains('hidden')){closeViewer();return;}
-  var modals=['modal-password','modal-add-brand','modal-add-model','modal-confirm-del','modal-ann'];
-  for(var i=0;i<modals.length;i++){var m=document.getElementById(modals[i]);if(m&&!m.classList.contains('hidden')){m.classList.add('hidden');return;}}
-  if(selectedModel){goBack('models');}else if(selectedBrand){goBack('brands');}
-});
-function pushState(){history.pushState({},'','');}
-function updateBreadcrumb(){var bc=document.getElementById('breadcrumb');var h='<span class="bc-item" onclick="goBack(\'brands\')">&#127968; الرئيسية</span>';if(selectedBrand)h+='<span class="bc-sep">&#8250;</span><span class="bc-item" onclick="goBack(\'models\')">'+selectedBrand.name+'</span>';if(selectedModel)h+='<span class="bc-sep">&#8250;</span><span class="bc-current">'+selectedModel.name+'</span>';bc.innerHTML=h;}
+  safeSet("r-stat-total", total);
+  safeSet("r-stat-pending", pending);
+  safeSet("r-stat-done", done);
+  safeSet("r-stat-failed", failed);
+  safeSet("r-stat-delivered", delivered);
+  safeSet("r-stat-revenue", revenue.toLocaleString());
+  safeSet("h-repair-active", pending);
+
+  safeSet("dash-repair-total", total);
+  safeSet("dash-repair-pending", pending);
+  safeSet("dash-repair-done", done);
+  const now=new Date(), m=now.getMonth(), y=now.getFullYear();
+  const monthRepairRevenue = repairs.filter(r=>{
+    const d=new Date(r.dateIn||r.createdAt);
+    return d.getMonth()===m && d.getFullYear()===y && (r.status==="done"||r.status==="delivered");
+  }).reduce((s,r) => s + (Math.abs(parseInt(r.cost)||0)) + (Math.abs(parseInt(r.partCost)||0)), 0);
+  safeSet("dash-repair-revenue", monthRepairRevenue.toLocaleString());
+
+  const recentRepairs = repairs.slice(0,5);
+  const recentEl = document.getElementById("recent-repairs-dash");
+  if (recentEl) {
+    recentEl.innerHTML = recentRepairs.length ? recentRepairs.map(r => {
+      let outcomeBadge = "";
+      if (r.status === "delivered") {
+        outcomeBadge = r.repairOutcome === "failed"
+          ? `<span class="badge badge-red" style="font-size:0.65rem;">❌</span>`
+          : `<span class="badge badge-green" style="font-size:0.65rem;">✅</span>`;
+      }
+      return `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--bg3);border-radius:8px;margin-bottom:6px;">
+          <span style="font-size:0.85rem;">${r.brand} ${r.device} — ${r.customerName}</span>
+          <div style="display:flex;gap:4px;align-items:center;">
+            ${outcomeBadge}
+            <span class="badge ${{pending:"badge-yellow",done:"badge-green",failed:"badge-red",delivered:"badge-blue"}[r.status]||"badge-yellow"}">${{pending:"⏳",done:"✅",failed:"❌",delivered:"📦"}[r.status]||""}</span>
+          </div>
+        </div>
+      `;
+    }).join("") : '<div class="empty-state">لا توجد طلبات</div>';
+  }
+}
+
+// ======= تقرير الصيانة الشهري =======
+function renderRepairReport() {
+  const y = currentRepairMonthYear.getFullYear(), m = currentRepairMonthYear.getMonth();
+  const monthRepairs = repairs.filter(r => {
+    const d = new Date(r.dateIn || r.createdAt);
+    return d.getFullYear()===y && d.getMonth()===m;
+  });
+
+  const monthNames = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+  safeSet("repair-month-display", `${monthNames[m]} ${y}`);
+
+  const total = monthRepairs.length;
+  const done = monthRepairs.filter(r => r.status==="done"||r.status==="delivered").length;
+  const failed = monthRepairs.filter(r => r.status==="failed" || (r.status==="delivered" && r.repairOutcome==="failed")).length;
+  const revenue = monthRepairs.filter(r=>r.status==="done"||r.status==="delivered")
+    .reduce((s,r) => s + (Math.abs(parseInt(r.cost)||0)) + (Math.abs(parseInt(r.partCost)||0)), 0);
+  const profit = monthRepairs.filter(r=>r.status==="done"||r.status==="delivered")
+    .reduce((s,r) => s + (Math.abs(parseInt(r.cost)||0)), 0);
+
+  safeSet("rm-total", total);
+  safeSet("rm-done", done);
+  safeSet("rm-failed", failed);
+  safeSet("rm-revenue", revenue.toLocaleString());
+  safeSet("rm-profit", profit.toLocaleString());
+
+  const tbody = document.getElementById("repair-monthly-body");
+  if (tbody) {
+    tbody.innerHTML = monthRepairs.length ? monthRepairs.map((r,i) => {
+      let statusLabel = {pending:"⏳ قيد الصيانة", done:"✅ نجح", failed:"❌ فشل", delivered:"📦 مُسلَّم"}[r.status]||r.status;
+      if (r.status === "delivered") {
+        statusLabel += r.repairOutcome === "failed" ? " (❌ فشل)" : " (✅ نجح)";
+      }
+      const badgeClass = {pending:"badge-yellow",done:"badge-green",failed:"badge-red",delivered:"badge-blue"}[r.status]||"";
+      const totalCost = (Math.abs(parseInt(r.cost)||0)) + (Math.abs(parseInt(r.partCost)||0));
+      return `<tr>
+        <td>${i+1}</td>
+        <td>${r.device}</td>
+        <td>${r.brand}</td>
+        <td>${r.issue}</td>
+        <td>${r.customerName}<br><small style="color:var(--text2)">${r.customerPhone||""}</small></td>
+        <td style="color:var(--gold);">${totalCost.toLocaleString()} د.ع</td>
+        <td><span class="badge ${badgeClass}">${statusLabel}</span></td>
+        <td>${r.dateIn ? new Date(r.dateIn).toLocaleDateString("ar-IQ") : "—"}</td>
+        <td>${r.dateOut ? new Date(r.dateOut).toLocaleDateString("ar-IQ") : "—"}</td>
+      </tr>`;
+    }).join("") : '<tr><td colspan="9" style="text-align:center">لا توجد سجلات</td></tr>';
+  }
+
+  // رسوم بيانية
+  const issueCount = {};
+  monthRepairs.forEach(r => { issueCount[r.issue] = (issueCount[r.issue]||0)+1; });
+  const issueCtx = document.getElementById("repair-issues-chart");
+  if (issueCtx) {
+    if (repairIssuesChart) repairIssuesChart.destroy();
+    repairIssuesChart = new Chart(issueCtx, {
+      type:"doughnut",
+      data: { labels: Object.keys(issueCount), datasets: [{ data: Object.values(issueCount), backgroundColor: ["#ff6b35","#7b2ff7","#00d4ff","#ffd700","#00e676","#ff4757","#a855f7","#14b8a6"] }] },
+      options: { plugins: { legend: { labels: { color:"#e8f0fe", font:{family:"Tajawal"} } } } }
+    });
+  }
+
+  const brandCount = {};
+  monthRepairs.forEach(r => { brandCount[r.brand] = (brandCount[r.brand]||0)+1; });
+  const brandCtx = document.getElementById("repair-brands-chart");
+  if (brandCtx) {
+    if (repairBrandsChart) repairBrandsChart.destroy();
+    repairBrandsChart = new Chart(brandCtx, {
+      type:"bar",
+      data: { labels: Object.keys(brandCount), datasets: [{ data: Object.values(brandCount), backgroundColor:"rgba(255,107,53,0.6)" }] },
+      options: { plugins: { legend:{display:false} }, scales: { x:{ticks:{color:"#e8f0fe",font:{family:"Tajawal"}}}, y:{ticks:{color:"#e8f0fe"}} } }
+    });
+  }
+}
+
+window.changeRepairMonth = function(d) { currentRepairMonthYear.setMonth(currentRepairMonthYear.getMonth()+d); renderRepairReport(); };
+window.printRepairReport = function() { window.print(); };
+
+// ======= إعادة تعيين الإيرادات اليومية =======
+window.resetDailyRevenue = function() {
+  openConfirm("🔄","إعادة تعيين الإيرادات","سيتم إعادة عداد الإيرادات والأرباح من هذه اللحظة. لن يُحذف أي سجل.",() => {
+    const now = new Date();
+    revenueResetDate = now.toISOString().slice(0,10);
+    const resetTime = now.toISOString().slice(11,19);
+    localStorage.setItem("revenueResetDate", revenueResetDate);
+    localStorage.setItem("revenueResetTime", resetTime);
+    updateHeader();
+    renderDashboard();
+    safeSet("last-reset-time", now.toLocaleString("ar-IQ"));
+    notify("✅ تم إعادة تعيين الإيرادات اليومية", "success");
+  },"إعادة التعيين");
+};
+
+function loadResetTime() {
+  const saved = localStorage.getItem("revenueResetDate");
+  const savedTime = localStorage.getItem("revenueResetTime");
+  const el = document.getElementById("last-reset-time");
+  if (el && saved && savedTime) {
+    el.textContent = new Date(saved + "T" + savedTime).toLocaleString("ar-IQ");
+  }
+}
+
+// ======= نظام المبيعات =======
+function genId() { return "P"+Date.now()+Math.floor(Math.random()*9999); }
+function genBC(id) { return id.replace("P","").substring(0,12).padStart(12,"0"); }
+
+window.handleCatChange = function() {
+  const v = document.getElementById("prod-cat").value;
+  document.getElementById("new-cat-group").style.display = v==="__new__"?"block":"none";
+};
+window.addProduct = async function() {
+  if (!isAdmin()) { notify("❌ غير مصرح", "error"); return; }
+  let name = document.getElementById("prod-name").value.trim();
+  let cat = document.getElementById("prod-cat").value;
+  const newCatInput = document.getElementById("new-cat-name").value.trim();
+  if (cat==="__new__") {
+    if (!newCatInput) { notify("❌ أدخل اسم الفئة الجديدة", "error"); return; }
+    cat = newCatInput;
+    const sel = document.getElementById("prod-cat");
+    const opt = document.createElement("option"); opt.text=cat; opt.value=cat;
+    sel.insertBefore(opt, sel.querySelector('option[value="__new__"]'));
+    sel.value=cat;
+    document.getElementById("new-cat-group").style.display="none";
+    document.getElementById("new-cat-name").value="";
+  }
+  const price = parseFloat(document.getElementById("prod-price").value)||0;
+  const cost = parseFloat(document.getElementById("prod-cost").value)||0;
+  const qty = parseInt(document.getElementById("prod-qty").value)||1;
+  const alertQty = parseInt(document.getElementById("prod-alert").value)||3;
+  if (!name||!price) { notify("❌ أدخل بيانات صحيحة", "error"); return; }
+  const id=genId(), barcode=genBC(id);
+  const np = {id,name,cat,price,cost,qty,alert:alertQty,barcode};
+  await addProductToDB(np);
+  document.getElementById("prod-name").value="";
+  document.getElementById("prod-price").value="";
+  document.getElementById("prod-cost").value="";
+  document.getElementById("prod-qty").value="1";
+  window.lastAddedProduct = np;
+  renderBarcodePreview(np);
+};
+
+function openEditModal(p) {
+  currentEditProductId = p.id;
+  document.getElementById("edit-name").value=p.name;
+  document.getElementById("edit-cat").value=p.cat;
+  document.getElementById("edit-price").value=p.price;
+  document.getElementById("edit-cost").value=p.cost||0;
+  document.getElementById("edit-alert").value=p.alert;
+  document.getElementById("edit-product-modal").classList.add("open");
+}
+window.closeEditModal = function() { document.getElementById("edit-product-modal").classList.remove("open"); currentEditProductId=null; };
+document.getElementById("edit-save-btn").onclick = async () => {
+  if (!currentEditProductId) return;
+  const name=document.getElementById("edit-name").value.trim();
+  const cat=document.getElementById("edit-cat").value;
+  const price=parseFloat(document.getElementById("edit-price").value);
+  const cost=parseFloat(document.getElementById("edit-cost").value);
+  const alertQty=parseInt(document.getElementById("edit-alert").value);
+  if (!name||isNaN(price)) { notify("❌ بيانات ناقصة","error"); return; }
+  await updateProductToDB(currentEditProductId,{name,cat,price,cost,alert:alertQty});
+  window.closeEditModal();
+};
+
+function openQtyModal(p) { pendingPrintProduct=p; document.getElementById("barcode-qty").value=1; document.getElementById("qty-modal").classList.add("open"); }
+window.closeQtyModal = () => { document.getElementById("qty-modal").classList.remove("open"); pendingPrintProduct=null; };
+document.getElementById("confirm-qty-btn").onclick = () => {
+  const qty=parseInt(document.getElementById("barcode-qty").value);
+  if (!pendingPrintProduct||qty<1||qty>100) { notify("❌ عدد غير صالح","error"); return; }
+  printMultipleBarcodes(pendingPrintProduct,qty);
+  window.closeQtyModal();
+};
+function printMultipleBarcodes(p,copies) {
+  const w=window.open("","_blank");
+  w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>بطاقات ${p.name}</title><style>body{font-family:Tajawal;padding:20px;text-align:center;}.barcode-page{display:flex;flex-wrap:wrap;justify-content:center;}.barcode-item{width:200px;margin:10px;padding:10px;border:1px dashed #ccc;text-align:center;}svg{max-width:180px;}</style></head><body><h2>باركود ${p.name}</h2><div class="barcode-page" id="bc"></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"><\/script><script>for(let i=0;i<${copies};i++){let d=document.createElement('div');d.className='barcode-item';let s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.id='b_'+i;d.appendChild(s);d.innerHTML+='<div>${p.name}</div><div>${p.price.toLocaleString()} د.ع</div>';document.getElementById('bc').appendChild(d);JsBarcode('#b_'+i,'${p.barcode}',{format:"CODE128",width:2,height:50,displayValue:true});}window.print();<\/script></body></html>`);
+  w.document.close();
+}
+
+function renderBarcodePreview(p) {
+  document.getElementById("barcode-preview-section").innerHTML=`<div style="text-align:center;"><svg id="prev-svg"></svg><div>${p.name}</div><div>${p.barcode}</div></div>`;
+  JsBarcode("#prev-svg",p.barcode,{format:"CODE128",width:2,height:55,displayValue:true});
+  document.getElementById("barcode-actions").style.display="block";
+}
+window.printLastBarcode = () => { if (window.lastAddedProduct) openQtyModal(window.lastAddedProduct); };
+window.printBarcodes = () => notify("💡 اختر منتجاً من المخزون لطباعة الباركود","info");
+
+function renderInventory() {
+  const term = document.getElementById("inv-search")?.value||"";
+  let filtered = products.filter(p=>p.name.includes(term)||p.barcode.includes(term));
+  if (activeCatFilter!=="all") filtered=filtered.filter(p=>p.cat===activeCatFilter);
+  const grid=document.getElementById("inventory-grid");
+  if (!filtered.length) { grid.innerHTML='<div class="empty-state">لا يوجد منتج مطابق</div>'; return; }
+  grid.innerHTML=filtered.map(p=>`
+    <div class="inv-item">
+      <div class="item-qty ${p.qty<=p.alert?"low":""}">${p.qty}</div>
+      <div style="font-size:1.8rem;">${getCatIcon(p.cat)}</div>
+      <div style="font-weight:800;">${p.name}</div>
+      <div style="color:var(--gold);">${p.price.toLocaleString()} د.ع</div>
+      ${isAdmin()&&p.cost?`<div style="color:var(--green);font-size:0.78rem;">ربح: ${(p.price-p.cost).toLocaleString()}</div>`:""}
+      <div style="color:var(--text2);font-size:0.72rem;">🔲 ${p.barcode}</div>
+      <div style="display:flex;gap:5px;margin-top:6px;flex-wrap:wrap;">
+        ${isAdmin()?`<button class="btn btn-success btn-sm" onclick="window.addQtyPrompt('${p.id}')">+</button>`:""}
+        ${isAdmin()?`<button class="btn btn-warning btn-sm" onclick="window.editProductById('${p.id}')">✏ تعديل</button>`:""}
+        ${isAdmin()?`<button class="btn btn-danger btn-sm" onclick="window.delProductConfirm('${p.id}')">🗑</button>`:""}
+        <button class="btn btn-primary btn-sm" onclick="window.printSingleBarcode('${p.id}')">طبع</button>
+      </div>
+    </div>
+  `).join("");
+}
+window.filterInventory = function(s) { if(s!==undefined){const el=document.getElementById("inv-search");if(el)el.value=s;} renderInventory(); };
+window.editProductById = id => { const p=products.find(x=>x.id===id); if(p) openEditModal(p); };
+window.printSingleBarcode = id => { const p=products.find(x=>x.id===id); if(p) openQtyModal(p); };
+window.printMultipleBarcode = id => { const p=products.find(x=>x.id===id); if(p) openQtyModal(p); };
+function getCatIcon(c) { return {كفرات:"🛡️",شواحن:"⚡",سماعات:"🎧",كيبل:"🔌",زجاجة:"🔒",أخرى:"📦"}[c]||"📦"; }
+window.addQtyPrompt = async function(id) {
+  const p=products.find(x=>x.id===id); if(!p) return;
+  const add=parseInt(prompt(`إضافة كمية إلى ${p.name}\nالحالي: ${p.qty}`));
+  if(add&&add>0){p.qty+=add; await updateProductQty(p.id,p.qty); notify(`✅ تم إضافة ${add} قطعة`,"success");}
+};
+window.delProductConfirm = id => {
+  const p=products.find(x=>x.id===id);
+  openConfirm("🗑","حذف منتج",`حذف "${p.name}" من المخزون؟`, async()=>{await deleteProductFromDB(id); notify("🗑 تم الحذف","info");},"حذف المنتج");
+};
+function buildCatFilter() {
+  const cats=["all",...new Set(products.map(p=>p.cat))];
+  document.getElementById("cat-filter").innerHTML=cats.map(c=>`<button class="cat-chip ${activeCatFilter===c?"active":""}" onclick="window.setCat('${c}',this)">${c==="all"?"📦 الكل":getCatIcon(c)+" "+c}</button>`).join("");
+}
+window.setCat = (c,el) => { activeCatFilter=c; document.querySelectorAll(".cat-chip").forEach(x=>x.classList.remove("active")); el.classList.add("active"); renderInventory(); };
+function populateDropdown() {
+  const sel=document.getElementById("product-dropdown"); if(!sel) return;
+  sel.innerHTML='<option value="">-- اختر منتجاً --</option>';
+  products.forEach(p=>sel.innerHTML+=`<option value="${p.barcode}">${p.name} | ${p.price} د.ع | متوفر: ${p.qty}</option>`);
+}
+window.onDropdownChange = () => { const v=document.getElementById("product-dropdown").value; if(v) searchProduct(v); };
+
+function playBeep() {
+  try {
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+    const osc=ctx.createOscillator(), gain=ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value=800; gain.gain.value=0.5; osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.2);
+    osc.stop(ctx.currentTime+0.2);
+    setTimeout(()=>ctx.close(),300);
+  } catch(e){}
+}
+
+window.startScanner = () => {
+  if(scannerRunning) return;
+  document.getElementById("scanner-vc").innerHTML='<div id="interactive" style="width:100%;max-height:260px;overflow:hidden;"></div>';
+  Quagga.init({inputStream:{target:document.getElementById("interactive"),constraints:{facingMode:"environment"}},decoder:{readers:["code_128_reader","ean_reader"]}},err=>{
+    if(err){notify("❌ فشل تشغيل الكاميرا","error"); return;}
+    Quagga.start(); scannerRunning=true;
+    document.getElementById("scan-status").textContent="📷 الماسح يعمل...";
+  });
+  let last="",lastT=0;
+  Quagga.onDetected(res=>{
+    const code=res.codeResult.code,now=Date.now();
+    if(code===last&&now-lastT<2000) return;
+    last=code; lastT=now; playBeep(); searchProduct(code);
+    document.getElementById("scan-status").textContent="✅ تم: "+code;
+  });
+};
+window.stopScanner = () => { if(scannerRunning){Quagga.stop(); scannerRunning=false;} document.getElementById("scanner-vc").innerHTML='<div style="padding:20px;">الكاميرا متوقفة</div>'; document.getElementById("scan-status").textContent="جاهز"; };
+window.doManualLookup = () => { const c=document.getElementById("manual-barcode").value.trim(); if(c) searchProduct(c); document.getElementById("manual-barcode").value=""; };
+function searchProduct(code) {
+  const p=products.find(pr=>pr.barcode===code||pr.id===code);
+  ["idle","found","notfound"].forEach(s=>document.getElementById("state-"+s).style.display="none");
+  if(p){
+    SELECTED_PRODUCT=p;
+    document.getElementById("state-found").style.display="block";
+    document.getElementById("product-info").innerHTML=`<div><strong>${getCatIcon(p.cat)} ${p.name}</strong><br>🔲 ${p.barcode}<br>💰 ${p.price} د.ع<br>📦 المخزون: ${p.qty}</div>`;
+    document.getElementById("r-price").value=p.price;
+    document.getElementById("r-qty").value=1;
+    document.getElementById("r-type").value="نقد";
+    document.getElementById("r-debtor").value="";
+    window.toggleDebtor();
+  } else {
+    document.getElementById("state-notfound").style.display="block";
+    notify("❌ المنتج غير موجود","error");
+  }
+}
+window.toggleDebtor = () => { document.getElementById("debtor-wrap").style.display=document.getElementById("r-type").value==="دين"?"block":"none"; };
+window.doSell = async () => {
+  if(!SELECTED_PRODUCT){notify("❌ اختر منتجاً","error"); return;}
+  const p=products.find(x=>x.id===SELECTED_PRODUCT.id);
+  if(!p){notify("❌ المنتج غير موجود","error"); return;}
+  const qty=parseInt(document.getElementById("r-qty").value)||1;
+  const price=parseFloat(document.getElementById("r-price").value)||p.price;
+  const type=document.getElementById("r-type").value;
+  const debtor=document.getElementById("r-debtor").value.trim();
+  if(qty<=0){notify("❌ الكمية غير صالحة","error"); return;}
+  if(qty>p.qty){notify(`❌ المخزون المتاح: ${p.qty}`,"error"); return;}
+  if(type==="دين"&&!debtor){notify("❌ أدخل اسم المدين","error"); return;}
+  const total=price*qty, saleId="S"+Date.now();
+  const seller=currentUser?.username==="المدير"?"مدير":"كاشير";
+  const sale={id:saleId,productId:p.id,productName:p.name,qty,price,total,type,debtorName:debtor||null,seller,date:new Date().toISOString()};
+  await addSaleToDB(sale);
+  p.qty-=qty; await updateProductQty(p.id,p.qty);
+  if(type==="دين") await addDebtToDB({saleId,name:debtor,product:p.name,amount:total,date:new Date().toISOString(),seller,paid:false});
+  lastSale=sale;
+  notify(`🛒 تم بيع ${p.name} — ${total.toLocaleString()} د.ع`,"sale");
+  showSaleSuccess(sale);
+  SELECTED_PRODUCT=null;
+  document.getElementById("state-idle").style.display="block";
+  document.getElementById("state-found").style.display="none";
+};
+function showSaleSuccess(s) {
+  document.getElementById("ss-product").textContent="📦 "+s.productName;
+  document.getElementById("ss-qty").textContent="الكمية: "+s.qty;
+  document.getElementById("ss-type").textContent="النوع: "+s.type+(s.debtorName?" | "+s.debtorName:"");
+  document.getElementById("ss-total").textContent=s.total.toLocaleString()+" د.ع";
+  document.getElementById("sale-success-overlay").classList.add("show");
+  for(let i=0;i<20;i++){
+    const c=document.createElement("div"); c.className="confetti-piece";
+    c.style.cssText=`background:${["#00d4ff","#7b2ff7","#ffd700","#00e676"][i%4]};top:20%;left:${Math.random()*100}%;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;border-radius:${Math.random()>.5?"50%":"3px"};animation-delay:${Math.random()*.6}s;`;
+    document.querySelector(".sale-success-card").appendChild(c);
+    setTimeout(()=>c.remove(),2400);
+  }
+}
+window.renderSalesTable = () => {
+  const fd=document.getElementById("sales-date-filter")?.value||"";
+  const filtered=fd?sales.filter(s=>s.date.startsWith(fd)):sales;
+  const tbody=document.getElementById("sales-table-body");
+  if(!filtered.length){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;">لا توجد مبيعات</td></tr>'; return;}
+  tbody.innerHTML=filtered.slice().reverse().map((s,i)=>`
+    <tr><td>${i+1}</td><td>${s.productName}</td><td>${s.qty}</td><td style="color:var(--gold);">${s.total.toLocaleString()}</td>
+    <td><span class="badge ${s.type==='نقد'?'badge-green':'badge-yellow'}">${s.type}</span></td>
+    <td>${s.debtorName||"—"}</td><td>${s.seller||"غير محدد"}</td><td>${new Date(s.date).toLocaleString("ar-IQ")}</td>
+    <td>${isAdmin()?`<button class="btn btn-danger btn-sm" onclick="window.delSaleConfirm('${s.id}')">🗑</button>`:""}</td></tr>
+  `).join("");
+};
+window.resetSalesFilter = () => { document.getElementById("sales-date-filter").value=""; window.renderSalesTable(); };
+window.delSaleConfirm = id => {
+  const s=sales.find(x=>x.id===id);
+  openConfirm("🗑","حذف مبيعة",`حذف "${s.productName}"? سيُعاد المخزون`,async()=>{
+    const p=products.find(pr=>pr.id===s.productId);
+    if(p){p.qty+=s.qty; await updateProductQty(p.id,p.qty);}
+    await deleteSaleFromDB(id);
+    if(s.type==="دين") await deleteDebtFromDB(id);
+    notify("🗑 تم الحذف","info");
+  },"حذف");
+};
+function renderDebts() {
+  const active=debts.filter(d=>!d.paid);
+  const totalDebt=active.reduce((a,b)=>a+b.amount,0);
+  document.getElementById("debts-summary").innerHTML=`
+    <div style="background:rgba(255,71,87,0.1);border-radius:10px;padding:10px;"><div style="font-size:1.3rem;color:var(--red);">${totalDebt.toLocaleString()} د.ع</div><div>مجموع الديون</div></div>
+    <div style="background:rgba(0,212,255,0.08);border-radius:10px;padding:10px;"><div style="font-size:1.3rem;color:var(--accent);">${new Set(active.map(d=>d.name)).size}</div><div>المدينون</div></div>
+    <div style="background:rgba(255,187,0,0.1);border-radius:10px;padding:10px;"><div style="font-size:1.3rem;color:var(--yellow);">${active.length}</div><div>ديون نشطة</div></div>
+  `;
+  const tbody=document.getElementById("debts-body");
+  if(!active.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;">✅ لا توجد ديون</td></tr>'; return;}
+  tbody.innerHTML=active.map(d=>`
+    <tr><td><strong>${d.name}</strong></td><td>${d.product}</td><td style="color:var(--red);">${d.amount.toLocaleString()}</td>
+    <td>${new Date(d.date).toLocaleDateString("ar-IQ")}</td><td>${d.seller||"غير محدد"}</td>
+    <td><span class="badge badge-red">دين</span></td>
+    <td><button class="btn btn-success btn-sm" onclick="window.payDebtConfirm('${d.saleId}')">✓ سدد</button></td></tr>
+  `).join("");
+}
+window.payDebtConfirm = saleId => {
+  const d=debts.find(x=>x.saleId===saleId);
+  openConfirm("💰","تسديد دين",`تسديد دين "${d.name}" بمبلغ ${d.amount.toLocaleString()} د.ع؟`,async()=>{
+    await updateDebtPaid(saleId); notify(`✅ تم تسديد دين ${d.name}`,"success");
+  },"تسديد");
+};
+
+function renderDashboard() {
+  safeSet("stat-items", products.length);
+  safeSet("stat-sales", sales.length);
+  const cashTotal=sales.filter(s=>s.type==="نقد").reduce((a,b)=>a+b.total,0);
+  const debtTotal=debts.filter(d=>!d.paid).reduce((a,b)=>a+b.amount,0);
+  safeSet("stat-rev", cashTotal.toLocaleString());
+  safeSet("stat-debts", debtTotal.toLocaleString());
+  const days=[],counts=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    days.push(["أحد","إثنين","ثلاثاء","أربعاء","خميس","جمعة","سبت"][d.getDay()]);
+    counts.push(sales.filter(s=>s.date.startsWith(d.toISOString().slice(0,10))).length);
+  }
+  if(weeklyChart) weeklyChart.destroy();
+  weeklyChart=new Chart(document.getElementById("chart-weekly"),{type:"bar",data:{labels:days,datasets:[{data:counts,backgroundColor:"rgba(0,212,255,0.55)"}]},options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:"#e8f0fe",font:{family:"Tajawal"}}},y:{ticks:{color:"#e8f0fe"}}}}});
+  const now=new Date(),today=now.toISOString().slice(0,10),m=now.getMonth(),y=now.getFullYear();
+  const tDay=sales.filter(s=>s.type==="نقد"&&s.date.startsWith(today)).reduce((a,b)=>a+b.total,0);
+  const tMon=sales.filter(s=>s.type==="نقد"&&new Date(s.date).getMonth()===m&&new Date(s.date).getFullYear()===y).reduce((a,b)=>a+b.total,0);
+  const tYr=sales.filter(s=>s.type==="نقد"&&new Date(s.date).getFullYear()===y).reduce((a,b)=>a+b.total,0);
+  if(pieChart) pieChart.destroy();
+  pieChart=new Chart(document.getElementById("profit-pie-chart"),{type:"doughnut",data:{labels:["اليوم","الشهر","السنة"],datasets:[{data:[tDay,tMon,tYr],backgroundColor:["#00d4ff","#7b2ff7","#ffd700"]}]},options:{plugins:{legend:{labels:{color:"#e8f0fe",font:{family:"Tajawal"}}}}}});
+  const low=products.filter(p=>p.qty<=p.alert);
+  safeSet("low-stock-list", low.length?low.map(p=>`<div style="background:rgba(255,71,87,0.1);padding:8px;margin-bottom:6px;border-radius:8px;">⚠ ${p.name} (${p.qty})</div>`).join(""):"<div style='color:var(--green);'>✅ المخزون كافٍ</div>");
+  renderRepairStats();
+}
+
+function updateHeader() {
+  safeSet("h-items", products.length);
+  // استخدم المبيعات الفعّالة (بعد إعادة التعيين إن وجدت)
+  const ts = getEffectiveSalesForToday();
+  safeSet("h-sales", ts.length);
+  safeSet("h-rev", ts.reduce((a,b)=>a+b.total,0).toLocaleString()+" د.ع");
+  if(isAdmin()){
+    const calcP=(list)=>list.reduce((acc,s)=>{const p=products.find(x=>x.id===s.productId); return p&&p.cost?acc+(s.price-p.cost)*s.qty:acc;},0);
+    const now=new Date(),m=now.getMonth(),y=now.getFullYear();
+    const ms=sales.filter(s=>{const d=new Date(s.date); return d.getMonth()===m&&d.getFullYear()===y;});
+    safeSet("h-profit-day", calcP(ts).toLocaleString()+" د.ع");
+    safeSet("h-profit-month", calcP(ms).toLocaleString()+" د.ع");
+  }
+  safeSet("info-products", products.length);
+  safeSet("info-sales", sales.length);
+  safeSet("info-debts", debts.filter(d=>!d.paid).length);
+  safeSet("info-repairs", repairs.length);
+  const pendingR=repairs.filter(r=>r.status==="pending").length;
+  safeSet("h-repair-active", pendingR);
+  computeTotalCost();
+}
+
+function safeSet(id, val) { const el=document.getElementById(id); if(el) el.innerHTML=val; }
+
+function renderReport() {
+  const y=currentMonthYear.getFullYear(),m=currentMonthYear.getMonth();
+  const ms=sales.filter(s=>{const d=new Date(s.date); return d.getFullYear()===y&&d.getMonth()===m;});
+  const monthNames=["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+  safeSet("month-display",`${monthNames[m]} ${y}`);
+  const cash=ms.filter(s=>s.type==="نقد").reduce((a,b)=>a+b.total,0);
+  const debt=ms.filter(s=>s.type==="دين").reduce((a,b)=>a+b.total,0);
+  safeSet("m-count",ms.length); safeSet("m-cash",cash.toLocaleString()); safeSet("m-debt",debt.toLocaleString()); safeSet("m-total",(cash+debt).toLocaleString());
+  const tbody=document.getElementById("monthly-body");
+  if(!ms.length){if(tbody)tbody.innerHTML='<tr><td colspan="7">لا توجد مبيعات</td></tr>'; return;}
+  if(tbody)tbody.innerHTML=ms.slice().reverse().map((s,i)=>`<tr><td>${i+1}</td><td>${s.productName}</td><td>${s.qty}</td><td>${s.total}</td><td>${s.type}</td><td>${s.seller||"غير محدد"}</td><td>${new Date(s.date).toLocaleString("ar-IQ")}</td></tr>`).join("");
+}
+window.changeMonth = d => { currentMonthYear.setMonth(currentMonthYear.getMonth()+d); renderReport(); };
+window.deleteMonthConfirm = async () => {
+  const y=currentMonthYear.getFullYear(),m=currentMonthYear.getMonth();
+  const toDel=sales.filter(s=>{const d=new Date(s.date); return d.getFullYear()===y&&d.getMonth()===m;});
+  if(!toDel.length){notify("❌ لا توجد سجلات","error"); return;}
+  openConfirm("🗑","حذف الشهر",`حذف ${toDel.length} عملية بيع من هذا الشهر؟`,async()=>{
+    for(const s of toDel){const p=products.find(pr=>pr.id===s.productId); if(p){p.qty+=s.qty; await updateProductQty(p.id,p.qty);} await deleteSaleFromDB(s.id); if(s.type==="دين") await deleteDebtFromDB(s.id);}
+    notify("🗑 تم حذف سجلات الشهر","info");
+  },"حذف الكل");
+};
+window.deleteDayConfirm = async () => {
+  const day=document.getElementById("delete-day-input").value;
+  if(!day){notify("❌ اختر تاريخاً","error"); return;}
+  const toDel=sales.filter(s=>s.date.startsWith(day));
+  if(!toDel.length){notify("❌ لا توجد سجلات","error"); return;}
+  openConfirm("🗑","حذف اليوم",`حذف ${toDel.length} عملية بيع في ${day}؟`,async()=>{
+    for(const s of toDel){const p=products.find(pr=>pr.id===s.productId); if(p){p.qty+=s.qty; await updateProductQty(p.id,p.qty);} await deleteSaleFromDB(s.id); if(s.type==="دين") await deleteDebtFromDB(s.id);}
+    notify("🗑 تم الحذف","info");
+  },"حذف");
+};
+window.printReport = () => window.print();
+window.printSalesReport = () => {
+  const w=window.open("","_blank");
+  w.document.write(`<html dir="rtl"><head><title>تقرير المبيعات</title><style>table{border-collapse:collapse;} td,th{border:1px solid #ccc;padding:8px;}</style></head><body>${document.querySelector("#page-sales .table-wrap").innerHTML}</body></html>`);
+  w.document.close(); w.print();
+};
+window.clearSalesConfirm = () => {
+  openConfirm("⚠","مسح المبيعات",`مسح كل ${sales.length} عملية بيع؟`,async()=>{
+    for(const s of sales){const p=products.find(pr=>pr.id===s.productId); if(p){p.qty+=s.qty; await updateProductQty(p.id,p.qty);} await deleteSaleFromDB(s.id); if(s.type==="دين") await deleteDebtFromDB(s.id);}
+    notify("🗑 تم مسح كل المبيعات","info");
+  },"مسح الكل");
+};
+window.clearAllConfirm = () => {
+  openConfirm("💥","مسح كل البيانات","هذا الإجراء لا يمكن التراجع عنه! كل البيانات ستُحذف",async()=>{
+    for(const p of products) await deleteProductFromDB(p.id);
+    for(const s of sales) await deleteSaleFromDB(s.id);
+    for(const d of debts) await deleteDebtFromDB(d.saleId);
+    for(const r of repairs) await deleteRepairFromDB(r.id);
+    notify("💥 تم مسح كل البيانات. إعادة تشغيل...","error");
+    setTimeout(()=>location.reload(),1500);
+  },"مسح كل شيء");
+};
+window.exportData = () => {
+  const blob=new Blob([JSON.stringify({products,sales,debts,repairs})],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=`backup_${new Date().toISOString().slice(0,10)}.json`; a.click();
+  notify("✅ تم تصدير البيانات","success");
+};
+window.handleImport = e => {
+  const file=e.target.files[0]; if(!file) return;
+  openConfirm("📥","استيراد","سيُحذف كل شيء ويُستبدل بالبيانات الجديدة",async()=>{
+    const reader=new FileReader();
+    reader.onload=async ev=>{
+      const data=JSON.parse(ev.target.result);
+      for(const p of products) await deleteProductFromDB(p.id);
+      for(const s of sales) await deleteSaleFromDB(s.id);
+      for(const d of debts) await deleteDebtFromDB(d.saleId);
+      for(const r of repairs) await deleteRepairFromDB(r.id);
+      if(data.products) for(const p of data.products) await addProductToDB(p);
+      if(data.sales) for(const s of data.sales) await addSaleToDB(s);
+      if(data.debts) for(const d of data.debts) await addDebtToDB(d);
+      if(data.repairs) for(const r of data.repairs) await addRepairToDB(r);
+      notify("✅ تم الاستيراد بنجاح","success");
+    };
+    reader.readAsText(file);
+  },"استيراد");
+};
+
+// ======= تسجيل الدخول =======
+window.selectUser = role => { selectedUser=role; document.getElementById("uc-admin").classList.toggle("selected",role==="admin"); document.getElementById("uc-cashier").classList.toggle("selected",role==="cashier"); document.getElementById("login-error").style.display="none"; };
+window.attemptLogin = () => { if(!selectedUser){document.getElementById("login-error").style.display="block"; return;} if(selectedUser==="admin"){document.getElementById("login-step1").style.display="none"; document.getElementById("login-step2").style.display="block"; pinEntry=""; updatePinDots(); document.getElementById("pin-error").style.display="none";}else{doLogin("cashier");} };
+window.backToStep1 = () => { document.getElementById("login-step2").style.display="none"; document.getElementById("login-step1").style.display="block"; pinEntry=""; updatePinDots(); };
+window.pinPress = d => { if(pinEntry.length>=4) return; pinEntry+=d; updatePinDots(); if(pinEntry.length===4) setTimeout(window.pinConfirm,120); };
+window.pinBack = () => { pinEntry=pinEntry.slice(0,-1); updatePinDots(); };
+function updatePinDots() { for(let i=0;i<4;i++){const dot=document.getElementById("pd"+i); dot.classList.toggle("filled",i<pinEntry.length); dot.classList.remove("error-dot");} }
+window.pinConfirm = () => {
+  if(pinEntry===ADMIN_PIN){doLogin("admin");}else{
+    for(let i=0;i<4;i++) document.getElementById("pd"+i).classList.add("error-dot");
+    const dots=document.getElementById("pin-dots"); dots.classList.add("pin-shake");
+    setTimeout(()=>dots.classList.remove("pin-shake"),400);
+    document.getElementById("pin-error").style.display="block";
+    setTimeout(()=>{pinEntry=""; updatePinDots(); document.getElementById("pin-error").style.display="none";},1000);
+  }
+};
+async function doLogin(role) {
+  currentUser={username:role==="admin"?"المدير":"الكاشير",role};
+  document.getElementById("login-screen").style.display="none";
+  document.getElementById("main-app").style.display="block";
+  document.getElementById("user-label-header").innerText="مرحباً "+currentUser.username;
+  document.getElementById("cur-user-info").innerText=currentUser.username;
+  document.querySelectorAll(".admin-only").forEach(el=>el.style.display=currentUser.role==="admin"?"":"none");
+  subscribeProducts(); subscribeSales(); subscribeDebts(); subscribeRepairs();
+  setInterval(()=>{const c=document.getElementById("clock"); if(c) c.innerText=new Date().toLocaleTimeString("ar-IQ");},1000);
+  loadResetTime();
+}
+function isAdmin() { return currentUser?.role==="admin"; }
+window.confirmLogout = () => openConfirm("👋","تسجيل الخروج","هل تريد الخروج؟",()=>{stopRepairCamera();location.reload();});
+window.showPage = id => {
+  if(!isAdmin()&&(id==="add-product"||id==="settings"||id==="repair-report")){notify("❌ غير مصرح","error"); return;}
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+  const pageEl=document.getElementById("page-"+id);
+  if(!pageEl) return;
+  pageEl.classList.add("active");
+  const btn=document.querySelector(`[data-page="${id}"]`); if(btn) btn.classList.add("active");
+  if(id==="inventory") renderInventory();
+  if(id==="sales") window.renderSalesTable();
+  if(id==="report") renderReport();
+  if(id==="debts") renderDebts();
+  if(id==="scan") populateDropdown();
+  if(id==="dashboard") renderDashboard();
+  if(id==="repair") { renderRepairGrid(); renderRepairStats(); }
+  if(id==="repair-report") renderRepairReport();
+  if(id==="settings") loadResetTime();
+};
+window.requestNotifPerm = () => { if("Notification" in window) Notification.requestPermission(); };
+
+if('serviceWorker' in navigator) {
+  window.addEventListener('load',()=>{ navigator.serviceWorker.register('/service-worker.js').catch(()=>{}); });
+}
 </script>
 </body>
 </html>
